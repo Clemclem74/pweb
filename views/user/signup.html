@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block content %}
+
+{% for e in errors %}
+<div class="alert alert-danger" role="alert">
+       {{e.msg}}
+</div>
+{% endfor %}
+
+
+<h2>Bienvenue dans le formulaire d'inscription : </h2>
+
+<form method="POST" action='/user/signup' enctype="multipart/form-data" >
+        <div class="form-group">
+        <label for="title">Nom</label>
+        <input type="text" id="firstname" name="firstname" class="form-control" >
+    </div>
+    <div class="form-group">
+            <label for="title">Prénom</label>
+            <input type="text" id="lastname" name="lastname" class="form-control" >
+    </div>
+    <div class="form-group">
+            <label for="title">Date de Naissance</label>
+            <input type="date" id="birthday" name="birthday" class="form-control" >
+    </div>
+    <div class="form-group">
+            <label for="title">Pseudo</label>
+            <input type="text" id="pseudo" name="pseudo" class="form-control" >
+    </div>
+    <div class="form-group">
+            <label for="title">Adresse Mail</label>
+            <input type="text" id="mail" name="mail" class="form-control" >
+    </div>
+    <div class="form-group">
+            <label for="title">Mot de passe</label>
+            <input type="password" id="password" name="password" class="form-control" >
+    </div>
+    <div class="form-group">
+            <label for="title">Confirmez votre mot de passe</label>
+            <input type="password" id="password2" name="password2" class="form-control">
+    </div>   
+    <hr>
+    <input type="submit" class="btn btn-success" value="Save">
+</form>
+
+
+{% endblock %} 

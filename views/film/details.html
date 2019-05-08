@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="row">
+    <div class="col-sm-3">
+        <img src="/uploads/{{film.picture}}" alt="/uploads/not_found.png" style="width:100%">
+    </div>
+    <div class="col-sm-9">
+        <h2>{{ film.title }}</h2>
+        <a href="/edit/{{film._id}}" class="btn btn-primary">Modifier</a>
+        <a href="/delete/{{film._id}}" class="btn btn-danger">Supprimer</a>
+        <hr>
+        <p class="lead">
+            {{ film.description}}
+        </p>
+        <h3>Type : </h3>
+        {% for t in film.typeFilm %}
+        <a href="/typefilm/{{ t.name }}"><h2>{{ t.name }}</h2></a>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %} 

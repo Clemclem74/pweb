@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h2>Films de type : {{typefilm.name}}</h2>
+
+    <div class="container">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                    <th scope="col">Titre</th>
+                    <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for f in film %}
+                    <tr>
+                    <td> <a href="/{{ f._id }}">{{ f.title }}</a></td>
+                    <td>{{ f.description }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>   
+{% endblock %}
