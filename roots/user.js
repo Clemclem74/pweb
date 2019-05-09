@@ -6,7 +6,7 @@ var expressValidator = require('express-validator');
 var multer  = require('multer')
 var upload = multer({ dest: '/uploads/' })
 var bodyParser = require('body-parser');
-
+var passport  = require('passport')
 
 routeur.use(bodyParser.urlencoded({
     extended: true
@@ -21,10 +21,9 @@ routeur.get('/signup',(req,res) => {
 });
 
 routeur.post('/signup' , upload.none() , (req,res) => {
-    console.log(req);
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;
-    const pseudo = req.body.pseudo;
+    const username = req.body.username;
     const mail = req.body.mail ;
     const password = req.body.password ;
     const password2 = req.body.password2 ;
@@ -32,7 +31,7 @@ routeur.post('/signup' , upload.none() , (req,res) => {
 
     req.checkBody('firstname','Un prénom est obligatoire').notEmpty();
     req.checkBody('lastname','Un nom est obligatoire').notEmpty();
-    req.checkBody('pseudo','Un pseudo est obligatoire').notEmpty();
+    req.checkBody('username','Un pseudo est obligatoire').notEmpty();
     req.checkBody('mail','Un mail est obligatoire').notEmpty();
     req.checkBody('birthday','Une date de naissance est obligatoire').notEmpty();
     req.checkBody('mail','L\'adresse mail n\'est pas valide').isEmail();
@@ -47,7 +46,7 @@ routeur.post('/signup' , upload.none() , (req,res) => {
         let user = new User({
             firstname:firstname,
             lastname:lastname,
-            pseudo:pseudo,
+            username:username,
             mail:mail,
             birthday:birthday,
             password:password,
@@ -79,6 +78,19 @@ routeur.get('/login' , (req,res) => {
     res.render('user/login.html');
 })
 
+routeur.post('/login', (req,res,next) => {
+    passport.authenticate('local', {
+        successRedirect : '/',
+        failureRedirect : '/user/login',
+        failureFlash: true,
+    }) (req, res, next) ;
+})
+
+routeur.get('/logout', (req, res) => {
+    req.logout();
+    req.flash('success_msg', 'Vous etes bien deconectes');
+    res.redirect('./login');
+})
 
 
 module.exports = routeur;

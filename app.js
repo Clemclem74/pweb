@@ -2,28 +2,20 @@ var express = require('express');
 var mongoose = require('mongoose');
 var nunjucks = require('nunjucks');
 var multer = require('multer');
+var config = require('./config/database');
+var passport = require('passport');
+var cookieSession = require('cookie-session');
+var keys = require('./config/keys');
+var flash=require("connect-flash");
 
-var storage = multer.diskStorage({ // initializing multer diskStorage to be able to keep the file original name and extension
-    destination: function (req, file, cb)
-    {
-        cb(null, __dirname + '/uploads');
-    },
-    filename: function (req, file, cb)
-    {
-        cb(null, file.originalname);
-    }
-});
-    
-    
-var uploads = multer({ storage: storage });
 
 require('./models/Film');
 require('./models/TypeFilm');
 require('./models/User');
 
-var url = 'mongodb://localhost/pweb';
 
-mongoose.connect(url, { useNewUrlParser: true });
+
+mongoose.connect(config.database, { useNewUrlParser: true });
 
 mongoose.connection.on('connected', success =>
 { // if connection to DB succeed
@@ -40,11 +32,20 @@ nunjucks.configure('views',{
     express:app
 });
 
+app.use(flash());
+require('./config/passport')(passport);
+app.use(cookieSession({
+    maxAge: 6*60*60*1000,
+    keys: [keys.cookieSession.cookieKey]
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 
 app.use('/', require('./roots/film'));
 app.use('/typefilm', require('./roots/typefilm'));
 app.use('/user', require('./roots/user'));
-app.use(uploads.single('picture'));
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 

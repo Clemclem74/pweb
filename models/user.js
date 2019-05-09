@@ -9,7 +9,7 @@ var userSchema = new mongoose.Schema({
         type : String,
         required : true
     } ,
-    pseudo : {
+    username : {
         type : String,
         required : true
     } ,

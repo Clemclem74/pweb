@@ -1,13 +1,32 @@
 var express = require('express');
 var routeur = express.Router();
 var mongoose = require('mongoose');
-var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
 routeur.use(expressValidator());
-routeur.use(bodyParser.urlencoded({extended: true}));
-routeur.use(bodyParser.json());
 var Film = require('./../models/Film');
 var TypeFilm = require('./../models/TypeFilm');
+const { ensureAuthenticated } = require('../config/auth');
+var path = require("path");
+var multer = require('multer');
+
+
+
+
+var storage = multer.diskStorage({ // initializing multer diskStorage to be able to keep the file original name and extension
+    destination: './uploads',
+    filename: function (req, file, cb)
+    {
+        cb(null, new Date().toISOString().replace(/[-T:\.Z]/g, "") + file.originalname);}
+});
+
+    
+var uploads = multer({ storage: storage });
+
+
+
+
+
+
 
 
 
@@ -40,26 +59,31 @@ routeur.get('/delete/:id', (req,res) => {
 });
 
 
-routeur.get('/:id',(req,res) => {
+routeur.get('/:id', ensureAuthenticated , (req,res) => {
         Film.findById(req.params.id).populate('typeFilm').then(film => {
-            res.render('film/details.html',{film:film });
+            res.render('film/details.html',{film:film , test:req.user.name});
         }),
         err => res.status(500).send(err);
 })
 
-routeur.post('/new' , (req,res) => {
-    //console.log(req.body);
+routeur.post('/new' , uploads.single('file'), (req,res) => {
+
+    
     const title = req.body.title;
     const description = req.body.description;
     const trailer = req.body.trailer;
     const downlink = req.body.downlink;
     const streamlink = req.body.streamlink;
     const typeFilm = req.body.typeFilm;
-    const picture = req.body.picture;
-   // if(req.file) {
-   //     console.log("Picture détectée");
-     //   const picture=req.file.filename;
-    //}
+    //const picture = req.body.picture;
+    console.log(req.file);
+    if(req.file) {
+        console.log("Picture détectée");
+        var picture=req.file.filename;
+    }
+    else {
+        picture="not_found.png";
+    }
 
     req.checkBody('title','Un titre est obligatoire').notEmpty();
     req.checkBody('description','Une description est obligatoire').notEmpty();
