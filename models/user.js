@@ -38,7 +38,19 @@ userSchema.virtual('Review',{
 userSchema.virtual('Grade',{
     ref: 'Grade',
     localField:'_id',
-    foreignField:'idFilm'
+    foreignField:'idUser'
+});
+
+userSchema.virtual('Recommend',{
+    ref: 'Recommend',
+    localField:'_id',
+    foreignField:'idUserFrom'
+});
+
+userSchema.virtual('Recommend',{
+    ref: 'Recommend',
+    localField:'_id',
+    foreignField:'idUserTo'
 });
 
 var Film = mongoose.model('User',userSchema,'User');
