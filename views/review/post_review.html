@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}
+
+{% for e in errors %}
+<div class="alert alert-danger" role="alert">
+       {{e.msg}}
+</div>
+{% endfor %}
+
+
+<h2>Bienvenue dans le formulaire de post d'avis : </h2>
+
+<form method="POST" action='/review/post_review/{{ filmid }}'  >
+        <div class="form-group">
+        <label for="title">Commentaire</label>
+        <input type="text" id="review" name="review" class="form-control" >
+    </div>
+    <hr>
+    <input type="submit" class="btn btn-success" value="Save">
+</form>
+
+
+{% endblock %} 

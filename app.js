@@ -12,6 +12,7 @@ var flash=require("connect-flash");
 require('./models/Film');
 require('./models/TypeFilm');
 require('./models/User');
+require('./models/Review');
 
 
 
@@ -46,6 +47,8 @@ app.use(passport.session());
 app.use('/', require('./roots/film'));
 app.use('/typefilm', require('./roots/typefilm'));
 app.use('/user', require('./roots/user'));
+app.use('/review', require('./roots/review'));
+app.use('/grade', require('./roots/grade'));
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 

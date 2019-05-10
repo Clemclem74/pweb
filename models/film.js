@@ -13,9 +13,21 @@ var filmSchema = new mongoose.Schema({
             ref:'TypeFilm'
         }
     ]
-},
-{versionKey: false}
-);
+});
+
+
+filmSchema.virtual('Review',{
+    ref: 'Review',
+    localField:'_id',
+    foreignField:'idFilm'
+});
+
+filmSchema.virtual('Grade',{
+    ref: 'Grade',
+    localField:'_id',
+    foreignField:'idFilm'
+});
+
 
 var Film = mongoose.model('Film',filmSchema,'Film');
 module.exports = Film;

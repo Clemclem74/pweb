@@ -29,5 +29,17 @@ var userSchema = new mongoose.Schema({
 {versionKey: false}
 );
 
+userSchema.virtual('Review',{
+    ref: 'Review',
+    localField:'_id',
+    foreignField:'idUser'
+});
+
+userSchema.virtual('Grade',{
+    ref: 'Grade',
+    localField:'_id',
+    foreignField:'idFilm'
+});
+
 var Film = mongoose.model('User',userSchema,'User');
 module.exports = Film;

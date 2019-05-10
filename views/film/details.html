@@ -9,6 +9,10 @@
         <h2>{{ film.title }}</h2>
         <a href="/edit/{{film._id}}" class="btn btn-primary">Modifier</a>
         <a href="/delete/{{film._id}}" class="btn btn-danger">Supprimer</a>
+        {% if (user) %}
+        <a href="/review/post_review/{{film._id}}" class="btn btn-info">Poster un avis sur ce film</a>
+        <a href="/grade/post_grade/{{film._id}}" class="btn btn-info">Poster une note sur ce film</a>
+        {% endif %}
         <hr>
         <p class="lead">
             {{ film.description}}
