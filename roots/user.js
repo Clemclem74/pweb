@@ -89,7 +89,7 @@ routeur.post('/login', (req,res,next) => {
 routeur.get('/logout', (req, res) => {
     req.logout();
     req.flash('success_msg', 'Vous etes bien deconectes');
-    res.redirect('./login');
+    res.redirect('/');
 })
 
 

@@ -12,7 +12,11 @@
         {% if (user) %}
         <a href="/review/post_review/{{film._id}}" class="btn btn-info">Poster un avis sur ce film</a>
         <a href="/grade/post_grade/{{film._id}}" class="btn btn-info">Poster une note sur ce film</a>
-        <a href="/recommend/recommend/{{film._id}}" class="btn btn-info">Poster une note sur ce film</a>
+        <a href="/recommend/recommend/{{film._id}}" class="btn btn-info">Recommender ce film</a>
+        <form id="Seen" action = "/seen/seen/{{film._id}}" method = "post">
+                <input type="submit" class="btn btn-info" value="Tu l'as vu ?">
+            <form>
+
         {% endif %}
         <hr>
         <p class="lead">
@@ -26,3 +30,22 @@
 </div>
 
 {% endblock %} 
+
+<script>
+    var ele="#Seen";
+      ele.addEventListener("submit", callback, false);
+document.querySelector("#Seen").addEventListener("submit", function(e){
+    if(!doValidation()){
+        e.preventDefault();    //stop form from submitting
+        alert("Not valid!");
+    }
+});
+function doValidation(){
+    var isValid = false;
+    //do your validation
+    isValid = /^\d{3}$/.test(document.querySelector("#text1").value);
+    return isValid;
+}
+
+</script>
+

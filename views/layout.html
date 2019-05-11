@@ -1,25 +1,193 @@
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
     <head>
+
+
         <meta charset="utf-8">
-        <meta name="viewport" content="witdh=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- CSS -->  
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">      
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400|Roboto:300,400,500">
         <link rel="stylesheet" href="/css/bootstrap.min.css">
-        <div class="text-center">
-            <title> Bienvenue sur mon site</title>
-        </div>
+        <link rel="stylesheet" href="/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css/animate.css">
+        <link rel="stylesheet" href="/css/style.css">
+
+
+        <!-- Favicon and touch icons -->
+        <link rel="shortcut icon" href="ico/favicon.png">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="/ico/apple-touch-icon-57-precomposed.png">
+
+
+
+
+		
+
+
+
+
     </head>
+
     <body>
-        <div class="container">
-            <a href="/"><h1>Mes films</h1></a>
-            {% block content %}{% endblock %}
-        </div>
-        <div class="text-center">
-                <h6><small>Clément Temil</small></h6>
-        </div>
-        <hr>
-        <a href="/user/signup" ><button type="button" class="btn btn-primary">Inscription</button></a>
-        <a href="/user/login" ><button type="button" class="btn btn-primary">Login</button></a>
-        <a href="/user/logout" ><button type="button" class="btn btn-primary">Logout</button></a>
-        <h2>{{user.firstname}}</h2>
+    
+    	<!-- Top content -->
+        <div class="top-content" id="background">
+        
+        	<!-- Top menu -->
+			<nav class="navbar navbar-inverse" role="navigation" id="navbar-div">
+				<div class="container">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-navbar-1">
+							<span class="sr-only"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="/">NETFILM</a>
+					</div>
+					<!-- Collect the nav links, forms, and other content for toggling -->
+					<div class="collapse navbar-collapse" id="top-navbar-1">
+						<ul class="nav navbar-nav navbar-right">
+							<li><a href="#">Home</a></li>
+							<li><a href="#">Features</a></li>
+							<li><a href="#">Video</a></li>
+							<li><a href="#">Clients</a></li>
+							<li><a href="#">Plans</a></li>
+							<li><a href="#">Faq</a></li>
+							{%if user%}
+							<li><a id="myAccountBtn" class="btn btn-link-3" data-toggle="modal" data-target="#myForm">Mon compte</a></li>
+							<li><a id="LogoutBtn" href="/user/logout">Déconnexion</a></li>
+							{%else%}
+							<li><a id="loginBtn" class="btn btn-link-3" data-toggle="modal" data-target="#myLoginForm">Se connecter</a></li>
+							<li><a id="signupBtn" class="btn btn-link-3" data-toggle="modal" data-target="#mySignupForm">S'inscrire</a></li>
+							{%endif%}
+						</ul>
+					</div>
+				</div>
+			</nav>
+
+
+
+<!------------------------------- Login modal part ---------------------------->
+			{% block login%}
+
+			<div class="container">
+			
+				<div class="modal" id="myLoginForm">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"> &times; </button>
+						</div>
+						<div class="modal-body">
+						<form method="POST" action="/user/login" onsubmit="return post();" >
+								<div class="form-group">
+									<input type="text" id="username" name="username" class="form-control" placeholder="Username" required>
+								</div>
+								<div class="form-group">
+										<input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+								</div>
+								<input type="submit" class="btn btn-success" value="Save">
+
+							</form>
+						</div>
+					
+
+						</div>
+					</div>
+				</div>
+			</div>
+			{% endblock %}
+<!-------------------------- End of Login modal part -------------------------------->
+
+
+
+<!--------------------------- Signup modal part ------------------------------------->
+			{%block signup%}
+			<div class="modal" id="mySignupForm">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"> &times; </button>
+							</div>
+							<div class="modal-body">
+									<form method="POST" action='/user/signup'  >
+										<div class="form-group">
+										<label for="title">Nom</label>
+										<input type="text" id="firstname" name="firstname" class="form-control" >
+								</div>
+								<div class="form-group">
+												<label for="title">Prénom</label>
+												<input type="text" id="lastname" name="lastname" class="form-control" >
+								</div>
+								<div class="form-group">
+												<label for="title">Date de Naissance</label>
+												<input type="date" id="birthday" name="birthday" class="form-control" >
+								</div>
+								<div class="form-group">
+												<label for="title">Pseudo</label>
+												<input type="text" id="username" name="username" class="form-control" >
+								</div>
+								<div class="form-group">
+												<label for="title">Adresse Mail</label>
+												<input type="text" id="mail" name="mail" class="form-control" >
+								</div>
+								<div class="form-group">
+												<label for="title">Mot de passe</label>
+												<input type="password" id="password" name="password" class="form-control" >
+								</div>
+								<div class="form-group">
+												<label for="title">Confirmez votre mot de passe</label>
+												<input type="password" id="password2" name="password2" class="form-control">
+								</div>   
+								<hr>
+								<input type="submit" class="btn btn-success" value="Save">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+			{% endblock%}
+<!----------------------------End of Signup modal part --------------------->
+
+
+<!---------------------------My Account modal part-------------------------->
+
+
+<!---------------------------End of My account modal part --------------------->
+
+
+
+			{% block content %}
+			{% endblock %}
+
+			
+
+
+        </footer>
+
+
+        <!-- Javascript -->
+        <script src="/js/jquery-1.11.1.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+				<script src="/js/scripts.js"></script>
+				<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+      
+
+
+
+		
+
+
+
     </body>
+
 </html>
+
