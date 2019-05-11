@@ -16,13 +16,13 @@ routeur.use(expressValidator());
 
 routeur.get('/seen/:id',(req,res) => {
     var seen = new Seen();
-    res.render('review/post_review.html', {seen:seen , filmid:req.params.id});
+    res.render('review/post_review.hbs', {seen:seen , filmid:req.params.id});
 });
 
 
 routeur.post('/seen/:id' , upload.none() , (req,res) => {
     if(!req.user) {
-        res.render('user/signin.html');
+        res.render('user/signin.hbs');
     }
     const idUser = req.user._id;
     const idFilm = req.params.id;

@@ -15,12 +15,12 @@ routeur.use(expressValidator());
 
 routeur.get('/post_grade/:id',(req,res) => {
         var grade = new Grade();
-        res.render('grade/post_grade.html', {grade:grade , filmid:req.params.id});
+        res.render('grade/post_grade.hbs', {grade:grade , filmid:req.params.id});
 });
 
 routeur.post('/post_grade/:id' , upload.none() , (req,res) => {
     if(!req.user) {
-        res.render('user/signin.html');
+        res.render('user/signin.hbs');
     }
     const grade = req.body.grade;
     const idUser = req.user._id;
@@ -31,7 +31,7 @@ routeur.post('/post_grade/:id' , upload.none() , (req,res) => {
 
     let errors = req.validationErrors();
     if(errors){
-        res.render('grade/post_grade.html' , {errors:errors});
+        res.render('grade/post_grade.hbs' , {errors:errors});
     }
     else {
         let global_grade = new Grade({

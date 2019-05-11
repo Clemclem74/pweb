@@ -15,12 +15,12 @@ routeur.use(expressValidator());
 
 routeur.get('/post_review/:id',(req,res) => {
         var review = new Review();
-        res.render('review/post_review.html', {review:review , filmid:req.params.id});
+        res.render('review/post_review.hbs', {review:review , filmid:req.params.id});
 });
 
 routeur.post('/post_review/:id' , upload.none() , (req,res) => {
     if(!req.user) {
-        res.render('user/signin.html');
+        res.render('user/signin.hbs');
     }
     const review = req.body.review;
     const idUser = req.user._id;
@@ -31,7 +31,7 @@ routeur.post('/post_review/:id' , upload.none() , (req,res) => {
 
     let errors = req.validationErrors();
     if(errors){
-        res.render('review/post_review.html' , {errors:errors});
+        res.render('review/post_review.hbs' , {errors:errors});
     }
     else {
         let global_review = new Review({

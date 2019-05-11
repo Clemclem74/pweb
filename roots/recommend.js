@@ -17,12 +17,12 @@ routeur.use(expressValidator());
 
 routeur.get('/recommend/:id',(req,res) => {
         var recommend = new Recommend();
-        res.render('recommend/recommend.html', {recommend:recommend , filmid:req.params.id});
+        res.render('recommend/recommend.hbs', {recommend:recommend , filmid:req.params.id});
 });
 
 routeur.post('/recommend/:id' , upload.none() , (req,res) => {
     if(!req.user) {
-        res.render('user/signin.html');
+        res.render('user/signin.hbs');
     }
 
     console.log(req.body);
@@ -38,7 +38,7 @@ routeur.post('/recommend/:id' , upload.none() , (req,res) => {
     
 
     if(errors){
-        res.render('recommend/recommend.html' , {errors:errors});
+        res.render('recommend/recommend.hbs' , {errors:errors});
     }
     else {
         let recommend = new Recommend({

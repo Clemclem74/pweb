@@ -1,12 +1,15 @@
 var express = require('express');
 var mongoose = require('mongoose');
-var nunjucks = require('nunjucks');
 var multer = require('multer');
 var config = require('./config/database');
 var passport = require('passport');
 var cookieSession = require('cookie-session');
 var keys = require('./config/keys');
 var flash=require("connect-flash");
+var request = require('ajax-request');
+var hbs = require('express-handlebars');
+var path = require('path');
+
 
 
 require('./models/Film');
@@ -28,10 +31,27 @@ var app = express();
 app.listen(8070);
 console.log("Application bien lancée sur le port 8070");
 
-nunjucks.configure('views',{
+/* nunjucks.configure('views',{
     autoescape:true,
     express:app
-});
+}); */
+
+
+
+//Déclaration of Handlebar
+app.engine('.hbs', hbs({
+    defaultLayout: 'main',
+    layoutsDir: path.join(app.get('views'), 'layouts'),
+    partialsDir: path.join(app.get('views'), 'partials'),
+    extname: '.hbs',
+    helpers: require('./config/handlebars')
+  }))
+
+  
+  app.set('view engine', '.hbs')
+
+  
+
 
 app.use(flash());
 require('./config/passport')(passport);
@@ -41,6 +61,15 @@ app.use(cookieSession({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+
+app.use((req, res, next) =>{
+    app.locals.success = req.flash('success')
+    app.locals.message = req.flash('message')
+    app.locals.user = req.user
+    next()
+  })
 
 
 

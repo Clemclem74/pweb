@@ -17,7 +17,7 @@ routeur.use(expressValidator());
 
 routeur.get('/signup',(req,res) => {
         var user = new User();
-        res.render('user/signup.html', {user:user});
+        res.render('user/signup.hbs', {user:user});
 });
 
 routeur.post('/signup' , upload.none() , (req,res) => {
@@ -40,7 +40,7 @@ routeur.post('/signup' , upload.none() , (req,res) => {
 
     let errors = req.validationErrors();
     if(errors){
-        res.render('user/signup.html' , {errors:errors});
+        res.render('user/signup.hbs' , {errors:errors});
     }
     else {
         let user = new User({
@@ -75,7 +75,7 @@ routeur.post('/signup' , upload.none() , (req,res) => {
 
 
 routeur.get('/login' , (req,res) => {
-    res.render('user/login.html');
+    res.render('user/login.hbs');
 })
 
 routeur.post('/login', (req,res,next) => {

@@ -7,7 +7,7 @@ routeur.get('/:typefilm', (req,res) => {
     TypeFilm.findOne({name : req.params.typefilm}).populate('Film').then(typefilm => {
     if(!typefilm) return res.status(404).send('Type introuvable');
 
-        res.render('typefilm/filmByType.html', {typefilm:typefilm , film:typefilm.Film})
+        res.render('typefilm/filmByType.hbs', {typefilm:typefilm , film:typefilm.Film})
     });
 });
 

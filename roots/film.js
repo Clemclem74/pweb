@@ -31,8 +31,9 @@ var uploads = multer({ storage: storage });
 
 
 routeur.get('/', (req,res) => {
+    console.log('liste appelée');
     Film.find({}).populate('typeFilm').then(film => {
-        res.render('film/list_film.html', {film: film , user:req.user});
+        res.render('film/list_film.hbs', {film: film , user:req.user});
 })
 });
 
@@ -60,8 +61,10 @@ routeur.get('/delete/:id', (req,res) => {
 
 
 routeur.get('/:id', ensureAuthenticated , (req,res) => {
+        console.log(":id appelé");
         Film.findById(req.params.id).populate('typeFilm').then(film => {
-            res.render('film/details.html',{film:film , user:req.user});
+            data={film:film , user:req.user};
+            res.render('film/details.hbs' , {film:film , user:req.user});
         }),
         err => res.status(500).send(err);
 })
