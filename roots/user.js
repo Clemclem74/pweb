@@ -50,6 +50,7 @@ routeur.post('/signup' , upload.none() , (req,res) => {
             mail:mail,
             birthday:birthday,
             password:password,
+            isAdmin:false,
         })
         bcrypt.genSalt(10, (err,salt) => {
             bcrypt.hash(user.password , salt , (err,hash) => {

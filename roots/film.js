@@ -5,6 +5,8 @@ var expressValidator = require('express-validator');
 routeur.use(expressValidator());
 var Film = require('./../models/Film');
 var TypeFilm = require('./../models/TypeFilm');
+var Review = require('./../models/Review');
+var User = require('./../models/User');
 const { ensureAuthenticated } = require('../config/auth');
 var path = require("path");
 var multer = require('multer');
@@ -40,14 +42,14 @@ routeur.get('/', (req,res) => {
 routeur.get('/new',(req,res) => {
     TypeFilm.find({}).then(typefilm => {
         var film = new Film();
-        res.render('film/new_movie.html', {film:film , typefilm:typefilm});
+        res.render('film/new_movie.hbs', {film:film , typefilm:typefilm});
     })
 });
 
 routeur.get('/edit/:id',(req,res) => {
     TypeFilm.find({}).then(typefilm => {
         Film.findById(req.params.id).then(film => {
-        res.render('film/edit_movie.html', {film:film , typefilm:typefilm });
+        res.render('film/edit_movie.hbs', {film:film , typefilm:typefilm });
         })
     })
 });
@@ -63,8 +65,17 @@ routeur.get('/delete/:id', (req,res) => {
 routeur.get('/:id', ensureAuthenticated , (req,res) => {
         console.log(":id appelé");
         Film.findById(req.params.id).populate('typeFilm').then(film => {
-            data={film:film , user:req.user};
-            res.render('film/details.hbs' , {film:film , user:req.user});
+            Review.find({idFilm : req.params.id}).populate('idUser').then( list_review => {
+                var moyenne=0;
+                list_review.forEach((item, index, array) => {
+                    console.log(item.grade);
+                    moyenne = moyenne + item.grade;
+                    console.log(moyenne);
+                })
+                moyenne=moyenne/list_review.length;
+            data={film:film, list_review:list_review , user:req.user , grade : moyenne};
+            res.render('film/details.hbs' , data);
+            })
         }),
         err => res.status(500).send(err);
 })
@@ -97,7 +108,7 @@ routeur.post('/new' , uploads.single('file'), (req,res) => {
     if(errors){
         TypeFilm.find({}).then(typefilm => {
             var film = new Film();
-            res.render('film/new_movie.html', {film:film , typefilm:typefilm, errors:errors});
+            res.render('film/new_movie.hbs', {film:film , typefilm:typefilm, errors:errors});
         })
     }
     else {
@@ -151,7 +162,7 @@ routeur.post('/edit/:id' , uploads.single('file'), (req,res) => {
     if(errors){
         TypeFilm.find({}).then(typefilm => {
             Film.findById(req.params.id).then(film => {
-                res.render('film/edit_movie.html', {film:film , typefilm:typefilm, errors:errors});
+                res.render('film/edit_movie.hbs', {film:film , typefilm:typefilm, errors:errors});
             });  
         })
     }
@@ -185,6 +196,9 @@ routeur.post('/edit/:id' , uploads.single('file'), (req,res) => {
         
     } 
 })
+
+
+
 
 
 

@@ -11,6 +11,7 @@ routeur.use(bodyParser.urlencoded({
 }));
 routeur.use(bodyParser.json());
 var Review = require('./../models/Review');
+var User = require('./../models/User');
 routeur.use(expressValidator());
 
 routeur.get('/post_review/:id',(req,res) => {
@@ -18,11 +19,20 @@ routeur.get('/post_review/:id',(req,res) => {
         res.render('review/post_review.hbs', {review:review , filmid:req.params.id});
 });
 
+
+routeur.get('/review/:id' , (req,res) => {
+    Review.findById(req.params.id).populate('idUser').then(review => {
+        console.log(review);
+    })
+})
+
+
 routeur.post('/post_review/:id' , upload.none() , (req,res) => {
     if(!req.user) {
         res.render('user/signin.hbs');
     }
     const review = req.body.review;
+    const grade = req.body.grade;
     const idUser = req.user._id;
     const idFilm = req.params.id;
 
@@ -36,6 +46,7 @@ routeur.post('/post_review/:id' , upload.none() , (req,res) => {
     else {
         let global_review = new Review({
             review:review,
+            grade : grade,
             idUser:idUser,
             idFilm:idFilm,
         })

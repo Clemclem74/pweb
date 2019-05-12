@@ -1,18 +1,21 @@
-{% extends "layout.html" %}
-{% block content %}
+{{#each errors}}
 
-{% for e in errors %}
 <div class="alert alert-danger" role="alert">
-       {{e.msg}}
+       {{msg}}
 </div>
-{% endfor %}
+
+{{/each}}
 
 
 <h2>Bienvenue dans le formulaire de post d'avis : </h2>
 
-<form method="POST" action='/review/post_review/{{ filmid }}'  >
-        <div class="form-group">
-        <label for="title">Commentaire</label>
+<form method="POST" action='/review/post_review/{{ filmid }}'>
+    <div class="form-group">
+        <label for="title">Note</label>
+        <input type="number" id="grade" name="grade" class="form-control" min="0" max="5" >
+    </div>
+    <div class="form-group">
+        <label for="review">Commentaire</label>
         <input type="text" id="review" name="review" class="form-control" >
     </div>
     <hr>
@@ -20,4 +23,3 @@
 </form>
 
 
-{% endblock %} 

@@ -24,6 +24,11 @@ var userSchema = new mongoose.Schema({
     birthday : {
         type : Date,
         required : true
+    } ,
+    birtisAdmin : {
+        type : Boolean,
+        default : false,
+        required : true
     }    
 },
 {versionKey: false}

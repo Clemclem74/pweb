@@ -1,24 +1,83 @@
-{% extends "layout.html" %}
 
-{% block content %}
-    <h2>Films de type : {{typefilm.name}}</h2>
 
+   <link rel="stylesheet" href="/css/film.css">
+
+    <h2>Films de type : {{typefilm}}</h2>
+    <a href="/new"><h6>Ajouter un film :</h6></a>
+    <hr>
     <div class="container">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                    <th scope="col">Titre</th>
-                    <th scope="col">Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for f in film %}
-                    <tr>
-                    <td> <a href="/{{ f._id }}">{{ f.title }}</a></td>
-                    <td>{{ f.description }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>   
-{% endblock %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                <th scope="col">Titre</th>
+                <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+            {{#each film }}
+                      
+               
+               
+
+               <div class="movie-card-1" id="movies-homepage">
+	<a href="/{{_id}}"><div style="background-image: url('/uploads/{{picture}}')" class="movie-header-1" id="movie-picture">
+	</div>
+    </a>
+	<div class="movie-content-1">
+		<div class="movie-content-header-1">
+			<a href="#">
+				<h3 class="movie-title-1">{{title}}</h3>
+			</a>
+		</div>
+		<div class="movie-info-1">
+			<div class="info-section-1">
+				<label id="TypeLabel">Types :  </label>
+				<span>{{#each typeFilm}}
+                <a href="/typefilm/{{typefilm}}">
+             <small>{{name}}</small> 
+                        </a>   
+                 {{/each}}</span>
+			</div>
+		</div>
+	</div>
+</div>
+               
+            {{/each}}
+            </tbody>
+        </table>
+    </div> 
+    
+    <script src="/js/jquery-1.11.1.min.js"></script>
+    
+    <script type="text/javascript">
+
+$(document).ready(() => {
+    const requestURL = '/' + $('#ClickFilm').val();
+    console.log(requestURL);
+    var ClickFilm = document.getElementById("ClickFilm");
+    ClickFilm.addEventListener("click", function(){
+        console.log("piipi");
+        var ourRequest = new XMLHttpRequest();
+        ourRequest.open('GET', requestURL);
+        ourRequest.onload = function() {
+            var ourData = JSON.parse(ourRequest.responseText);
+            console.log(ourData[0]);
+        }
+        ourRequest.onerror = function(){
+            console.log("Erreur de connexion");
+        }
+        ourRequest.send();
+    })
+
+   
+
+})
+
+    
+    
+    
+    
+    </script>
+
+
+

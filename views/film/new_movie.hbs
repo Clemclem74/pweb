@@ -1,11 +1,9 @@
-{% extends "layout.html" %}
-{% block content %}
 
-{% for e in errors %}
+{{#each errors}}
 <div class="alert alert-danger" role="alert">
-       {{e.msg}}
+       {{msg}}
 </div>
-{% endfor %}
+{{/each}}
 
 <form method="POST" action="/new" enctype="multipart/form-data">
     <div class="form-group">
@@ -30,12 +28,12 @@
     </div>
     
     <div class="form-group">
-        {% for t in typefilm %}
+        {{#each typefilm}}
         <label>
-            <input type="checkbox" name="typeFilm" value="{{t._id}}">
-            {{ t.name }}
+            <input type="checkbox" name="typeFilm" value="{{_id}}">
+            {{name}} 
         </label>
-        {% endfor %}
+        {{/each}}
     </div>
 
     <div class="form-goup">
@@ -45,4 +43,3 @@
 
     <input type="submit" class="btn btn-success" value="Save">
 </form>
-{% endblock %}

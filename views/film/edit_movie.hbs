@@ -1,5 +1,4 @@
-{% extends "layout.html" %}
-{% block content %}
+
 <form method="POST" action="/edit/{{film._id}}" enctype="multipart/form-data">
     <div class="form-group">
         <label for="title">Titre</label>
@@ -23,12 +22,11 @@
     </div>
     
     <div class="form-group">
-        {% for t in typefilm %}
+        {{#each typefilm}}
         <label>
-            <input type="checkbox" name="typeFilm" value="{{t._id}}" {% if film.typeFilm.indexOf(t._id) != -1 %} checked {% endif %}>
-            {{ t.name }}
+            <input type="checkbox" name="typeFilm" value="{{_id}}" } > {{name}}
         </label>
-        {% endfor %}
+        {{/each}}
     </div>
 
     <div class="form-goup">
@@ -38,4 +36,3 @@
 
     <input type="submit" class="btn btn-success" value="Save">
 </form>
-{% endblock %}

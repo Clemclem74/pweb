@@ -1,23 +1,57 @@
-<div class="row">
+<div id="bloc-detail" class="container">
+
+    <div class="row">
     <div class="col-sm-3">
-        <img src="/uploads/{{film.picture}}" alt="/uploads/not_found.png" style="width:100%">
+        <img id="img-detail" src="/uploads/{{film.picture}}" alt="/uploads/not_found.png" style="width:100%">
     </div>
     <div class="col-sm-9">
-        <h2>{{ film.title }}</h2>
-        <a href="/edit/{{film._id}}" class="btn btn-primary">Modifier</a>
-        <a href="/delete/{{film._id}}" class="btn btn-danger">Supprimer</a>
-        {{#if user }}
-        <a href="/review/post_review/{{film._id}}" class="btn btn-info">Poster un avis sur ce film</a>
-        <a href="/grade/post_grade/{{film._id}}" class="btn btn-info">Poster une note sur ce film</a>
-        <a href="/recommend/recommend/{{film._id}}" class="btn btn-info">Poster une note sur ce film</a>
-        {{/if}}
+        <h2 id="title-detail">{{ film.title }}</h2>
+        <h2> {{grade}} </h2>
         <hr>
-        <p class="lead">
-            {{ film.description}}
-        </p>
-        <h3>Type : </h3>
-        {{#each film.typeFilm }}
-        <a href="/typefilm/{{ name }}"><h2>{{ name }}</h2></a>
-        {{/each}}
+        <small><p class="lead" id="description">
+            Description : {{ film.description}}
+        </p></small>
+        <h3 id="type-detail">Type : 
+        {{#each film.typeFilm}}
+             <a href="/typefilm/{{name}}">
+                <small>{{name}}</small> 
+            </a>   
+                {{/each}}
+        </h3>    
     </div>
+
+<iframe id="trailer-ytb" max-width="560" max-height="315" src="https://www.youtube.com/embed/taaKB2p8dUE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+      
 </div>
+
+<table class="table">
+            <thead>
+                <tr>
+                <th scope="col">Nom d'utilisateur</th>
+                <th scope="col">Commentaire</th>
+                <th scope="col">Note</th>
+                </tr>
+            </thead>
+            <tbody>
+            {{#each list_review}}
+            <tr>
+                <td>{{idUser.firstname}} {{idUser.lastname}}</td>
+                <td>{{review}}</td>
+                <td>{{grade}}</td>
+            </tr>
+            {{/each}}
+            </tbody>
+</table>
+
+<a href="/edit/{{film._id}}" class="btn btn-primary">Modifier</a>
+<a href="/delete/{{film._id}}" class="btn btn-danger">Supprimer</a>
+{{#if user }}
+<a href="/review/post_review/{{film._id}}" class="btn btn-info">Poster un avis sur ce film</a>
+<a href="/grade/post_grade/{{film._id}}" class="btn btn-info">Poster une note sur ce film</a>
+<a href="/recommend/recommend/{{film._id}}" class="btn btn-info">Poster une note sur ce film</a>
+{{/if}}
+
+
+</div>
+

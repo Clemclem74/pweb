@@ -1,26 +1,41 @@
+<link rel="stylesheet" href="/css/film.css">
 
-    <h2> utilisateur : {{user.firstname}}  {{user.lastname}}</h2>
     <h2>Les films disponibles :</h2>
     <a href="/new"><h6>Ajouter un film :</h6></a>
     <hr>
     <div class="container">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                <th scope="col">Titre</th>
-                <th scope="col">Description</th>
-                </tr>
-            </thead>
-            <tbody>
-            {{#each film }}
-                <tr>
-                <td> <a href="/{{_id}}">{{title }}</a></td>
-                <td>{{ description }}</td>
-                <td id="test"></td>
-                </tr>
+
+
+{{#each film }}
+                      
+               
+               
+
+               <div class="movie-card-1" id="movies-homepage">
+	<a href="/{{_id}}"><div style="background-image: url('/uploads/{{picture}}')" class="movie-header-1" id="movie-picture">
+	</div>
+    </a>
+	<div class="movie-content-1">
+		<div class="movie-content-header-1">
+			<a href="#">
+				<h3 class="movie-title-1">{{title}}</h3>
+			</a>
+		</div>
+		<div class="movie-info-1">
+			<div class="info-section-1">
+				<label id="TypeLabel">Types :  </label>
+				<span>{{#each typeFilm}}
+                <a href="/typefilm/{{name}}">
+             <small>{{name}}</small> 
+                        </a>   
+                 {{/each}}</span>
+			</div>
+		</div>
+	</div>
+</div>
+               
             {{/each}}
-            </tbody>
-        </table>
+
     </div> 
     
     <script src="/js/jquery-1.11.1.min.js"></script>
