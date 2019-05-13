@@ -18,8 +18,9 @@ require('./models/User');
 require('./models/Review');
 
 
+const CONNECTION_URI = process.env.MONGODB_URI || 'mongodb://localhost/users';
 
-mongoose.connect(config.database, { useNewUrlParser: true , useMongoClient:true });
+mongoose.connect(CONNECTION_URI, { useNewUrlParser: true });
 
 mongoose.connection.on('connected', success =>
 { // if connection to DB succeed
