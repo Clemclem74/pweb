@@ -7,6 +7,10 @@ var multer  = require('multer')
 var upload = multer({ dest: '/uploads/' })
 var bodyParser = require('body-parser');
 var passport  = require('passport')
+const { ensureAuthenticated } = require('../config/auth');
+const { ensureNotAuthenticated } = require('../config/auth');
+
+
 
 routeur.use(bodyParser.urlencoded({
     extended: true
@@ -15,12 +19,12 @@ routeur.use(bodyParser.json());
 var User = require('./../models/User');
 routeur.use(expressValidator());
 
-routeur.get('/signup',(req,res) => {
+routeur.get('/signup',ensureNotAuthenticated,(req,res) => {
         var user = new User();
         res.render('user/signup.hbs', {user:user});
 });
 
-routeur.post('/signup' , upload.none() , (req,res) => {
+routeur.post('/signup' ,ensureNotAuthenticated, upload.none() , (req,res) => {
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;
     const username = req.body.username;
@@ -75,11 +79,11 @@ routeur.post('/signup' , upload.none() , (req,res) => {
 })
 
 
-routeur.get('/login' , (req,res) => {
+routeur.get('/login' , ensureNotAuthenticated, (req,res) => {
     res.render('user/login.hbs');
 })
 
-routeur.post('/login', (req,res,next) => {
+routeur.post('/login', ensureNotAuthenticated, (req,res,next) => {
     passport.authenticate('local', {
         successRedirect : '/',
         failureRedirect : '/user/login',
@@ -87,7 +91,7 @@ routeur.post('/login', (req,res,next) => {
     }) (req, res, next) ;
 })
 
-routeur.get('/logout', (req, res) => {
+routeur.get('/logout', ensureAuthenticated, (req, res) => {
     req.logout();
     req.flash('success_msg', 'Vous etes bien deconectes');
     res.redirect('/');

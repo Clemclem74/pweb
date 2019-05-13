@@ -7,7 +7,6 @@ var Film = require('./../models/Film');
 var TypeFilm = require('./../models/TypeFilm');
 var Review = require('./../models/Review');
 var User = require('./../models/User');
-const { ensureAuthenticated } = require('../config/auth');
 const { ensureAdmin } = require('../config/admin');
 
 var path = require("path");

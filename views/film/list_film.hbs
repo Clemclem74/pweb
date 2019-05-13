@@ -5,11 +5,11 @@
     <hr>
     <div class="container">
 
-
+ <div class="row"> 
 {{#each film }}
                       
-               
-               
+            
+<div class="col mg 4">        
 
                <div class="movie-card-1" id="movies-homepage">
 	<a href="/{{_id}}"><div style="background-image: url('/uploads/{{picture}}')" class="movie-header-1" id="movie-picture">
@@ -33,9 +33,11 @@
 		</div>
 	</div>
 </div>
-               
-            {{/each}}
 
+</div>
+
+            {{/each}}
+</div>   
     </div> 
     
     <script src="/js/jquery-1.11.1.min.js"></script>

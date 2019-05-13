@@ -7,6 +7,16 @@ module.exports = {
             req.flash('error_msg' , 'Connectez vous pour acceder à cette page');
             res.redirect('/user/login');
         }
+    },
+
+    ensureNotAuthenticated : function( req , res , next ) {
+        if (req.isAuthenticated()){
+            req.flash('error_msg' , 'Vous êtes déjà connectés');
+            res.redirect('/');
+        }
+        else {
+            return next();
+        }
     }
 }
 
