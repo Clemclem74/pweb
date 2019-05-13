@@ -19,7 +19,7 @@ require('./models/Review');
 
 
 
-mongoose.connect(config.database, { useNewUrlParser: true });
+mongoose.connect(config.database, { useNewUrlParser: true , useMongoClient:true });
 
 mongoose.connection.on('connected', success =>
 { // if connection to DB succeed
@@ -28,19 +28,18 @@ mongoose.connection.on('connected', success =>
 
 var app = express();
 
+const PORT = process.env.PORT || 8070;
+
 //Variables :
 TypeFilm.find({}).then(alltypes => {
   app.locals.alltypes=alltypes;
 })
 
 
-app.listen(8070);
-console.log("Application bien lancée sur le port 8070");
+app.listen(PORT);
+console.log("Application bien lancée sur le port $(PORT)");
 
-/* nunjucks.configure('views',{
-    autoescape:true,
-    express:app
-}); */
+
 
 
 
@@ -61,6 +60,7 @@ app.engine('.hbs', hbs({
 
 
 app.use(flash());
+
 require('./config/passport')(passport);
 app.use(cookieSession({
     maxAge: 6*60*60*1000,
