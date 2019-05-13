@@ -18,7 +18,7 @@ require('./models/User');
 require('./models/Review');
 
 
-const CONNECTION_URI = process.env.MONGODB_URI || 'mongodb://localhost/users';
+const CONNECTION_URI = process.env.MONGODB_URI || 'mongodb://localhost/pweb';
 
 mongoose.connect(CONNECTION_URI, { useNewUrlParser: true });
 
