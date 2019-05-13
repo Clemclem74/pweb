@@ -12,10 +12,6 @@ var path = require('path');
 
 
 
-require('./models/Film');
-var TypeFilm = require('./models/TypeFilm');
-require('./models/User');
-require('./models/Review');
 
 
 const CONNECTION_URI = process.env.MONGODB_URI || 'mongodb://localhost/pweb';
@@ -30,6 +26,13 @@ mongoose.connection.on('connected', success =>
 var app = express();
 
 const PORT = process.env.PORT || 8070;
+
+
+require('./models/Film');
+var TypeFilm = require('./models/TypeFilm');
+require('./models/User');
+require('./models/Review');
+
 
 //Variables :
 TypeFilm.find({}).then(alltypes => {
