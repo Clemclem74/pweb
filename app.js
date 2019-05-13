@@ -28,9 +28,9 @@ const PORT = process.env.PORT || 8070;
 
 
 require('./models/film');
-var TypeFilm = require('./models/TypeFilm');
-require('./models/User');
-require('./models/Review');
+var TypeFilm = require('./models/typefilm');
+require('./models/user');
+require('./models/review');
 
 
 //Variables :

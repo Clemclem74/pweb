@@ -3,10 +3,10 @@ var routeur = express.Router();
 var mongoose = require('mongoose');
 var expressValidator = require('express-validator');
 routeur.use(expressValidator());
-var Film = require('./../models/Film');
-var TypeFilm = require('./../models/TypeFilm');
-var Review = require('./../models/Review');
-var User = require('./../models/User');
+var Film = require('./../models/film');
+var TypeFilm = require('./../models/typefilm');
+var Review = require('./../models/review');
+var User = require('./../models/user');
 const { ensureAdmin } = require('../config/admin');
 
 var path = require("path");

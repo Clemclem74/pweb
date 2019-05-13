@@ -1,8 +1,8 @@
 var express = require('express');
 var routeur = express.Router();
 
-var TypeFilm = require('./../models/TypeFilm');
-var Film = require('./../models/Film');
+var TypeFilm = require('./../models/typefilm');
+var Film = require('./../models/film');
 routeur.get('/:typefilm', (req,res) => {
     TypeFilm.findOne({name : req.params.typefilm}).populate('Film').then(typefilms => {
     if(!typefilms) return res.status(404).send(req.params.typefilm);

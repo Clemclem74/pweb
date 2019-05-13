@@ -10,7 +10,7 @@ routeur.use(bodyParser.urlencoded({
     extended: true
 }));
 routeur.use(bodyParser.json());
-var Seen = require('./../models/Seen');
+var Seen = require('./../models/seen');
 routeur.use(expressValidator());
 
 

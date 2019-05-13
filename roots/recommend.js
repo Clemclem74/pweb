@@ -10,8 +10,8 @@ routeur.use(bodyParser.urlencoded({
     extended: true
 }));
 routeur.use(bodyParser.json());
-var Recommend = require('./../models/Recommend');
-var User = require('./../models/User');
+var Recommend = require('./../models/recommend');
+var User = require('./../models/user');
 
 routeur.use(expressValidator());
 

@@ -16,7 +16,7 @@ routeur.use(bodyParser.urlencoded({
     extended: true
 }));
 routeur.use(bodyParser.json());
-var User = require('./../models/User');
+var User = require('./../models/user');
 routeur.use(expressValidator());
 
 routeur.get('/signup',ensureNotAuthenticated,(req,res) => {

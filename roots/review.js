@@ -10,8 +10,8 @@ routeur.use(bodyParser.urlencoded({
     extended: true
 }));
 routeur.use(bodyParser.json());
-var Review = require('./../models/Review');
-var User = require('./../models/User');
+var Review = require('./../models/review');
+var User = require('./../models/user');
 routeur.use(expressValidator());
 
 routeur.get('/post_review/:id',(req,res) => {
