@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
 var expressValidator = require('express-validator');
 var multer  = require('multer')
-var upload = multer({ dest: '/uploads/' })
+//var upload = multer({ dest: '/uploads/' })
 var bodyParser = require('body-parser');
 var passport  = require('passport')
 const { ensureAuthenticated } = require('../config/auth');
@@ -24,7 +24,7 @@ routeur.get('/signup',ensureNotAuthenticated,(req,res) => {
         res.render('user/signup.hbs', {user:user});
 });
 
-routeur.post('/signup' ,ensureNotAuthenticated, upload.none() , (req,res) => {
+routeur.post('/signup' ,ensureNotAuthenticated , (req,res) => {
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;
     const username = req.body.username;

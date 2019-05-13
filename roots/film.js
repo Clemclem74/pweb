@@ -15,16 +15,16 @@ var multer = require('multer');
 
 
 
-var storage = multer.diskStorage({ // initializing multer diskStorage to be able to keep the file original name and extension
+/* var storage = multer.diskStorage({ // initializing multer diskStorage to be able to keep the file original name and extension
     destination: './uploads',
     filename: function (req, file, cb)
     {
         cb(null, new Date().toISOString().replace(/[-T:\.Z]/g, "") + file.originalname);}
 });
+ 
 
-    
 var uploads = multer({ storage: storage });
-
+ */
 
 
 
@@ -82,7 +82,7 @@ routeur.get('/:id' , (req,res) => {
 
 
 
-routeur.post('/new' ,ensureAdmin , uploads.single('file'), (req,res) => {
+routeur.post('/new' ,ensureAdmin ,  (req,res) => {
     
     const title = req.body.title;
     const description = req.body.description;
@@ -137,7 +137,7 @@ routeur.post('/new' ,ensureAdmin , uploads.single('file'), (req,res) => {
 
 
 
-routeur.post('/edit/:id' , ensureAdmin, uploads.single('file'), (req,res) => {
+routeur.post('/edit/:id' , ensureAdmin, (req,res) => {
 
     
     const title = req.body.title;
