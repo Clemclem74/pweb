@@ -6,7 +6,6 @@ var passport = require('passport');
 var cookieSession = require('cookie-session');
 var keys = require('./config/keys');
 var flash=require("connect-flash");
-var request = require('ajax-request');
 var hbs = require('express-handlebars');
 var path = require('path');
 
