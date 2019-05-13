@@ -27,7 +27,7 @@ var app = express();
 const PORT = process.env.PORT || 8070;
 
 
-require('./models/Film');
+require('./models/film');
 var TypeFilm = require('./models/TypeFilm');
 require('./models/User');
 require('./models/Review');
