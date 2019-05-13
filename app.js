@@ -38,7 +38,7 @@ TypeFilm.find({}).then(alltypes => {
 
 
 app.listen(PORT);
-console.log("Application bien lancée sur le port $(PORT)");
+console.log("Application bien lancée sur le port " + PORT);
 
 
 
