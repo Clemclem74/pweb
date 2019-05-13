@@ -25,9 +25,24 @@
 								{{/each}}
 								</div>
 							</li>
+
+
 							{{#if user.isAdmin}}
-							<li><a href="#">Gestion du site</a></li>
+							<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Gestion du site <span class="caret"></span>
+							</a>
+								<div id="dropdown-navbar" class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<a id="dropdown-navbar" class="dropdown-item" href="/typefilm/newtypefilm">Ajouter un type</a>
+								<div id="dropdown-divide" class="dropdown-divider"></div>
+								<a id="dropdown-navbar" class="dropdown-item" href="/new">Ajouter un film</a>
+								<div id="dropdown-divide" class="dropdown-divider"></div>							
+								</div>
+							</li>	
 							{{/if}}
+
+
+
 							{{#if user}}
 							<li><a id="myAccountBtn" class="btn btn-link-3" data-toggle="modal" data-target="#myForm">Mon compte</a></li>
 							<li><a id="LogoutBtn" href="/user/logout">Déconnexion</a></li>

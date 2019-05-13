@@ -6,8 +6,11 @@
     </div>
     <div class="col-sm-9">
         <h2 id="title-detail">{{ film.title }}</h2>
-        <h2> {{grade}} </h2>
+       {{#if see}}
+       <h2>Il l'a vu</h2>
+       {{/if}}
         <hr>
+        <small><p id="detail-grade">Note : {{grade}} / 5</p></small>
         <small><p class="lead" id="description">
             Description : {{ film.description}}
         </p></small>
@@ -50,6 +53,10 @@
 {{#if user }}
 <a href="/review/post_review/{{film._id}}" class="btn btn-info">Poster un avis sur ce film</a>
 <a href="/recommend/recommend/{{film._id}}" class="btn btn-info">recommander ce film</a>
+<form action="/seen/{{film._id}}" method="POST">
+<button type="submit" class="btn btn-info">J'ai vu ce film</button>
+</form>
+
 {{/if}}
 
 
