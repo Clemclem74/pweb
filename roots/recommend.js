@@ -3,7 +3,6 @@ var routeur = express.Router();
 var mongoose = require('mongoose');
 var expressValidator = require('express-validator');
 var multer  = require('multer')
-var upload = multer({ dest: '/uploads/' })
 var bodyParser = require('body-parser');
 
 routeur.use(bodyParser.urlencoded({
@@ -20,7 +19,7 @@ routeur.get('/recommend/:id',(req,res) => {
         res.render('recommend/recommend.hbs', {recommend:recommend , filmid:req.params.id});
 });
 
-routeur.post('/recommend/:id' , upload.none() , (req,res) => {
+routeur.post('/recommend/:id' , (req,res) => {
     if(!req.user) {
         res.render('user/signin.hbs');
     }

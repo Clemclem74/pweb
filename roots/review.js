@@ -3,7 +3,6 @@ var routeur = express.Router();
 var mongoose = require('mongoose');
 var expressValidator = require('express-validator');
 var multer  = require('multer')
-var upload = multer({ dest: '/uploads/' })
 var bodyParser = require('body-parser');
 
 routeur.use(bodyParser.urlencoded({
@@ -27,7 +26,7 @@ routeur.get('/review/:id' , (req,res) => {
 })
 
 
-routeur.post('/post_review/:id' , upload.none() , (req,res) => {
+routeur.post('/post_review/:id' , (req,res) => {
     if(!req.user) {
         res.render('user/signin.hbs');
     }
