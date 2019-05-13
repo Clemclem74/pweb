@@ -8,6 +8,8 @@ var TypeFilm = require('./../models/TypeFilm');
 var Review = require('./../models/Review');
 var User = require('./../models/User');
 const { ensureAuthenticated } = require('../config/auth');
+const { ensureAdmin } = require('../config/admin');
+
 var path = require("path");
 var multer = require('multer');
 
@@ -33,20 +35,19 @@ var uploads = multer({ storage: storage });
 
 
 routeur.get('/', (req,res) => {
-    console.log('liste appelée');
     Film.find({}).populate('typeFilm').then(film => {
         res.render('film/list_film.hbs', {film: film , user:req.user});
 })
 });
 
-routeur.get('/new',(req,res) => {
+routeur.get('/new', ensureAdmin ,(req,res) => {
     TypeFilm.find({}).then(typefilm => {
         var film = new Film();
         res.render('film/new_movie.hbs', {film:film , typefilm:typefilm});
     })
 });
 
-routeur.get('/edit/:id',(req,res) => {
+routeur.get('/edit/:id', ensureAdmin, (req,res) => {
     TypeFilm.find({}).then(typefilm => {
         Film.findById(req.params.id).then(film => {
         res.render('film/edit_movie.hbs', {film:film , typefilm:typefilm });
@@ -55,14 +56,14 @@ routeur.get('/edit/:id',(req,res) => {
 });
 
 
-routeur.get('/delete/:id', (req,res) => {
+routeur.get('/delete/:id', ensureAdmin, (req,res) => {
     Film.findOneAndRemove({ _id : req.params.id}).then(() => {
         res.redirect('/');
     })
 });
 
 
-routeur.get('/:id', ensureAuthenticated , (req,res) => {
+routeur.get('/:id' , (req,res) => {
         console.log(":id appelé");
         Film.findById(req.params.id).populate('typeFilm').then(film => {
             Review.find({idFilm : req.params.id}).populate('idUser').then( list_review => {
@@ -82,7 +83,7 @@ routeur.get('/:id', ensureAuthenticated , (req,res) => {
 
 
 
-routeur.post('/new' , uploads.single('file'), (req,res) => {
+routeur.post('/new' ,ensureAdmin , uploads.single('file'), (req,res) => {
     
     const title = req.body.title;
     const description = req.body.description;
@@ -137,7 +138,7 @@ routeur.post('/new' , uploads.single('file'), (req,res) => {
 
 
 
-routeur.post('/edit/:id' , uploads.single('file'), (req,res) => {
+routeur.post('/edit/:id' , ensureAdmin, uploads.single('file'), (req,res) => {
 
     
     const title = req.body.title;

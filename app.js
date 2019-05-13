@@ -13,7 +13,7 @@ var path = require('path');
 
 
 require('./models/Film');
-require('./models/TypeFilm');
+var TypeFilm = require('./models/TypeFilm');
 require('./models/User');
 require('./models/Review');
 
@@ -27,6 +27,12 @@ mongoose.connection.on('connected', success =>
 });
 
 var app = express();
+
+//Variables :
+TypeFilm.find({}).then(alltypes => {
+  app.locals.alltypes=alltypes;
+})
+
 
 app.listen(8070);
 console.log("Application bien lancée sur le port 8070");
@@ -63,14 +69,13 @@ app.use(cookieSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-
 app.use((req, res, next) =>{
     app.locals.success = req.flash('success')
     app.locals.message = req.flash('message')
     app.locals.user = req.user
     next()
-  })
+})
+
 
 
 

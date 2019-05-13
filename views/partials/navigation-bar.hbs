@@ -13,7 +13,18 @@
 					<div class="collapse navbar-collapse" id="top-navbar-1">
 						<ul class="nav navbar-nav navbar-right">
 							<li><a href="/">Accueil</a></li>
-							<li><a href="#">Catégories</a></li>
+							<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Catégories <span class="caret"></span>
+							</a>
+								<div id="dropdown-navbar" class="dropdown-menu" aria-labelledby="navbarDropdown">
+								
+								{{#each alltypes}}
+								<a id="dropdown-navbar" class="dropdown-item" href="/typefilm/{{name}}">{{name}}</a>
+								<div id="dropdown-divide" class="dropdown-divider"></div>
+								{{/each}}
+								</div>
+							</li>
 							{{#if user.isAdmin}}
 							<li><a href="#">Gestion du site</a></li>
 							{{/if}}
@@ -22,8 +33,82 @@
 							<li><a id="LogoutBtn" href="/user/logout">Déconnexion</a></li>
 							{{/if}}
                             {{#unless user}}
-							<li><a id="loginBtn" class="btn btn-link-3" data-toggle="modal" data-target="#myLoginForm">Se connecter</a></li>
-							<li><a id="signupBtn" class="btn btn-link-3" data-toggle="modal" data-target="#mySignupForm">S'inscrire</a></li>
+
+		<!-- Formulaire de connexion-->
+
+							<li class="nav-item dropdown">
+							<a class="btn btn-link-3 dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Se Connecter <span class="caret"></span>
+							</a>
+								<div id="dropdown-login" class="dropdown-menu" aria-labelledby="navbarDropdown">
+									<div id="container-login" class="container">
+										<form method="POST" action="/user/login" >
+												<div class="form-group">
+														<label for="title">Pseudo</label>
+														<input type="text" id="username" name="username" class="form-control">
+												</div>
+
+												<div class="form-group">
+														<label for="title">Mot de passe</label>
+														<input type="password" id="password" name="password" class="form-control">
+												</div>
+												<hr>
+												<input type="submit" class="btn btn-success" value="Save">
+										</form>
+									</div>
+								</div>
+							</li>
+
+
+					<!-- Formulaire d'inscription-->
+
+						<li class="nav-item dropdown">
+							<a class="btn btn-link-3 dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							S'inscrire <span class="caret"></span>
+							</a>
+								<div id="dropdown-register" class="dropdown-menu" aria-labelledby="navbarDropdown">
+									<div id="container-register" class="container">
+
+
+										<form method="POST" action='/user/signup'  >
+											<div class="form-group">
+												<label for="title">Nom</label>
+												<input type="text" id="firstname" name="firstname" class="form-control" >
+											</div>
+											<div class="form-group">
+													<label for="title">Prénom</label>
+													<input type="text" id="lastname" name="lastname" class="form-control" >
+											</div>
+											<div class="form-group">
+													<label for="title">Date de Naissance</label>
+													<input type="date" id="birthday" name="birthday" class="form-control" >
+											</div>
+											<div class="form-group">
+													<label for="title">Pseudo</label>
+													<input type="text" id="username" name="username" class="form-control" >
+											</div>
+											<div class="form-group">
+													<label for="title">Adresse Mail</label>
+													<input type="text" id="mail" name="mail" class="form-control" >
+											</div>
+											<div class="form-group">
+													<label for="title">Mot de passe</label>
+													<input type="password" id="password" name="password" class="form-control" >
+											</div>
+											<div class="form-group">
+													<label for="title">Confirmez votre mot de passe</label>
+													<input type="password" id="password2" name="password2" class="form-control">
+											</div>   
+											<hr>
+											<input type="submit" class="btn btn-success" value="Save">
+									</form>
+
+
+									</div>
+								</div>
+							</li>
+
+
 							{{/unless}}
 						</ul>
 					</div>

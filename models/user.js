@@ -25,7 +25,7 @@ var userSchema = new mongoose.Schema({
         type : Date,
         required : true
     } ,
-    birtisAdmin : {
+    isAdmin : {
         type : Boolean,
         default : false,
         required : true

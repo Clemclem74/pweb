@@ -43,13 +43,13 @@
             {{/each}}
             </tbody>
 </table>
-
+{{#if user.isAdmin}}
 <a href="/edit/{{film._id}}" class="btn btn-primary">Modifier</a>
 <a href="/delete/{{film._id}}" class="btn btn-danger">Supprimer</a>
+{{/if}}
 {{#if user }}
 <a href="/review/post_review/{{film._id}}" class="btn btn-info">Poster un avis sur ce film</a>
-<a href="/grade/post_grade/{{film._id}}" class="btn btn-info">Poster une note sur ce film</a>
-<a href="/recommend/recommend/{{film._id}}" class="btn btn-info">Poster une note sur ce film</a>
+<a href="/recommend/recommend/{{film._id}}" class="btn btn-info">recommander ce film</a>
 {{/if}}
 
 

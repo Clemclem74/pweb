@@ -1,11 +1,8 @@
-{% extends "layout.html" %}
-{% block content %}
 
-{% for e in errors %}
 <div class="alert alert-danger" role="alert">
        {{e.msg}}
 </div>
-{% endfor %}
+
 
 
 <h2>Bienvenue dans le formulaire d'inscription : </h2>
@@ -44,4 +41,3 @@
 </form>
 
 
-{% endblock %} 

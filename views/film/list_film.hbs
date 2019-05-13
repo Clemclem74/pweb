@@ -40,35 +40,7 @@
     
     <script src="/js/jquery-1.11.1.min.js"></script>
     
-    <script type="text/javascript">
 
-$(document).ready(() => {
-    const requestURL = '/' + $('#ClickFilm').val();
-    console.log(requestURL);
-    var ClickFilm = document.getElementById("ClickFilm");
-    ClickFilm.addEventListener("click", function(){
-        console.log("piipi");
-        var ourRequest = new XMLHttpRequest();
-        ourRequest.open('GET', requestURL);
-        ourRequest.onload = function() {
-            var ourData = JSON.parse(ourRequest.responseText);
-            console.log(ourData[0]);
-        }
-        ourRequest.onerror = function(){
-            console.log("Erreur de connexion");
-        }
-        ourRequest.send();
-    })
-
-   
-
-})
-
-    
-    
-    
-    
-    </script>
 
 
 
