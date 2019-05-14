@@ -69,21 +69,29 @@ routeur.get('/delete/:id', ensureAdmin, (req,res) => {
 
 
 routeur.get('/details/:id' , (req,res) => {
-        console.log(":id appelé");
-        Film.findById(req.params.id).populate('typeFilm').then(film => {
-            Review.find({idFilm : req.params.id}).populate('idUser').then( list_review => {
-                See.find({idUser : req.user._id , idFilm : req.params.id}).then(see => {
-                    var moyenne=0;
-                    list_review.forEach((item, index, array) => {
-                        console.log(item.grade);
-                        moyenne = moyenne + item.grade;
-                        console.log(moyenne);
+        Film.findById(mongoose.Types.ObjectId(req.params.id)).populate('typeFilm').then(film => {
+            Review.find({idFilm : mongoose.Types.ObjectId(req.params.id)}).populate('idUser').then( list_review => {
+                if(req.user){
+                    See.find({idUser : mongoose.Types.ObjectId(req.user._id) , idFilm : mongoose.Types.ObjectId(req.params.id)}).then(see => {
+                        var moyenne=0;
+                        list_review.forEach((item, index, array) => {
+                            moyenne = moyenne + item.grade;
+                        })
+                        moyenne=moyenne/list_review.length;
+                        data={film:film, list_review:list_review , user:req.user , grade : moyenne , see : see};
+                        res.render('film/details.hbs' , data);
                     })
-                    moyenne=moyenne/list_review.length;
-                    data={film:film, list_review:list_review , user:req.user , grade : moyenne , see : see};
-                    res.render('film/details.hbs' , data);
-                })
-                
+                }
+                else {
+                    
+                        var moyenne=0;
+                        list_review.forEach((item, index, array) => {
+                            moyenne = moyenne + item.grade;
+                        })
+                        moyenne=moyenne/list_review.length;
+                        data={film:film, list_review:list_review , user:req.user , grade : moyenne };
+                        res.render('film/details.hbs' , data);
+                }
             })
         }),
         err => res.status(500).send(err);

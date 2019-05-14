@@ -21,6 +21,7 @@ mongoose.connection.on('connected', success =>
 { // if connection to DB succeed
     console.log("connecté à la base de données MongoDB");
 });
+mongoose.set('useFindAndModify', false);
 
 var app = express();
 

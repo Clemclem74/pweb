@@ -225,7 +225,8 @@ only screen and (                min-resolution: 2dppx) {
 #film-stream {
 	display : none;
 	margin-bottom: 30px;
-	margin-top: 20px;
+	padding-top: 70px;
+	width:80%
 }
 
 #bloc-detail {
@@ -284,3 +285,6 @@ only screen and (                min-resolution: 2dppx) {
 	text-align: right;
 }
 
+#seen-button {
+	padding-left: 10px
+}

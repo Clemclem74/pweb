@@ -20,6 +20,25 @@ routeur.get('/:id',(req,res) => {
     res.render('review/post_review.hbs', {seen:seen , filmid:req.params.id});
 });
 
+routeur.get('/delete/:id' , (req,res) => {
+    Seen.findOneAndRemove({ idFilm : req.params.id , idUser : req.user._id}).then(() => {
+        Film.findById(req.params.id).populate('typeFilm').then(film => {
+            Review.find({idFilm : req.params.id}).populate('idUser').then( list_review => {
+                Seen.find({idUser : req.user._id , idFilm : req.params.id}).then(see => {
+                    var moyenne=0;
+                    list_review.forEach((item, index, array) => {
+                        moyenne = moyenne + item.grade;
+                    })
+                    moyenne=moyenne/list_review.length;
+                    data={film:film, list_review:list_review , user:req.user , grade : moyenne , see : see};
+                    res.render('film/details.hbs' , data);
+                })
+                
+            })
+        })
+    })
+});
+
 
 routeur.post('/:id'  , (req,res) => {
     console.log("Requete envoyée");
@@ -45,9 +64,7 @@ routeur.post('/:id'  , (req,res) => {
                     Seen.find({idUser : req.user._id , idFilm : req.params.id}).then(see => {
                         var moyenne=0;
                         list_review.forEach((item, index, array) => {
-                            console.log(item.grade);
                             moyenne = moyenne + item.grade;
-                            console.log(moyenne);
                         })
                         moyenne=moyenne/list_review.length;
                         data={film:film, list_review:list_review , user:req.user , grade : moyenne , see : see};

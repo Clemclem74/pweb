@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 var filmSchema = new mongoose.Schema({
     title : String,
     description : String,
+    duree : Number,
     picture : String,
     trailer: String,
     downlink: String,
@@ -24,6 +25,12 @@ filmSchema.virtual('Review',{
 
 filmSchema.virtual('Grade',{
     ref: 'Grade',
+    localField:'_id',
+    foreignField:'idFilm'
+});
+
+filmSchema.virtual('Recommend',{
+    ref: 'Recommend',
     localField:'_id',
     foreignField:'idFilm'
 });
