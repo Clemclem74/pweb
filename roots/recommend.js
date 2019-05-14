@@ -10,22 +10,36 @@ routeur.use(bodyParser.urlencoded({
 }));
 routeur.use(bodyParser.json());
 var Recommend = require('./../models/recommend');
+var Film = require('./../models/film');
 var User = require('./../models/user');
 
 routeur.use(expressValidator());
 
-routeur.get('/recommend/:id',(req,res) => {
+routeur.get('/list', (req,res) => {
+    Recommend.find({idUserTo : req.user._id}).then(recommendList => {
+        var data = [];
+        for (i in recommendList) {
+/*             console.log(recommendList[recommend]);
+ */            Film.find({_id : recommendList[i].idFilm}).populate('typeFilm').then( film => {
+                data.push(film[0]);
+            })
+        }
+        res.render('recommend/list_film.hbs', {film:data})
+    })
+});
+
+routeur.get('/:id',(req,res) => {
         var recommend = new Recommend();
         res.render('recommend/recommend.hbs', {recommend:recommend , filmid:req.params.id});
 });
 
-routeur.post('/recommend/:id' , (req,res) => {
+routeur.post('/:id' , (req,res) => {
     if(!req.user) {
         res.render('user/signin.hbs');
     }
 
     console.log(req.body);
-    const idUserTo = mongoose.Types.ObjectId(req.body.idUserTo);
+    const idUserTo = req.body.idUserTo;
     console.log(idUserTo);
     const idUserFrom = req.user._id;
     const idFilm = req.params.id;

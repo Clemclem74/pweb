@@ -41,7 +41,7 @@ var uploads = multer({ storage: storage });
 
 routeur.get('/', (req,res) => {
     Film.find({}).populate('typeFilm').then(film => {
-        res.render('film/list_film.hbs', {film: film , user:req.user});
+        res.render('film/list_film.hbs', {film: film });
 })
 });
 
@@ -68,7 +68,7 @@ routeur.get('/delete/:id', ensureAdmin, (req,res) => {
 });
 
 
-routeur.get('/:id' , (req,res) => {
+routeur.get('/details/:id' , (req,res) => {
         console.log(":id appelé");
         Film.findById(req.params.id).populate('typeFilm').then(film => {
             Review.find({idFilm : req.params.id}).populate('idUser').then( list_review => {
@@ -99,13 +99,9 @@ routeur.post('/new' ,ensureAdmin ,  (req,res) => {
     const downlink = req.body.downlink;
     const streamlink = req.body.streamlink;
     const typeFilm = req.body.typeFilm;
-    //const picture = req.body.picture;
+    const picture = req.body.picture;
     console.log(req.file);
-    if(req.file) {
-        console.log("Picture détectée");
-        var picture=req.file.filename;
-    }
-    else {
+    if (!req.body.picture){
         picture="not_found.png";
     }
 
