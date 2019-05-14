@@ -1,12 +1,12 @@
 
-<form method="POST" action="/edit/{{film._id}}" enctype="multipart/form-data">
+<form method="POST" action="/edit/{{film._id}}">
     <div class="form-group">
         <label for="title">Titre</label>
         <input type="text" id="title" name="title" class="form-control" value="{{film.title}}">
     </div>
     <div class="form-goup">
         <label for="description">Description</label>
-        <textarea id="description" name="description" class="form-control" >{{film.description}}</textarea>
+        <textarea id="description-new" name="description" class="form-control" >{{film.description}}</textarea>
     </div>
     <div class="form-group">
             <label for="title">Lien de Bande Annonce</label>
@@ -31,7 +31,7 @@
 
     <div class="form-goup">
         <label for="picture">Image</label>
-        <input type="file" id="file" name="file">
+        <input type="file" id="picture" name="picture">
     </div>
 
     <input type="submit" class="btn btn-success" value="Save">

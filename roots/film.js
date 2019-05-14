@@ -108,7 +108,7 @@ routeur.post('/new' ,ensureAdmin ,  (req,res) => {
     const downlink = req.body.downlink;
     const streamlink = req.body.streamlink;
     const typeFilm = req.body.typeFilm;
-    const picture = req.body.picture;
+    var picture = req.body.picture;
     console.log(req.file);
     if (!req.body.picture){
         picture="not_found.png";
@@ -161,13 +161,12 @@ routeur.post('/edit/:id' , ensureAdmin, (req,res) => {
     const downlink = req.body.downlink;
     const streamlink = req.body.streamlink;
     const typeFilm = req.body.typeFilm;
-    //var picture = req.body.picture;
-    console.log(req.file);
+    var picture = req.body.picture;
     if(req.file) {
         console.log("Picture détectée");
         picture=req.file.filename;
     }
-    
+
 
     req.checkBody('title','Un titre est obligatoire').notEmpty();
     req.checkBody('description','Une description est obligatoire').notEmpty();
@@ -189,15 +188,9 @@ routeur.post('/edit/:id' , ensureAdmin, (req,res) => {
             film.downlink=downlink;
             film.streamlink=streamlink;
             film.typeFilm=typeFilm;
-            if(req.file){
-                film.picture=picture;
-            }
-            else {
-                film.picture=film.picture;
-            }
+            film.picture=picture;
             
 
-            console.log("film : " + film);
             film.save( (err) => {
                 if(err) {
                     console.log(err);
