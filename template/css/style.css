@@ -85,11 +85,14 @@ ul.navbar-nav {
 
 .navbar-brand {
 	width: 102px;
-	background-color: grey;
+	background-image: url('/uploads/logo.png');
 	text-indent: -99999px;
 }
 .navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand { margin-left: 0; }
 
+#netfilm {
+	width: 200%;
+}
 
 /***** Top content *****/
 
@@ -214,6 +217,13 @@ only screen and (                min-resolution: 2dppx) {
 }
 
 #trailer-ytb {
+	display : none;
+	margin-bottom: 30px;
+	margin-top: 20px;
+}
+
+#film-stream {
+	display : none;
 	margin-bottom: 30px;
 	margin-top: 20px;
 }
@@ -267,5 +277,10 @@ only screen and (                min-resolution: 2dppx) {
 	max-height: 100%;
 	max-width: 100%;
 
+}
+
+#buttons-detail {
+	display: inline;
+	text-align: right;
 }
 

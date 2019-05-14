@@ -5,11 +5,31 @@
         <img id="img-detail" src="/uploads/{{film.picture}}" alt="/uploads/not_found.png" style="width:100%">
     </div>
     <div class="col-sm-9">
+
         <h2 id="title-detail">{{ film.title }}</h2>
-       {{#if see}}
-       <h2>Il l'a vu</h2>
-       {{/if}}
+     
         <hr>
+
+        <div id="buttons-detail">
+            {{#if user.isAdmin}}
+            <a href="/edit/{{film._id}}" class="btn btn-primary">Modifier</a>
+            <a href="/delete/{{film._id}}" class="btn btn-danger">Supprimer</a>
+            {{/if}}
+            {{#if user }}
+                <a href="/review/post_review/{{film._id}}" class="btn btn-info">Poster un avis sur ce film</a>
+                <a href="/recommend/{{film._id}}" class="btn btn-info">recommander ce film</a>
+                {{#if see}}
+                    <button class="btn btn-success" id="button-seen" type="submit" class="btn btn-info">Déjà vu</button>
+                {{else}}
+                    <form action="/seen/{{film._id}}" method="POST">
+                    <button class="btn btn-info" id="button-seen" type="submit" class="btn btn-info">Vous l'avez vu ?</button>
+                    </form>
+                {{/if}}
+            
+            {{/if}}
+        </div> 
+
+
         <small><p id="detail-grade">Note : {{grade}} / 5</p></small>
         <small><p class="lead" id="description">
             Description : {{ film.description}}
@@ -23,9 +43,24 @@
         </h3>    
     </div>
 
-<iframe id="trailer-ytb" max-width="560" max-height="315" src="https://www.youtube.com/embed/taaKB2p8dUE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<input type="button" value="Bande Annonce" onclick="show_trailer('trailer-ytb' , 'film-stream');" />
+{{#if user}}
+<input type="button" value="Voir le film" onclick="show_film('film-stream' , 'trailer-ytb');" />
+<a href="{{film.downlink}}"><button class="btn btn-success"> Télécharger </button></a>
+{{else}}
+<h3>Connectez vous pour télécharger ou regarder le film</h3>
+{{/if}}
 
-      
+<div id="trailer-ytb">
+    <iframe max-width="560" max-height="315" src="https://www.youtube.com/embed/taaKB2p8dUE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
+<div id="film-stream">
+<iframe max-width="560" max-height="315" src="{{film.streamlink}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
+
+
 </div>
 
 <table class="table">
@@ -45,20 +80,9 @@
             </tr>
             {{/each}}
             </tbody>
+
 </table>
-{{#if user.isAdmin}}
-<a href="/edit/{{film._id}}" class="btn btn-primary">Modifier</a>
-<a href="/delete/{{film._id}}" class="btn btn-danger">Supprimer</a>
-{{/if}}
-{{#if user }}
-<a href="/review/post_review/{{film._id}}" class="btn btn-info">Poster un avis sur ce film</a>
-<a href="/recommend/{{film._id}}" class="btn btn-info">recommander ce film</a>
-<form action="/seen/{{film._id}}" method="POST">
-<button type="submit" class="btn btn-info">J'ai vu ce film</button>
-</form>
-
-{{/if}}
-
 
 </div>
 
+<script src="/js/style.js"></script>

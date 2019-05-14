@@ -95,6 +95,7 @@ routeur.post('/new' ,ensureAdmin ,  (req,res) => {
     
     const title = req.body.title;
     const description = req.body.description;
+    const duree = req.body.duree;
     const trailer = req.body.trailer;
     const downlink = req.body.downlink;
     const streamlink = req.body.streamlink;
@@ -120,6 +121,7 @@ routeur.post('/new' ,ensureAdmin ,  (req,res) => {
         let film = new Film({
             title:title,
             description:description,
+            duree : duree,
             trailer:trailer,
             downlink:downlink,
             streamlink:streamlink,
