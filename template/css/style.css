@@ -288,3 +288,20 @@ only screen and (                min-resolution: 2dppx) {
 #seen-button {
 	padding-left: 10px
 }
+
+#search-table {
+	width: 80%;
+	text-align: left;
+	margin:auto;
+	margin-top: 40px;
+}
+
+#input-recommend {
+	width : 50%;
+	margin:auto;
+	padding-top: 30px;
+}
+
+#body-container {
+	padding-top : 20px;
+}

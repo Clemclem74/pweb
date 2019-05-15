@@ -4,6 +4,9 @@ var mongoose = require('mongoose');
 var expressValidator = require('express-validator');
 var multer  = require('multer')
 var bodyParser = require('body-parser');
+var User = require('./../models/user');
+const { ensureAdmin } = require('../config/admin');
+
 
 routeur.use(bodyParser.urlencoded({
     extended: true
@@ -26,7 +29,7 @@ routeur.get('/review/:id' , (req,res) => {
     })
 })
 
-routeur.get('/delete/:id', (req,res) => {
+routeur.get('/delete/:id', ensureAdmin , (req,res) => {
     Review.findOneAndRemove({ _id : req.params.id}).then(() => {
         Film.findById(req.params.id).populate('typeFilm').then(film => {
             Review.find({idFilm : req.params.id}).populate('idUser').then( list_review => {

@@ -103,7 +103,8 @@ routeur.post('/new' ,ensureAdmin ,  (req,res) => {
     
     const title = req.body.title;
     const description = req.body.description;
-    const duree = req.body.duree;
+    const duration = req.body.duration;
+    const releaseYear = req.body.releaseYear;
     const trailer = req.body.trailer;
     const downlink = req.body.downlink;
     const streamlink = req.body.streamlink;
@@ -129,7 +130,8 @@ routeur.post('/new' ,ensureAdmin ,  (req,res) => {
         let film = new Film({
             title:title,
             description:description,
-            duree : duree,
+            duration : duration,
+            releaseYear : releaseYear,
             trailer:trailer,
             downlink:downlink,
             streamlink:streamlink,
@@ -157,6 +159,8 @@ routeur.post('/edit/:id' , ensureAdmin, (req,res) => {
     
     const title = req.body.title;
     const description = req.body.description;
+    const duration = req.body.duration;
+    const releaseYear = req.body.releaseYear;
     const trailer = req.body.trailer;
     const downlink = req.body.downlink;
     const streamlink = req.body.streamlink;
@@ -183,6 +187,8 @@ routeur.post('/edit/:id' , ensureAdmin, (req,res) => {
     else {
         Film.findById(req.params.id).populate('TypeFilm').then(film => {
             film.title=title;
+            film.duration = duration;
+            film.releaseYear = releaseYear;
             film.description=description;
             film.trailer=trailer;
             film.downlink=downlink;

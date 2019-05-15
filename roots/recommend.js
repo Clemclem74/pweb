@@ -30,45 +30,52 @@ routeur.get('/list', (req,res) => {
 
 routeur.get('/:id',(req,res) => {
         var recommend = new Recommend();
-        res.render('recommend/recommend.hbs', {recommend:recommend , filmid:req.params.id});
+        User.find({}).then( Allusers => {
+            Film.findById(req.params.id).then(film => {
+                res.render('recommend/recommend.hbs', {recommend:recommend , film:film , Allusers : Allusers});
+            })
+        })
 });
 
-routeur.post('/:id' , (req,res) => {
+
+routeur.post('/:idFilm' , (req,res) => {
     if(!req.user) {
         res.render('user/signin.hbs');
     }
 
-    console.log(req.body);
-    const idUserTo = req.body.idUserTo;
-    console.log(idUserTo);
+    const nameUserTo = req.body.nameUserTo;
     const idUserFrom = req.user._id;
-    const idFilm = req.params.id;
+    const idFilm = req.params.idFilm;
 
 
-    req.checkBody('idUserTo','Un autre utilisateur est obligatoire').notEmpty();
+    req.checkBody('nameUserTo','Un autre utilisateur est obligatoire').notEmpty();
     let errors = req.validationErrors();
-    console.log(User.findById(idUserTo));
     
 
     if(errors){
+        console.log(nameUserTo);
         res.render('recommend/recommend.hbs' , {errors:errors});
     }
     else {
-        let recommend = new Recommend({
-            idUserTo:idUserTo,
-            idUserFrom:idUserFrom,
-            idFilm:idFilm,
+        console.log("Success");
+        User.findOne({username : nameUserTo}).then(user => {
+            let recommend = new Recommend({
+                idUserTo:user._id,
+                idUserFrom:idUserFrom,
+                idFilm:idFilm,
+            })
+            
+            recommend.save( (err) => {
+                if(err) {
+                    console.log(err);
+                    return
+                }
+                else {
+                    res.redirect('/');
+                }
+            })
         })
         
-        recommend.save( (err) => {
-            if(err) {
-                console.log(err);
-                return
-            }
-            else {
-                res.redirect('/');
-            }
-        })
     }
 
 })

@@ -17,6 +17,8 @@ routeur.use(bodyParser.urlencoded({
 }));
 routeur.use(bodyParser.json());
 var User = require('./../models/user');
+var Seen = require('./../models/seen');
+var Film = require('./../models/film');
 routeur.use(expressValidator());
 
 routeur.get('/signup',ensureNotAuthenticated,(req,res) => {
@@ -76,6 +78,22 @@ routeur.post('/signup' ,ensureNotAuthenticated , (req,res) => {
             });
         })
     }
+})
+
+routeur.get('/profile' , ensureAuthenticated , (req,res) => {
+    Seen.find({idUser:req.user.id}).then(seen => {
+        var time = 0;
+        for (i in seen) {
+            Film.find({_id : seen[i].idFilm}).then( film => {
+
+                time = time + film[0].duration;
+                
+            });
+            console.log(time);
+        };
+        console.log(time);
+        res.render('user/profile.hbs' , {time : time});
+    })
 })
 
 
