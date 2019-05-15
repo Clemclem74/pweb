@@ -35,18 +35,23 @@ routeur.post('/signup' ,ensureNotAuthenticated , (req,res) => {
     const password2 = req.body.password2 ;
     const birthday = req.body.birthday ;
 
-    req.checkBody('firstname','Un prénom est obligatoire').notEmpty();
-    req.checkBody('lastname','Un nom est obligatoire').notEmpty();
-    req.checkBody('username','Un pseudo est obligatoire').notEmpty();
-    req.checkBody('mail','Un mail est obligatoire').notEmpty();
-    req.checkBody('birthday','Une date de naissance est obligatoire').notEmpty();
-    req.checkBody('mail','L\'adresse mail n\'est pas valide').isEmail();
-    req.checkBody('password','Un mot de passe est obligatoire').notEmpty();
-    req.checkBody('password2','Les mot de passe ne correspondent pas').equals(password);
+    req.checkBody('firstname','Un prénom est obligatoire </br><hr>').notEmpty();
+    req.checkBody('lastname','Un nom est obligatoire </br><hr>').notEmpty();
+    req.checkBody('username','Un pseudo est obligatoire </br><hr>').notEmpty();
+    req.checkBody('mail','Un mail est obligatoire </br><hr>').notEmpty();
+    req.checkBody('birthday','Une date de naissance est obligatoire </br><hr>').notEmpty();
+    req.checkBody('mail','L\'adresse mail n\'est pas valide </br><hr>').isEmail();
+    req.checkBody('password','Un mot de passe est obligatoire </br><hr>').notEmpty();
+    req.checkBody('password2','Les mot de passe ne correspondent pas </br><hr>').equals(password);
 
     let errors = req.validationErrors();
     if(errors){
-        res.render('user/signup.hbs' , {errors:errors});
+        errors.forEach(error => {
+            console.log(error.msg);
+            req.flash('failure', error.msg)
+        });
+        
+        res.redirect('/');
     }
     else {
         let user = new User({
@@ -62,15 +67,21 @@ routeur.post('/signup' ,ensureNotAuthenticated , (req,res) => {
             bcrypt.hash(user.password , salt , (err,hash) => {
                 if(err) {
                     console.log(err);
+                    req.flash('failure', 'Erreur lors du hashage veuillez recommencer')
+                    res.redirect('/');
+
                 }
                 else {
                     user.password = hash ;
                     user.save( (err) => {
                         if(err) {
                             console.log(err);
-                            return
+                            req.flash('failure', 'Erreur lors de l\'enregistrement veuillez recommencer')
+                            res.redirect('/');
                         }
                         else {
+                            console.log("Compte créé");
+                            req.flash('success', 'Votre compte a été créé');
                             res.redirect('/');
                         }
                     })
@@ -81,18 +92,12 @@ routeur.post('/signup' ,ensureNotAuthenticated , (req,res) => {
 })
 
 routeur.get('/profile' , ensureAuthenticated , (req,res) => {
-    Seen.find({idUser:req.user.id}).then(seen => {
+    Seen.find({idUser:req.user.id}).populate('idFilm').then(seen => {
         var time = 0;
         for (i in seen) {
-            Film.find({_id : seen[i].idFilm}).then( film => {
-
-                time = time + film[0].duration;
-                
-            });
-            console.log(time);
+           time=time+seen[i].idFilm.duration;           
         };
-        console.log(time);
-        res.render('user/profile.hbs' , {time : time});
+        res.render('user/profile.hbs', {time:time});
     })
 })
 
@@ -102,16 +107,39 @@ routeur.get('/login' , ensureNotAuthenticated, (req,res) => {
 })
 
 routeur.post('/login', ensureNotAuthenticated, (req,res,next) => {
-    passport.authenticate('local', {
-        successRedirect : '/',
-        failureRedirect : '/user/login',
-        failureFlash: true,
-    }) (req, res, next) ;
+    console.log("User login enter");
+    passport.authenticate('local', function(err, user, info) {
+        if (err) {
+            req.flash('failure',err);
+            res.redirect('/');
+            return next(err); 
+        }
+        if (!user) { 
+            req.flash('failure','Mauvais pseudo ou Mot de passe');
+            return res.redirect('/'); 
+        }
+        req.logIn(user, function(err) {
+            if (err) { 
+                return next(err);
+            }
+            req.flash('success','Vous êtes bien connectés');
+            return res.redirect('/user/profile');
+        });
+      })(req, res, next);
+    /* passport.authenticate('local'),  function(req, res) {
+        if (req.user) {
+            req.flash('success', 'OK');
+        }
+        else {
+            req.flash('success', 'NOT OK');
+        }
+        res.redirect('/');
+  }; */
 })
 
 routeur.get('/logout', ensureAuthenticated, (req, res) => {
     req.logout();
-    req.flash('success_msg', 'Vous etes bien deconectes');
+    req.flash('success', 'Vous etes bien deconectes');
     res.redirect('/');
 })
 

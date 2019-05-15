@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/details.css" >
 
 <div id="bloc-detail" class="container">
 
@@ -46,25 +47,112 @@
         </h3>    
     </div>
 
-<button class="btn btn-info" data-toggle="modal" data-target="#trailer-ytb"> Bande Annonce </button>
+
+<button class="btn btn-info" data-toggle="modal" data-target="#fsModal"> Bande Annonce </button>
 {{#if user}}
-<a href="{{film.streamlink}}"><button class="btn btn-success"> Télécharger </button></a>
+<a href="{{film.streamlink}}"><button class="btn btn-success"> Streaming </button></a>
 <a href="{{film.downlink}}"><button class="btn btn-success"> Télécharger </button></a>
 {{else}}
 <h3>Connectez vous pour télécharger ou regarder le film</h3>
 {{/if}}
 
-<div class="modal" id="trailer-ytb">
-    
-             <iframe max-width="90%" max-height="315" src="{{film.trailer}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-       
+
+
+
+
+
+
+
+<!-- view modal -->
+
+<!-- modal -->
+<div id="fsModal" class="modal animated bounceIn"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="myModalLabel"
+     aria-hidden="true">
+
+  <!-- dialog -->
+  <div class="modal-dialog">
+
+    <!-- content -->
+    <div class="modal-content">
+
+      <!-- header -->
+      <div class="modal-header">
+        <h1 id="myModalLabel"
+            class="modal-title">
+          {{film.title}}
+        </h1>
+      </div>
+      <!-- header -->
+      
+      <!-- body -->
+      <div class="modal-body">
+                    <iframe id="trailer-ytb-video" src="{{film.trailer}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <!-- body -->
+
+      <!-- footer -->
+      <div class="modal-footer">
+        <button class="btn btn-danger"
+                data-dismiss="modal">
+          close
+        </button>
+        
+      </div>
+      <!-- footer -->
+
+    </div>
+    <!-- content -->
+
+  </div>
+  <!-- dialog -->
+
+</div>
+<!-- modal -->
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="trailer-ytb" class="modal animated bounceIn" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+    <div id="trailer-ytb-dialog" class="modal-dialog">
+
+        <div id="trailer-ytb-content" class="modal-content">
+            <h2>Saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</h2>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal" id="trailer-ytb" role="dialog">
+    <div id="trailer-ytb-content" class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+             <iframe src="{{film.trailer}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+       </div>
+    </div>
 </div>
 
 
 </div>
 
-<table class="table">
-            <thead>
+<button type="btn btn-light" id="messageshow" onclick="show_comments('comment-table', 'messageshow', 'messagehide')"> Afficher les commentaires <span class="caret"></span></button>
+<button type="btn btn-light" id="messagehide" onclick="show_comments('comment-table', 'messageshow', 'messagehide')"> Masquer les commentaires <span class="caret caret-dropup"></span></button>
+
+<table class="table" id="comment-table">
+            <thead style="width:100%">
                 <tr>
                 <th scope="col">Nom d'utilisateur</th>
                 <th scope="col">Commentaire</th>

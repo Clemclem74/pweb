@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var expressValidator = require('express-validator');
 var multer  = require('multer')
 var bodyParser = require('body-parser');
-
+const { ensureAuthenticated } = require('../config/auth');
 routeur.use(bodyParser.urlencoded({
     extended: true
 }));
@@ -15,7 +15,7 @@ var User = require('./../models/user');
 
 routeur.use(expressValidator());
 
-routeur.get('/list', (req,res) => {
+routeur.get('/list', ensureAuthenticated, (req,res) => {
     Recommend.find({idUserTo : req.user._id}).then(recommendList => {
         var data = [];
         for (i in recommendList) {

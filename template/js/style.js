@@ -33,3 +33,16 @@ $(document).ready(function(){
         searchPlaceHolder:'Input Value'
     });
 });
+
+function show_comments(table,messageshow,messagehide) {
+	if (document.getElementById(table).style.display == 'none') {
+		document.getElementById(messageshow).style.display = 'none';
+		document.getElementById(messagehide).style.display = 'block';
+		document.getElementById(table).style.display = 'table';
+	}
+	else {
+		document.getElementById(messagehide).style.display = 'none';
+		document.getElementById(messageshow).style.display = 'block';
+		document.getElementById(table).style.display = 'none';
+	}
+}

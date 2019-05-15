@@ -88,9 +88,15 @@ ul.navbar-nav {
 	background-image: url('/uploads/logo.png');
 	text-indent: -99999px;
 }
+#navbar-logo {
+	margin:0px;
+	padding: 0px;
+}
 .navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand { margin-left: 0; }
 
 #netfilm {
+	margin: 0px;
+	padding: 0px;
 	width: 200%;
 }
 
@@ -109,7 +115,7 @@ ul.navbar-nav {
 
 /***** Features *****/
 
-.features-box { margin-top: 30px; text-align: left; }
+.features-box { margin-top: 0px; text-align: left; }
 .features-box .features-box-icon { font-size: 60px; color: #cb9f3d; line-height: 60px; text-align: center; }
 .features-box h3 { margin-top: 0; padding: 0 0 10px 0; }
 
@@ -165,7 +171,7 @@ only screen and (                min-resolution: 2dppx) {
 	
 	/* logo */
     .navbar-brand {
-    	background-color: red;
+    	background-color: orange;
     }
 	
 }
@@ -217,16 +223,31 @@ only screen and (                min-resolution: 2dppx) {
 }
 
 #trailer-ytb {
-	display : none;
-	margin-bottom: 30px;
-	margin-top: 20px;
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	overflow: hidden;
 }
 
-#film-stream {
-	display : none;
-	margin-bottom: 30px;
-	padding-top: 70px;
-	width:80%
+#trailer-ytb.dialog {
+	position: fixed;
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+}
+
+#trailer-ytb.content {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	border: 2px solid #3c7dcf;
+	border-radius: 0;
+	box-shadow: none;
 }
 
 #bloc-detail {
@@ -305,3 +326,29 @@ only screen and (                min-resolution: 2dppx) {
 #body-container {
 	padding-top : 20px;
 }
+
+#messageshow {
+	display:block;
+}
+
+#messagehide {
+	display: none;
+}
+
+#comment-table {
+	display : none;
+	width:100%;
+}
+
+#top-message {
+	padding-top:10px;
+	margin:auto;
+	text-align: center;
+}
+
+#trailer-ytb-video {
+	width:75%;
+	height:100%;
+	margin:auto;
+}
+
