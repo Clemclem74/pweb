@@ -1,11 +1,38 @@
-<h2>Bienvenue dans le formulaire de post d'avis : </h2>
 
-<form method="POST" action='/recommend/{{ filmid }}'  >
-        <div class="form-group">
-        <label for="title">ID utilisateur</label>
-        <input type="text" id="idUserTo" name="idUserTo" class="form-control" >
+<h2>Saisissez le nom d'utilisateur :</h2>
+    <div class="text-center">
+        <form method="POST" action='/recommend/{{ film._id }}'  >
+            <div class="form-group" id="input-recommend">
+                <label for="title">Nom d'utilisateur</label>
+                <input type="text" id="nameUserTo" name="nameUserTo" class="form-control" >
+            </div>
+            <hr>
+            <input type="submit" class="btn btn-success" value="Recommander">
+        </form>
+        <hr>
+         <table id="search-table" class="search-table table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Utilisateur</th>
+                <th>Nom d'utilisateur</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {{#each Allusers}}
+            <tr>
+                <td>{{firstname}} {{lastname}}</td>
+                <td>{{username}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+     </table>
     </div>
-    <hr>
-    <input type="submit" class="btn btn-success" value="Save">
-</form>
+   
+
+
+
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+
  
