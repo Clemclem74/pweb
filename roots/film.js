@@ -61,7 +61,7 @@ routeur.get('/edit/:id', ensureAdmin, (req,res) => {
 });
 
 routeur.post('/search/', (req,res) => {
-    Film.find({'title': {$regex: new RegExp('^' + req.body.search.toLowerCase(), 'i')}}).populate('typeFilm').then(film => {
+    Film.find({'title': {$regex: new RegExp('^' + req.body.search.toLowerCase(), 'i')}}).populate('typeFilm').sort('-releaseYear').then(film => {
         res.render('film/list_film_search.hbs', {film: film , search : req.body.search});
         console.log(film);
     })
