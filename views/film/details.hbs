@@ -1,225 +1,217 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/details.css" >
+<link rel="stylesheet" href="/css/details.css">
 
 <div id="bloc-detail" class="container">
 
-    <div class="row">
+  <div class="row">
     <div class="col-sm-3">
-        <img id="img-detail" src="/uploads/{{film.picture}}" alt="Image not found" style="width:100%">
+      <img id="img-detail" src="/uploads/{{film.picture}}" alt="Image not found" style="width:100%">
     </div>
     <div class="col-sm-9">
 
       {{#if user.isAdmin}}
       <div class="row">
         <div class="col-sm-6">
-            <a id="button-admin-details" href="/edit/{{film._id}}" class="btn btn-primary">Modifier</a>
+          <a id="button-admin-details" href="/edit/{{film._id}}" class="btn btn-primary">Modifier</a>
         </div>
         <div class="col-sm-6">
-            <a id="button-admin-details" href="/delete/{{film._id}}" class="btn btn-primary">Supprimer</a>
+          <a id="button-admin-details" href="/delete/{{film._id}}" class="btn btn-primary">Supprimer</a>
         </div>
       </div>
       {{/if}}
 
-        <h2 id="title-detail">{{ film.title }}</h2>
-     
-        <hr>
+      <h2 id="title-detail">{{ film.title }}</h2>
+
+      <hr>
 
       <div class="row">
         {{#if user}}
         <div class="col-sm-8 col-12">
-                <a id="recommend-button" href="/recommend/{{film._id}}" class="btn btn-info">Recommander ce film à un ami</a>
+          <a id="recommend-button" href="/recommend/{{film._id}}" class="btn btn-info">Recommander ce film à un ami</a>
         </div>
         {{#if see}}
 
         <div class="col-3 col-sm-0"></div>
-      <div class="col-6 col-sm-2">
-            <button class="btn btn-success" id="button-seen-text" >Déjà Vu</button>
+        <div class="col-6 col-sm-2">
+          <button class="btn btn-success" id="button-seen-text">Déjà Vu</button>
 
         </div>
-      <div class="col-3 col-sm-0"></div>
+        <div class="col-3 col-sm-0"></div>
 
         <div class="col-sm-1">
-              <a href="/seen/delete/{{film._id}}"><button class="btn btn-danger" id="button-seen">-<span id="seen-button"> <i class="fas fa-eye-slash"></i></span></button></a>
+          <a href="/seen/delete/{{film._id}}"><button class="btn btn-danger" id="button-seen">-<span id="seen-button">
+                <i class="fas fa-eye-slash"></i></span></button></a>
         </div>
         <div class="col-sm-1">
         </div>
-                
+
         {{else}}
         <div class="col-sm-2">
-            <button class="btn btn-danger" id="button-seen-text" >Pas encore vu</button>
+          <button class="btn btn-danger" id="button-seen-text">Pas encore vu</button>
         </div>
         <div class="col-sm-1">
-              <form  action="/seen/{{film._id}}" method="POST">
-              <a href="/seen/{{film._id}}"><button class="btn btn-success" id="button-seen" type="submit">+<span id="seen-button"> <i class="fas fa-eye"></i></span></button></a>
-              </form>
+          <form action="/seen/{{film._id}}" method="POST">
+            <a href="/seen/{{film._id}}"><button class="btn btn-success" id="button-seen" type="submit">+<span
+                  id="seen-button"> <i class="fas fa-eye"></i></span></button></a>
+          </form>
         </div>
         <div class="col-sm-1">
         </div>
-                  
-                
-        </div>
-        {{/if}} <!--- Fin de if see -->
-
-        
-        {{/if}} <!--- Fin de if user -->
+      </div>
+      {{/if}}
+      <!--- Fin de if see -->
 
 
- <div id="container-text-details"class="container">
-        <small><p id="detail-grade">Note : {{grade}} / 5</p></small>
-        <small><p class="lead" id="description">
+      {{/if}}
+      <!--- Fin de if user -->
+
+
+      <div id="container-text-details" class="container">
+          <p id="detail-grade">Note : {{grade}} / 5</p>
+        <small>
+          <p class="lead" id="description">
             Description : {{ film.description}}
-        </p></small>
-        <h3 id="type-detail">Type : 
-        {{#each film.typeFilm}}
-             <a href="/typefilm/{{name}}">
-                <small>{{name}}</small> 
-            </a>   
-                {{/each}}
-        </h3> 
-      </div>  
+          </p>
+        </small>
+        <h3 id="type-detail">Type :
+          {{#each film.typeFilm}}
+          <a href="/typefilm/{{name}}">
+            <small>{{name}}</small>
+          </a>
+          {{/each}}
+        </h3>
+      </div>
+    </div>
+  </div>
 
+  <button class="btn btn-info" data-toggle="modal" data-target="#fsModal"> Bande Annonce </button>
+  {{#if user}}
+  <a href="{{film.streamlink}}"><button class="btn btn-success"> Streaming </button></a>
+  <a href="{{film.downlink}}"><button class="btn btn-success"> Télécharger </button></a>
+  {{else}}
+  <h4 id="not-connect">Connectez vous pour télécharger, regarder, recommander ou donner son avis sur le film</h4>
+  {{/if}}
+
+
+
+
+
+
+
+
+  <!-- view modal -->
+
+  <!-- modal -->
+  <div id="fsModal" class="modal animated bounceIn" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+
+    <!-- dialog -->
+    <div class="modal-dialog">
+
+      <!-- content -->
+      <div class="modal-content">
+
+        <!-- header -->
+        <div class="modal-header">
+          <h1 id="myModalLabel" class="modal-title">
+            {{film.title}}
+          </h1>
+        </div>
+        <!-- header -->
+
+        <!-- body -->
+        <div class="modal-body">
+          <iframe id="trailer-ytb-video" src="{{film.trailer}}" frameborder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <!-- body -->
+
+        <!-- footer -->
+        <div class="modal-footer">
+          <button class="btn btn-danger" data-dismiss="modal">
+            close
+          </button>
+
+        </div>
+        <!-- footer -->
 
       </div>
-
-
-
-
-       
-
-     
+      <!-- content -->
 
     </div>
-
-<button class="btn btn-info" data-toggle="modal" data-target="#fsModal"> Bande Annonce </button>
-{{#if user}}
-<a href="{{film.streamlink}}"><button class="btn btn-success"> Streaming </button></a>
-<a href="{{film.downlink}}"><button class="btn btn-success"> Télécharger </button></a>
-{{else}}
-<h4 id="not-connect">Connectez vous pour télécharger, regarder, recommander ou donner son avis sur le film</h4>
-{{/if}}
-
-
-
-
-
-
-
-
-<!-- view modal -->
-
-<!-- modal -->
-<div id="fsModal" class="modal animated bounceIn"
-     tabindex="-1"
-     role="dialog"
-     aria-labelledby="myModalLabel"
-     aria-hidden="true">
-
-  <!-- dialog -->
-  <div class="modal-dialog">
-
-    <!-- content -->
-    <div class="modal-content">
-
-      <!-- header -->
-      <div class="modal-header">
-        <h1 id="myModalLabel"
-            class="modal-title">
-          {{film.title}}
-        </h1>
-      </div>
-      <!-- header -->
-      
-      <!-- body -->
-      <div class="modal-body">
-                    <iframe id="trailer-ytb-video" src="{{film.trailer}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-      <!-- body -->
-
-      <!-- footer -->
-      <div class="modal-footer">
-        <button class="btn btn-danger"
-                data-dismiss="modal">
-          close
-        </button>
-        
-      </div>
-      <!-- footer -->
-
-    </div>
-    <!-- content -->
+    <!-- dialog -->
 
   </div>
-  <!-- dialog -->
-
-</div>
-<!-- modal -->
+  <!-- modal -->
 
 
 
 
 
-</div>
-
-<button type="btn btn-light" id="messageshow" onclick="show_comments('comment-table', 'messageshow', 'messagehide')"> Afficher les commentaires <span class="caret"></span></button>
-<button type="btn btn-light" id="messagehide" onclick="show_comments('comment-table', 'messageshow', 'messagehide')"> Masquer les commentaires <span class="caret caret-dropup"></span></button>
 
 
+  <button type="btn btn-light" id="messageshow" onclick="show_comments('comment-table', 'messageshow', 'messagehide')">
+    Afficher les commentaires <span class="caret"></span></button>
+  <button type="btn btn-light" id="messagehide" onclick="show_comments('comment-table', 'messageshow', 'messagehide')">
+    Masquer les commentaires <span class="caret caret-dropup"></span></button>
 
 
-<div id="comment-table">
-<div class="container" >
-  {{#each list_review}}
-<div class="row">
-<div class="col-sm-12">
-<h3></h3>
-</div><!-- /col-sm-12 -->
-</div><!-- /row -->
-<div class="row">
-<div class="col-sm-1">
-<div class="thumbnail">
-<img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
-</div><!-- /thumbnail -->
-</div><!-- /col-sm-1 -->
-<div class="col-sm-9">
-<div class="panel panel-default">
-<div class="panel-heading">
-<strong>{{idUser.firstname}} {{idUser.lastname}}</strong><span id="grade-review" class="text-muted">Note : {{grade}} /5</span> 
-{{#if ../user.isAdmin}}
-<a href="/review/delete/{{_id}}"><span id="delete-review" class="text-muted">/ Supprimer l'avis /</span></a>
-{{/if}}
-</div>
-<div class="panel-body">
-{{review}}
-</div><!-- /panel-body -->
-</div><!-- /panel panel-default -->
-</div><!-- /col-sm-1 -->
-</div>
-{{/each}}
-</div>
 
-<hr>
-<div id="post-review-details">
-  <form method="POST" action="/review/post_review/{{ film._id }}">
-      <div class="form-goup">
-        <label for="review-new">Poster un avis : </label>
 
-        <div id="post-grade" style="display:inline-block" class="form-group">
-           <label class="radio-inline"><input type="radio" name="grade" value="0">0</label>
-           <label class="radio-inline"><input type="radio" name="grade" value="1">1</label>
+  <div id="comment-table">
+    <div class="container">
+      {{#each list_review}}
+      <div class="row">
+        <div class="col-sm-12">
+          <h3></h3>
+        </div><!-- /col-sm-12 -->
+      </div><!-- /row -->
+      <div class="row">
+        <div class="col-sm-1">
+          <div class="thumbnail">
+            <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+          </div><!-- /thumbnail -->
+        </div><!-- /col-sm-1 -->
+        <div class="col-sm-9">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <strong>{{idUser.firstname}} {{idUser.lastname}}</strong><span id="grade-review" class="text-muted">Note :
+                {{grade}} /5</span>
+              {{#if ../user.isAdmin}}
+              <a href="/review/delete/{{_id}}"><span id="delete-review" class="text-muted">/ Supprimer l'avis
+                  /</span></a>
+              {{/if}}
+            </div>
+            <div class="panel-body">
+              {{review}}
+            </div><!-- /panel-body -->
+          </div><!-- /panel panel-default -->
+        </div><!-- /col-sm-1 -->
+      </div>
+      {{/each}}
+    </div>
+
+    <hr>
+    <div id="post-review-details">
+      <form method="POST" action="/review/post_review/{{ film._id }}">
+        <div class="form-goup">
+          <label for="review-new">Poster un avis : </label>
+
+          <div id="post-grade" style="display:inline-block" class="form-group">
+            <label class="radio-inline"><input type="radio" name="grade" value="0">0</label>
+            <label class="radio-inline"><input type="radio" name="grade" value="1">1</label>
             <label class="radio-inline"><input type="radio" name="grade" value="2">2</label>
-            <label class="radio-inline"><input type="radio" name="grade" value="3">3</label> 
-            <label class="radio-inline"><input type="radio" name="grade" value="4">4</label> 
-            <label class="radio-inline"><input type="radio" name="grade" value="5">5</label> 
-      </div>
+            <label class="radio-inline"><input type="radio" name="grade" value="3">3</label>
+            <label class="radio-inline"><input type="radio" name="grade" value="4">4</label>
+            <label class="radio-inline"><input type="radio" name="grade" value="5">5</label>
+          </div>
 
-        <textarea name="review" class="form-control" ></textarea>
-      </div>
-      <input id="submit-review" type="submit" class="btn btn-success" value="Save">
-</div>
+          <textarea name="review" class="form-control"></textarea>
+        </div>
+        <input id="submit-review" type="submit" class="btn btn-success" value="Save">
+    </div>
+  </div>
 </div>
 
-
-</div>
-</div>
 
 <script src="/js/style.js"></script>
