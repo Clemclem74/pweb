@@ -45,12 +45,13 @@ routeur.post('/signup' ,ensureNotAuthenticated , (req,res) => {
 
     var errors = req.validationErrors();
 
-    User.findOne({username : username}).then(username => {
-        console.log(username)
-        if(username){
+    User.findOne({username : username}).then(usernamefind => {
+        console.log(usernamefind)
+        if(usernamefind){
             console.log("pris");
             req.flash('failure','Pseudo déjà utilisé <br><hr>')
             res.redirect('/');
+            return
         }
         if(errors){
             errors.forEach(error => {
@@ -59,6 +60,7 @@ routeur.post('/signup' ,ensureNotAuthenticated , (req,res) => {
             });
             
             res.redirect('/');
+            return
         }
         else {
             let user = new User({
@@ -76,20 +78,24 @@ routeur.post('/signup' ,ensureNotAuthenticated , (req,res) => {
                         console.log(err);
                         req.flash('failure', 'Erreur lors du hashage veuillez recommencer')
                         res.redirect('/');
+                        return
     
                     }
                     else {
                         user.password = hash ;
+                        console.log(user);
                         user.save( (err) => {
                             if(err) {
                                 console.log(err);
                                 req.flash('failure', 'Erreur lors de l\'enregistrement veuillez recommencer')
                                 res.redirect('/');
+                                return
                             }
                             else {
                                 console.log("Compte créé");
                                 req.flash('success', 'Votre compte a été créé');
                                 res.redirect('/');
+                                return
                             }
                         })
                     }
