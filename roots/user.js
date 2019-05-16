@@ -132,7 +132,7 @@ routeur.post('/login', ensureNotAuthenticated, (req,res,next) => {
             if (err) { 
                 return next(err);
             }
-            req.flash('success','Vous êtes bien connectés');
+            req.flash('success','Vous êtes bien connecté');
             return res.redirect('/user/profile');
         });
       })(req, res, next);

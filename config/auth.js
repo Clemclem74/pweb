@@ -4,14 +4,14 @@ module.exports = {
             return next();
         }
         else {
-            req.flash('error_msg' , 'Connectez vous pour acceder à cette page');
-            res.redirect('/user/login');
+            req.flash('failure' , 'Connectez vous pour acceder à cette page');
+            res.redirect('/');
         }
     },
 
     ensureNotAuthenticated : function( req , res , next ) {
         if (req.isAuthenticated()){
-            req.flash('error_msg' , 'Vous êtes déjà connectés');
+            req.flash('failure' , 'Vous êtes déjà connecté');
             res.redirect('/');
         }
         else {

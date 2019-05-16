@@ -124,8 +124,8 @@
 
 
 
-
-<div class="container" id="comment-table">
+<div id="comment-table">
+<div class="container" >
   {{#each list_review}}
 <div class="row">
 <div class="col-sm-12">
@@ -154,43 +154,26 @@
 </div>
 {{/each}}
 </div>
+<div id="post-review-details">
+  <form method="POST" action="/review/post_review/{{ film._id }}">
+      <div class="form-group">
+           <label class="radio-inline"><input type="radio" name="grade" value="0">0</label>
+           <label class="radio-inline"><input type="radio" name="grade" value="1">1</label>
+            <label class="radio-inline"><input type="radio" name="grade" value="2">2</label>
+            <label class="radio-inline"><input type="radio" name="grade" value="3">3</label> 
+            <label class="radio-inline"><input type="radio" name="grade" value="4">4</label> 
+            <label class="radio-inline"><input type="radio" name="grade" value="5">5</label> 
+      </div>
+      <div class="form-goup">
+        <label for="description">Avis</label>
+        <textarea id="description-new" name="review" class="form-control" ></textarea>
+      </div>
+      <input type="submit" class="btn btn-success" value="Save">
+</div>
+</div>
 
 
-
-
-
-
-
-
-
-
-<table class="table" id="comment-table">
-            <thead style="width:100%">
-                <tr>
-                <th scope="col">Nom d'utilisateur</th>
-                <th scope="col">Commentaire</th>
-                <th scope="col">Note</th>
-
-                {{#if user.isAdmin}}
-                <th scope="col"></th>
-                {{/if}}
-                </tr>
-            </thead>
-            <tbody>
-            {{#each list_review}}
-            <tr>
-                <td>{{idUser.firstname}} {{idUser.lastname}}</td>
-                <td>{{review}}</td>
-                <td>{{grade}}</td>
-                {{#if user.isAdmin}}
-                <td><a href="/review/delete/{{_id}}">Supprimer l'avis</a></td>
-                {{/if}}
-            </tr>
-            {{/each}}
-            </tbody>
-
-</table>
-
+</div>
 </div>
 
 <script src="/js/style.js"></script>
