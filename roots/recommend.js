@@ -16,13 +16,11 @@ var User = require('./../models/user');
 routeur.use(expressValidator());
 
 routeur.get('/list', ensureAuthenticated, (req,res) => {
-    Recommend.find({idUserTo : req.user._id}).then(recommendList => {
+    Recommend.find({idUserTo : req.user._id}).populate('idFilm').then(recommendList => {
         var data = [];
         for (i in recommendList) {
-/*             console.log(recommendList[recommend]);
- */            Film.find({_id : recommendList[i].idFilm}).populate('typeFilm').then( film => {
-                data.push(film[0]);
-            })
+            console.log(recommendList[i].idFilm);
+            data.push(recommendList[i].idFilm);
         }
         res.render('recommend/list_film.hbs', {film:data})
     })

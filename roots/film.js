@@ -173,11 +173,13 @@ routeur.post('/edit/:id' , ensureAdmin, (req,res) => {
     const downlink = req.body.downlink;
     const streamlink = req.body.streamlink;
     const typeFilm = req.body.typeFilm;
-    var picture = req.body.picture;
-    if(req.file) {
-        console.log("Picture détectée");
-        picture=req.file.filename;
+    if (req.body.picture) {
+        var picture = req.body.picture;
     }
+    else {
+        picture=-1;
+    }
+    console.log(picture);
 
 
     req.checkBody('title','Un titre est obligatoire').notEmpty();
@@ -202,7 +204,12 @@ routeur.post('/edit/:id' , ensureAdmin, (req,res) => {
             film.downlink=downlink;
             film.streamlink=streamlink;
             film.typeFilm=typeFilm;
-            film.picture=picture;
+            if (picture != -1) {
+                film.picture=picture;
+            }
+            else {
+                film.picture=film.picture;
+            }
             
 
             film.save( (err) => {

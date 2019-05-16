@@ -26,36 +26,42 @@
 
       <div class="row">
         {{#if user}}
-        <div class="col-sm-8 col-12">
+        <div class="col-lg-8 col-12 col-md-6">
           <a id="recommend-button" href="/recommend/{{film._id}}" class="btn btn-info">Recommander ce film à un ami</a>
         </div>
         {{#if see}}
 
-        <div class="col-3 col-sm-0"></div>
-        <div class="col-6 col-sm-2">
+        <div class="col-3 col-lg-0 col-md-0"></div>
+        <div class="col-6 col-lg-2 col-md-4">
           <button class="btn btn-success" id="button-seen-text">Déjà Vu</button>
 
         </div>
-        <div class="col-3 col-sm-0"></div>
+        <div class="col-3 col-lg-0"></div>
 
-        <div class="col-sm-1">
-          <a href="/seen/delete/{{film._id}}"><button class="btn btn-danger" id="button-seen">-<span id="seen-button">
-                <i class="fas fa-eye-slash"></i></span></button></a>
+        <div class="col-lg-1 col-md-1">
+          <form action="/seen/delete/{{film._id}}" method="GET">
+            <a href="/seen/{{film._id}}"><button class="btn btn-danger" id="button-seen" type="submit">-<span
+                  id="seen-button"> <i class="fas fa-eye-slash"></i></span></button></a>
+          </form>
         </div>
-        <div class="col-sm-1">
+        <div class="col-lg-1 col md-1">
         </div>
 
         {{else}}
-        <div class="col-sm-2">
+        <div class="col-3 col-lg-0 col-md-0"></div>
+        <div class="col-6 col-lg-2 col-md-4">
           <button class="btn btn-danger" id="button-seen-text">Pas encore vu</button>
+
         </div>
-        <div class="col-sm-1">
+        <div class="col-3 col-lg-0"></div>
+
+        <div class="col-lg-1 col-md-1">
           <form action="/seen/{{film._id}}" method="POST">
             <a href="/seen/{{film._id}}"><button class="btn btn-success" id="button-seen" type="submit">+<span
                   id="seen-button"> <i class="fas fa-eye"></i></span></button></a>
           </form>
         </div>
-        <div class="col-sm-1">
+        <div class="col-lg-1 col md-1">
         </div>
       
       {{/if}}
@@ -67,7 +73,11 @@
       </div>
 
       <div id="container-text-details" class="container">
+        {{#if grade}}
           </br><p id="detail-grade">Note : {{grade}} / 5</p>
+          {{else}}
+          </br><p id="detail-grade">Pas encore de de note, donnez votre avis</p>
+        {{/if}}
         <small>
           <p class="lead" id="description">
             Description : {{ film.description}}
@@ -150,9 +160,9 @@
 
 
 
-  <button type="btn btn-light" id="messageshow" onclick="show_comments('comment-table', 'messageshow', 'messagehide')">
+  <button class="btn btn-secondary btn-outline-primary" id="messageshow" onclick="show_comments('comment-table', 'messageshow', 'messagehide')">
     Afficher les commentaires <span class="caret"></span></button>
-  <button type="btn btn-light" id="messagehide" onclick="show_comments('comment-table', 'messageshow', 'messagehide')">
+  <button class="btn btn-light" id="messagehide" onclick="show_comments('comment-table', 'messageshow', 'messagehide')">
     Masquer les commentaires <span class="caret caret-dropup"></span></button>
 
 

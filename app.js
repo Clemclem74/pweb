@@ -25,7 +25,7 @@ mongoose.set('useFindAndModify', false);
 
 var app = express();
 
-const PORT = process.env.PORT || 8051;
+const PORT = process.env.PORT || 8052;
 
 
 require('./models/film');
@@ -49,6 +49,8 @@ console.log("Application bien lancée sur le port " + PORT);
 
 
 //Déclaration of Handlebar
+
+
 app.engine('.hbs', hbs({
     defaultLayout: 'main',
     layoutsDir: path.join(app.get('views'), 'layouts'),

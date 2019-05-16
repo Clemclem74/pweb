@@ -22,10 +22,12 @@ helpers.math = function(lvalue, operator, rvalue, options) {
 };
 
 helpers.checked = function(film,idType) {
-  if (film.typeFilm.indexOf(t._id) != -1) {
-    return true;
+  if (film.typeFilm.indexOf(idType) != -1) {
+    console.log("true")
+    return "ckecked";
   }
   else {
+    console.log("false")
     return false;
   }
 };
