@@ -40,7 +40,7 @@ var uploads = multer({ storage: storage });
 
 
 routeur.get('/', (req,res) => {
-    Film.find({}).populate('typeFilm').then(film => {
+    Film.find({}).populate('typeFilm').sort('-releaseYear').then(film => {
         res.render('film/list_film.hbs', {film: film });
 })
 });
@@ -57,6 +57,13 @@ routeur.get('/edit/:id', ensureAdmin, (req,res) => {
         Film.findById(req.params.id).then(film => {
         res.render('film/edit_movie.hbs', {film:film , typefilm:typefilm });
         })
+    })
+});
+
+routeur.post('/search/', (req,res) => {
+    Film.find({'title': {$regex: new RegExp('^' + req.body.search.toLowerCase(), 'i')}}).populate('typeFilm').then(film => {
+        res.render('film/list_film_search.hbs', {film: film , search : req.body.search});
+        console.log(film);
     })
 });
 
@@ -78,6 +85,7 @@ routeur.get('/details/:id' , (req,res) => {
                             moyenne = moyenne + item.grade;
                         })
                         moyenne=moyenne/list_review.length;
+                        console.log(list_review);
                         data={film:film, list_review:list_review , user:req.user , grade : moyenne , see : see};
                         res.render('film/details.hbs' , data);
                     })

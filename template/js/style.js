@@ -38,7 +38,7 @@ function show_comments(table,messageshow,messagehide) {
 	if (document.getElementById(table).style.display == 'none') {
 		document.getElementById(messageshow).style.display = 'none';
 		document.getElementById(messagehide).style.display = 'block';
-		document.getElementById(table).style.display = 'table';
+		document.getElementById(table).style.display = 'block';
 	}
 	else {
 		document.getElementById(messagehide).style.display = 'none';
@@ -46,3 +46,4 @@ function show_comments(table,messageshow,messagehide) {
 		document.getElementById(table).style.display = 'none';
 	}
 }
+

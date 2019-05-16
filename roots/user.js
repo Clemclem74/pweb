@@ -18,7 +18,6 @@ routeur.use(bodyParser.urlencoded({
 routeur.use(bodyParser.json());
 var User = require('./../models/user');
 var Seen = require('./../models/seen');
-var Film = require('./../models/film');
 routeur.use(expressValidator());
 
 routeur.get('/signup',ensureNotAuthenticated,(req,res) => {
@@ -44,51 +43,62 @@ routeur.post('/signup' ,ensureNotAuthenticated , (req,res) => {
     req.checkBody('password','Un mot de passe est obligatoire </br><hr>').notEmpty();
     req.checkBody('password2','Les mot de passe ne correspondent pas </br><hr>').equals(password);
 
-    let errors = req.validationErrors();
-    if(errors){
-        errors.forEach(error => {
-            console.log(error.msg);
-            req.flash('failure', error.msg)
-        });
-        
-        res.redirect('/');
-    }
-    else {
-        let user = new User({
-            firstname:firstname,
-            lastname:lastname,
-            username:username,
-            mail:mail,
-            birthday:birthday,
-            password:password,
-            isAdmin:false,
-        })
-        bcrypt.genSalt(10, (err,salt) => {
-            bcrypt.hash(user.password , salt , (err,hash) => {
-                if(err) {
-                    console.log(err);
-                    req.flash('failure', 'Erreur lors du hashage veuillez recommencer')
-                    res.redirect('/');
+    var errors = req.validationErrors();
 
-                }
-                else {
-                    user.password = hash ;
-                    user.save( (err) => {
-                        if(err) {
-                            console.log(err);
-                            req.flash('failure', 'Erreur lors de l\'enregistrement veuillez recommencer')
-                            res.redirect('/');
-                        }
-                        else {
-                            console.log("Compte créé");
-                            req.flash('success', 'Votre compte a été créé');
-                            res.redirect('/');
-                        }
-                    })
-                }
+    User.findOne({username : username}).then(username => {
+        console.log(username)
+        if(username){
+            console.log("pris");
+            req.flash('failure','Pseudo déjà utilisé <br><hr>')
+            res.redirect('/');
+        }
+        if(errors){
+            errors.forEach(error => {
+                //console.log(error.msg);
+                req.flash('failure', error.msg)
             });
-        })
-    }
+            
+            res.redirect('/');
+        }
+        else {
+            let user = new User({
+                firstname:firstname,
+                lastname:lastname,
+                username:username,
+                mail:mail,
+                birthday:birthday,
+                password:password,
+                isAdmin:false,
+            })
+            bcrypt.genSalt(10, (err,salt) => {
+                bcrypt.hash(user.password , salt , (err,hash) => {
+                    if(err) {
+                        console.log(err);
+                        req.flash('failure', 'Erreur lors du hashage veuillez recommencer')
+                        res.redirect('/');
+    
+                    }
+                    else {
+                        user.password = hash ;
+                        user.save( (err) => {
+                            if(err) {
+                                console.log(err);
+                                req.flash('failure', 'Erreur lors de l\'enregistrement veuillez recommencer')
+                                res.redirect('/');
+                            }
+                            else {
+                                console.log("Compte créé");
+                                req.flash('success', 'Votre compte a été créé');
+                                res.redirect('/');
+                            }
+                        })
+                    }
+                });
+            })
+        }
+    })
+    
+    
 })
 
 routeur.get('/profile' , ensureAuthenticated , (req,res) => {

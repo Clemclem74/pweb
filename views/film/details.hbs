@@ -116,40 +116,53 @@
 
 
 
-
-
-
-
-
-
-
-<div id="trailer-ytb" class="modal animated bounceIn" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-
-    <div id="trailer-ytb-dialog" class="modal-dialog">
-
-        <div id="trailer-ytb-content" class="modal-content">
-            <h2>Saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</h2>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-<div class="modal" id="trailer-ytb" role="dialog">
-    <div id="trailer-ytb-content" class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-             <iframe src="{{film.trailer}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-       </div>
-    </div>
-</div>
-
-
 </div>
 
 <button type="btn btn-light" id="messageshow" onclick="show_comments('comment-table', 'messageshow', 'messagehide')"> Afficher les commentaires <span class="caret"></span></button>
 <button type="btn btn-light" id="messagehide" onclick="show_comments('comment-table', 'messageshow', 'messagehide')"> Masquer les commentaires <span class="caret caret-dropup"></span></button>
+
+
+
+
+
+<div class="container" id="comment-table">
+  {{#each list_review}}
+<div class="row">
+<div class="col-sm-12">
+<h3></h3>
+</div><!-- /col-sm-12 -->
+</div><!-- /row -->
+<div class="row">
+<div class="col-sm-1">
+<div class="thumbnail">
+<img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+</div><!-- /thumbnail -->
+</div><!-- /col-sm-1 -->
+<div class="col-sm-9">
+<div class="panel panel-default">
+<div class="panel-heading">
+<strong>{{idUser.firstname}} {{idUser.lastname}}</strong><span id="grade-review" class="text-muted">Note : {{grade}} /5</span> 
+{{#if ../user.isAdmin}}
+<a href="/review/delete/{{_id}}"><span id="delete-review" class="text-muted">/ Supprimer l'avis /</span></a>
+{{/if}}
+</div>
+<div class="panel-body">
+{{review}}
+</div><!-- /panel-body -->
+</div><!-- /panel panel-default -->
+</div><!-- /col-sm-1 -->
+</div>
+{{/each}}
+</div>
+
+
+
+
+
+
+
+
+
 
 <table class="table" id="comment-table">
             <thead style="width:100%">
@@ -157,7 +170,10 @@
                 <th scope="col">Nom d'utilisateur</th>
                 <th scope="col">Commentaire</th>
                 <th scope="col">Note</th>
+
+                {{#if user.isAdmin}}
                 <th scope="col"></th>
+                {{/if}}
                 </tr>
             </thead>
             <tbody>

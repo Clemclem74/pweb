@@ -266,7 +266,7 @@ only screen and (                min-resolution: 2dppx) {
 
 #dropdown-divide {
 	background-color: orange;
-	height : 2px
+	height : 1px
 }
 
 #dropdown-login {
@@ -351,4 +351,16 @@ only screen and (                min-resolution: 2dppx) {
 	height:100%;
 	margin:auto;
 }
+
+
+/* SEARCH BAR */
+.active-pink-2 input[type=text]:focus:not([readonly]) {
+    border-bottom: 1px solid #f48fb1;
+    box-shadow: 0 1px 0 0 #f48fb1;
+}
+.active-pink input[type=text] {
+    border-bottom: 1px solid #f48fb1;
+    box-shadow: 0 1px 0 0 #f48fb1;
+}
+
 

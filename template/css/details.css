@@ -63,4 +63,16 @@
   background: white;
 }
 
+#comment-table {
+  text-align: left;
+}
+
+
+#grade-review {
+  padding-left: 20px;
+}
+
+#delete-review {
+  text-align: right;
+}
 
