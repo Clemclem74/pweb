@@ -24,11 +24,18 @@
     <div class="form-group">
         {{#each typefilm}}
         <label>
-            <input type="checkbox" name="typeFilm" value="{{_id}}" } > {{name}}
+            <input type="checkbox" name="typeFilm" value="{{_id}}"} {{#if {{ckecked {{../film}} {{_id}}}} }} checked {{/if}}> {{name}}
         </label>
         {{/each}}
     </div>
 
+
+
+<input type="checkbox" name="typeFilm" value="{{t._id}}" {% if film.typeFilm.indexOf(t._id) != -1 %} checked {% endif %}>
+            {{ t.name }}
+
+
+ 
     <div class="form-goup">
         <label for="picture">Image</label>
         <input type="file" id="picture" name="picture" value=="picture">

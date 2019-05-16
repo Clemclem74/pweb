@@ -2,7 +2,7 @@
 const helpers = {}
 
 
-hbs.registerHelper("review_table", (review_table) => {
+helpers.registerHelper("review_table", (review_table) => {
     var moyenne=0;
     review_table.forEach((element) => {
         moyenne = moyenne + parseInt(element.grade);
@@ -18,6 +18,10 @@ helpers.matchPassword = async (password, savedPassword) => {
     console.log(e)
   }
 };
+
+
+
+
 
 
 

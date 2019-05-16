@@ -228,10 +228,8 @@ ul.navbar-nav {
     
     #container-login {
         height: 100%;
-        width: 100%;
-        margin:auto;
-        padding:auto;
-    
+        width: 80%;
+        margin:auto;    
     }
     
     #dropdown-register {
@@ -242,9 +240,9 @@ ul.navbar-nav {
     }
     
     #container-register {
-        max-height: 100%;
-        max-width: 100%;
-    
+        height: 100%;
+		width: 80%;
+		margin:auto;
     }
 
     #searchbar {
@@ -277,6 +275,6 @@ only screen and (                min-resolution: 2dppx) {
 	
 	/* logo */
     .navbar-brand {
-    	background-color: blue;
+    	background-color: orange;
     }
 }

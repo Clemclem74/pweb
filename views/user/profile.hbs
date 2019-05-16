@@ -1,7 +1,37 @@
-<h1>Profil Utilisateur :</h1>
-<h2>
-{{user.firstname}}{{user.lastname}}
-</h2>
-<h2>
+
+<h5>
     Nombre de minutes de visionnage : {{time}}
-</h2>
+</h5>
+
+
+
+
+<div id="profile-container" class="container">
+    <div id="profile-header">
+        <h2>Votre Profil :</h2>
+    </div>
+    <hr>
+    <table class="table table-striped">
+        <tr>
+            <th>Nom :</th>
+            <td>{{user.firstname}} {{user.lastname}}</td>
+        </tr>
+        <tr>
+            <th>Nom d'utilisateur :</th>
+            <td>{{user.username}}</td>
+        </tr>
+        <tr>
+            <th>Email :</th>
+            <td>{{user.mail}}</td>
+        </tr>
+        <tr>
+            <th>Temps total vu :</th>
+            <td>{{math time "/" 60}} h ; {{math time "%" 60}} min</td>
+        </tr>
+        
+    </table>
+</div>
+
+
+
+

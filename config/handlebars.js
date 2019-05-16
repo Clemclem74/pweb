@@ -8,4 +8,26 @@ helpers.timeago = (timestamp) =>{
 }
 
 
+helpers.math = function(lvalue, operator, rvalue, options) {
+  lvalue = parseFloat(lvalue);
+  rvalue = parseFloat(rvalue);
+      
+  return {
+      "+": lvalue + rvalue,
+      "-": lvalue - rvalue,
+      "*": lvalue * rvalue,
+      "/": lvalue / rvalue,
+      "%": lvalue % rvalue
+  }[operator];
+};
+
+helpers.checked = function(film,idType) {
+  if (film.typeFilm.indexOf(t._id) != -1) {
+    return true;
+  }
+  else {
+    return false;
+  }
+};
+
 module.exports = helpers

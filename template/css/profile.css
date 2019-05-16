@@ -1,0 +1,14 @@
+#profile-container {
+    margin:auto;
+    padding-top: 50px;
+    background-color: orange;
+    color: white;
+    width:70%;
+    text-align:left;
+}
+
+#profile-header {
+    background-color: rgba(100, 98, 97);
+}
+
+
