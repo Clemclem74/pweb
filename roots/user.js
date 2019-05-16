@@ -139,7 +139,7 @@ routeur.post('/login', ensureNotAuthenticated, (req,res,next) => {
                 return next(err);
             }
             req.flash('success','Vous êtes bien connecté');
-            return res.redirect('/user/profile');
+            return res.redirect('/');
         });
       })(req, res, next);
     /* passport.authenticate('local'),  function(req, res) {

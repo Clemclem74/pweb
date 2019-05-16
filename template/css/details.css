@@ -106,11 +106,24 @@
   margin:auto;
 }
 
+#not-connect {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+#messageshow {
+  padding-top: 10px;
+}
+#messagehide {
+  padding-top: 10px;
+}
+
 #container-text-details {
   border-radius: 25px;
   border-style: double;
   border-color: white;
   width:100%;
   margin-top: 20px;
+  margin-bottom: 35px;
 
 }

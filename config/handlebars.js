@@ -9,8 +9,8 @@ helpers.timeago = (timestamp) =>{
 
 
 helpers.math = function(lvalue, operator, rvalue, options) {
-  lvalue = parseFloat(lvalue);
-  rvalue = parseFloat(rvalue);
+  lvalue = parseInt(lvalue);
+  rvalue = parseInt(rvalue);
       
   return {
       "+": lvalue + rvalue,
