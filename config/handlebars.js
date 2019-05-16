@@ -16,7 +16,7 @@ helpers.math = function(lvalue, operator, rvalue, options) {
       "+": lvalue + rvalue,
       "-": lvalue - rvalue,
       "*": lvalue * rvalue,
-      "/": lvalue / rvalue,
+      "/": parseInt(lvalue / rvalue),
       "%": lvalue % rvalue
   }[operator];
 };

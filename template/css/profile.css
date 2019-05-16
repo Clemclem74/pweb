@@ -8,7 +8,11 @@
 }
 
 #profile-header {
-    background-color: rgba(100, 98, 97);
+    background-color: white;
+    color: orange;
 }
 
-
+#table-profile {
+    background-color: white;
+    color : orange
+}
