@@ -150,3 +150,8 @@
     padding-left:10%;
     padding-right:10%
 }
+
+#already-seen {
+  width:50%;
+  font-size:15px;
+}
