@@ -9,31 +9,62 @@
     </div>
     <div class="col-sm-9">
 
+      {{#if user.isAdmin}}
+      <div class="row">
+        <div class="col-sm-6">
+            <a id="button-admin-details" href="/edit/{{film._id}}" class="btn btn-primary">Modifier</a>
+        </div>
+        <div class="col-sm-6">
+            <a id="button-admin-details" href="/delete/{{film._id}}" class="btn btn-primary">Supprimer</a>
+        </div>
+      </div>
+      {{/if}}
+
         <h2 id="title-detail">{{ film.title }}</h2>
      
         <hr>
 
-        <div id="buttons-detail">
-            {{#if user.isAdmin}}
-            <a href="/edit/{{film._id}}" class="btn btn-primary">Modifier</a>
-            <a href="/delete/{{film._id}}" class="btn btn-primary">Supprimer</a>
+      <div class="row">
+        {{#if user}}
+        <div class="col-sm-8 col-12">
+                <a id="recommend-button" href="/recommend/{{film._id}}" class="btn btn-info">Recommander ce film à un ami</a>
+        </div>
+        {{#if see}}
 
-            {{/if}}
-            {{#if user }}
-                <a href="/review/post_review/{{film._id}}" class="btn btn-info">Poster un avis sur ce film</a>
-                <a href="/recommend/{{film._id}}" class="btn btn-info">recommender ce film</a>
-                {{#if see}}
-                    <a href="/seen/delete/{{film._id}}"><button class="btn btn-success" id="button-seen" type="submit">Déjà vu<span id="seen-button"><i class="fas fa-eye-slash"></i></span></button></a>
-                {{else}}
-                    <form action="/seen/{{film._id}}" method="POST">
-                    <a href="/seen/{{film._id}}"><button class="btn btn-warning" id="button-seen" type="submit">Pas encore vu<span id="seen-button"> <i class="fas fa-eye"></i></span></button></a>
-                    </form>
-                {{/if}}
-            {{/if}}
-            
-        </div> 
+        <div class="col-3 col-sm-0"></div>
+      <div class="col-6 col-sm-2">
+            <button class="btn btn-success" id="button-seen-text" >Déjà Vu</button>
+
+        </div>
+      <div class="col-3 col-sm-0"></div>
+
+        <div class="col-sm-1">
+              <a href="/seen/delete/{{film._id}}"><button class="btn btn-danger" id="button-seen">-<span id="seen-button"> <i class="fas fa-eye-slash"></i></span></button></a>
+        </div>
+        <div class="col-sm-1">
+        </div>
+                
+        {{else}}
+        <div class="col-sm-2">
+            <button class="btn btn-danger" id="button-seen-text" >Pas encore vu</button>
+        </div>
+        <div class="col-sm-1">
+              <form  action="/seen/{{film._id}}" method="POST">
+              <a href="/seen/{{film._id}}"><button class="btn btn-success" id="button-seen" type="submit">+<span id="seen-button"> <i class="fas fa-eye"></i></span></button></a>
+              </form>
+        </div>
+        <div class="col-sm-1">
+        </div>
+                  
+                
+        </div>
+        {{/if}} <!--- Fin de if see -->
+
+        
+        {{/if}} <!--- Fin de if user -->
 
 
+ <div id="container-text-details"class="container">
         <small><p id="detail-grade">Note : {{grade}} / 5</p></small>
         <small><p class="lead" id="description">
             Description : {{ film.description}}
@@ -44,16 +75,27 @@
                 <small>{{name}}</small> 
             </a>   
                 {{/each}}
-        </h3>    
-    </div>
+        </h3> 
+      </div>  
 
+
+      </div>
+
+
+
+
+       
+
+     
+
+    </div>
 
 <button class="btn btn-info" data-toggle="modal" data-target="#fsModal"> Bande Annonce </button>
 {{#if user}}
 <a href="{{film.streamlink}}"><button class="btn btn-success"> Streaming </button></a>
 <a href="{{film.downlink}}"><button class="btn btn-success"> Télécharger </button></a>
 {{else}}
-<h3>Connectez vous pour télécharger ou regarder le film</h3>
+<h4>Connectez vous pour télécharger, regarder, recommander ou donner son avis sur le film</h4>
 {{/if}}
 
 
@@ -154,9 +196,14 @@
 </div>
 {{/each}}
 </div>
+
+<hr>
 <div id="post-review-details">
   <form method="POST" action="/review/post_review/{{ film._id }}">
-      <div class="form-group">
+      <div class="form-goup">
+        <label for="review-new">Poster un avis : </label>
+
+        <div id="post-grade" style="display:inline-block" class="form-group">
            <label class="radio-inline"><input type="radio" name="grade" value="0">0</label>
            <label class="radio-inline"><input type="radio" name="grade" value="1">1</label>
             <label class="radio-inline"><input type="radio" name="grade" value="2">2</label>
@@ -164,11 +211,10 @@
             <label class="radio-inline"><input type="radio" name="grade" value="4">4</label> 
             <label class="radio-inline"><input type="radio" name="grade" value="5">5</label> 
       </div>
-      <div class="form-goup">
-        <label for="description">Avis</label>
-        <textarea id="description-new" name="review" class="form-control" ></textarea>
+
+        <textarea name="review" class="form-control" ></textarea>
       </div>
-      <input type="submit" class="btn btn-success" value="Save">
+      <input id="submit-review" type="submit" class="btn btn-success" value="Save">
 </div>
 </div>
 

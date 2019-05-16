@@ -76,7 +76,7 @@ routeur.get('/delete/:id', ensureAdmin, (req,res) => {
 
 
 routeur.get('/details/:id' , (req,res) => {
-        Film.findById(mongoose.Types.ObjectId(req.params.id)).populate('typeFilm').then(film => {
+        Film.findById(req.params.id).populate('typeFilm').then(film => {
             Review.find({idFilm : mongoose.Types.ObjectId(req.params.id)}).populate('idUser').then( list_review => {
                 if(req.user){
                     See.find({idUser : mongoose.Types.ObjectId(req.user._id) , idFilm : mongoose.Types.ObjectId(req.params.id)}).then(see => {

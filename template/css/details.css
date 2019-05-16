@@ -76,3 +76,41 @@
   text-align: right;
 }
 
+#post-review-details {
+  padding-top:10px;
+}
+
+#submit-review {
+  margin-top:10px;
+}
+
+#post-grade {
+  padding-left: 10px
+}
+
+#button-seen-text {
+  margin-right:2px;
+  width:100%
+}
+
+#button-seen {
+  margin-left:2px;
+}
+
+#recommend-button {
+  width:90%;
+}
+
+#button-admin-details{
+  width:80%;
+  margin:auto;
+}
+
+#container-text-details {
+  border-radius: 25px;
+  border-style: double;
+  border-color: white;
+  width:100%;
+  margin-top: 20px;
+
+}
