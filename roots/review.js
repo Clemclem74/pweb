@@ -6,7 +6,7 @@ var multer  = require('multer')
 var bodyParser = require('body-parser');
 var User = require('./../models/user');
 const { ensureAdmin } = require('../config/admin');
-
+const { ensureAuthenticated } = require('../config/auth');
 
 routeur.use(bodyParser.urlencoded({
     extended: true
@@ -51,7 +51,7 @@ routeur.get('/delete/:id', ensureAdmin , (req,res) => {
 })
 
 
-routeur.post('/post_review/:id' , (req,res) => {
+routeur.post('/post_review/:id', ensureAuthenticated , (req,res) => {
     if(!req.user) {
         res.render('user/signin.hbs');
     }

@@ -1,6 +1,12 @@
 <link rel="stylesheet" href="/css/film.css">
 <h1>Recherche : {{search}}</h1>
+<hr>
     <div id="container-page" class="container">
+
+
+{{#unless film}}
+<h2>Aucun film ne correspond à votre recherche</h2>
+{{/unless}}
 
 
 {{#each film }}

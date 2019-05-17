@@ -203,6 +203,7 @@
 
     <hr>
     <div id="post-review-details">
+      {{#if user}}
       <form method="POST" action="/review/post_review/{{ film._id }}">
         <div class="form-goup">
           <label for="review-new">Poster un avis : </label>
@@ -217,8 +218,12 @@
           </div>
 
           <textarea name="review" class="form-control"></textarea>
+          <input id="submit-review" type="submit" class="btn btn-success" value="Poster">
         </div>
-        <input id="submit-review" type="submit" class="btn btn-success" value="Save">
+      </form>
+      {{else}}
+      <h4>Connectez vous pour laisser votre avis</h4>
+      {{/if}}
     </div>
   </div>
 </div>

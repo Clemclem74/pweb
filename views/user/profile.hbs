@@ -5,23 +5,24 @@
         <h2>Votre Profil :</h2>
     </div>
     <hr>
-    <table id="table-profile" class="table table-striped">
-        <tr>
-            <th>Nom :</th>
-            <td>{{user.firstname}} {{user.lastname}}</td>
-        </tr>
-        <tr>
-            <th>Nom d'utilisateur :</th>
-            <td>{{user.username}}</td>
-        </tr>
-        <tr>
-            <th>Email :</th>
-            <td>{{user.mail}}</td>
-        </tr>
-        <tr>
-            <th>Temps total vu :</th>
-            <td>{{math time "/" 60}} h ; {{math time "%" 60}} min</td>
-        </tr>
-
-    </table>
+    <div class="table-responsive">
+        <table id="table-profile" class="table table-striped">
+            <tr>
+                <th>Nom :</th>
+                <td>{{user.firstname}} {{user.lastname}}</td>
+            </tr>
+            <tr>
+                <th>Nom d'utilisateur :</th>
+                <td>{{user.username}}</td>
+            </tr>
+            <tr>
+                <th>Email :</th>
+                <td >{{user.mail}}</td>
+            </tr>
+            <tr>
+                <th>Temps total vu :</th>
+                <td>{{math time "/" 60}} h  {{math time "%" 60}} min</td>
+            </tr>
+        </table>
+    </div>
 </div>

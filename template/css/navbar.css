@@ -200,7 +200,7 @@ ul.navbar-nav {
 
 @media (max-width: 767px) {
 	
-	.navbar { padding-top: 0; background-color: red; }
+	.navbar { padding-top: 0; background-color: orange; }
 	.navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand { margin-left: 15px; }
 	.navbar-collapse { border: 0; }
 	.navbar-inverse .navbar-toggle { border-color: transparent; }
@@ -251,7 +251,7 @@ ul.navbar-nav {
     }
 
     .navbar-brand {
-    	background-color: red;
+    	background-color: orange;
     }
 
 }

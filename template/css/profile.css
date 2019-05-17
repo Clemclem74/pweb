@@ -8,11 +8,14 @@
 }
 
 #profile-header {
+    border-radius: 25px;
     background-color: white;
     color: orange;
+    text-align : center;
 }
 
 #table-profile {
+    border-radius: 25px;
     background-color: white;
     color : orange
 }

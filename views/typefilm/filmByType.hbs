@@ -1,35 +1,31 @@
+<link rel="stylesheet" href="/css/film.css">
 
+<h2>Films de type : {{typefilm}}</h2>
+<hr>
+{{#unless film}}
+<h2>Il n'y a aucun film dans cette catégorie</h2>
+{{/unless}}
+<div class="container">
 
-   <link rel="stylesheet" href="/css/film.css">
+    {{#each film }}
 
-    <h2>Films de type : {{typefilm}}</h2>
-    <hr>
-    <div class="container">
-    
-            {{#each film }}
-                      
-               
-               
+    <div class="movie-card-1" id="movies-homepage">
+        <a href="/details/{{_id}}">
+            <div style="background-image: url('/uploads/{{picture}}')" class="movie-header-1" id="movie-picture">
+            </div>
+        </a>
+        <div class="movie-content-1">
+            <div class="movie-content-header-1">
+                <a href="#">
+                    <h3 class="movie-title-1">{{title}}</h3>
+                </a>
+            </div>
 
-               <div class="movie-card-1" id="movies-homepage">
-	<a href="/details/{{_id}}"><div style="background-image: url('/uploads/{{picture}}')" class="movie-header-1" id="movie-picture">
-	</div>
-    </a>
-	<div class="movie-content-1">
-		<div class="movie-content-header-1">
-			<a href="#">
-				<h3 class="movie-title-1">{{title}}</h3>
-			</a>
-		</div>
-		
-	</div>
+        </div>
+    </div>
+
+    {{/each}}
+
 </div>
-               
-            {{/each}}
-       
-    </div> 
-    
-    <script src="/js/jquery-1.11.1.min.js"></script>
 
-
-
+<script src="/js/jquery-1.11.1.min.js"></script>

@@ -2,33 +2,29 @@
 
     <div id="container-page" class="container">
 
-{{#if film}}
-{{else}}
-<h1>Vous n'avez pas de recommendations</h1>
-{{/if}}
-{{#each film }}
-                      
-            
+{{#unless film}}
+<h1>Vous n'avez pas de recommandations</h1>
+{{/unless}}
+
+      <h1>Vos recommandations :</h1>
+
+{{#each film }} 
 
 	<div class="movie-card-1" id="movies-homepage">
 	<a href="/details/{{_id}}">
-	<div style="background-image: url('/uploads/{{picture}}')" class="movie-header-1" id="movie-picture">
+	<div style="background-image: url('/uploads/{{idFilm.picture}}')" class="movie-header-1" id="movie-picture">
 	</div>
     </a>
 	<div class="movie-content-1">
 		<div class="movie-content-header-1">
 			<a href="#">
-				<h3 class="movie-title-1">{{title}}</h3>
+				<h3 class="movie-title-1">{{idFilm.title}}</h3>
 			</a>
 		</div>
 		<div class="movie-info-1">
 			<div class="info-section-1">
-				<label id="TypeLabel">Types :  </label>
-				<span>{{#each typeFilm}}
-                <a href="/typefilm/{{name}}">
-             <small>{{name}}</small> 
-                        </a>   
-                 {{/each}}</span>
+				<label id="TypeLabel">Recommandé par :  </label>
+				<span><small>{{idUserFrom.firstname}} {{idUserFrom.lastname}}</small></span>
 			</div>
 		</div>
 	</div>
