@@ -3,26 +3,26 @@
     <div id="container-page" class="container">
 
 
-{{#each film }}
+{{#each data }}
                       
             
 
 	<div class="movie-card-1" id="movies-homepage">
-	<a href="/details/{{_id}}">
-	<div style="background-image: url('/uploads/{{picture}}')" class="movie-header-1" id="movie-picture">
-		{{seen _id ../user._id}}
+	<a href="/details/{{film._id}}">
+	<div style="background-image: url('/uploads/{{film.picture}}')" class="movie-header-1" id="movie-picture">
+		{{{seen}}}
 	</div>
     </a>
 	<div class="movie-content-1">
 		<div class="movie-content-header-1">
 			<a href="#">
-				<h3 class="movie-title-1">{{title}}</h3>
+				<h3 class="movie-title-1">{{film.title}}</h3>
 			</a>
 		</div>
 		<div class="movie-info-1">
 			<div class="info-section-1">
 				<label id="TypeLabel">Types :  </label>
-				<span>{{#each typeFilm}}
+				<span>{{#each film.typeFilm}}
                 <a href="/typefilm/{{name}}">
              <small>{{name}}</small> 
                         </a>   

@@ -39,10 +39,37 @@ var uploads = multer({ storage: storage });
 
 
 
-routeur.get('/', (req,res) => {
-    Film.find({}).populate('typeFilm').sort('-releaseYear').then(film => {
-        res.render('film/list_film.hbs', {film: film });
-})
+routeur.get('/', async function(req,res) {
+    if(req.user) {
+        film = await Film.find({}).populate('typeFilm').sort('-releaseYear')
+        var data = [];
+        for (i in film) {
+            const see = await See.find({idFilm : film[i]._id, idUser:req.user._id })
+            if (see.length) {
+                seen= '<img style="opacity: 0.7; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
+                //seen='<h1><span id="already-seen" class="badge badge-pill badge-success">Déjà vu</span></h1>'
+            }
+            else {
+                seen= '<img style="opacity: 0; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
+            }
+            data.push({seen:seen , film : film[i]});
+        }
+            console.log(data[0]);
+            res.render('film/list_film.hbs', {data: data });
+    }
+    else {
+        film = await Film.find({}).populate('typeFilm').sort('-releaseYear')
+        var data = [];
+        for (i in film) {
+            seen= '<img style="opacity: 0; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
+            data.push({seen:seen , film : film[i]});
+        }
+            console.log(data);
+            res.render('film/list_film.hbs', {data: data });
+
+    }
+
+   
 });
 
 routeur.get('/new', ensureAdmin ,(req,res) => {
@@ -60,11 +87,34 @@ routeur.get('/edit/:id', ensureAdmin, (req,res) => {
     })
 });
 
-routeur.post('/search/', (req,res) => {
-    Film.find({'title': {$regex: new RegExp('^' + req.body.search.toLowerCase(), 'i')}}).populate('typeFilm').sort('-releaseYear').then(film => {
-        res.render('film/list_film_search.hbs', {film: film , search : req.body.search});
-        console.log(film);
-    })
+routeur.post('/search/', async function(req,res) {
+    if(req.user) {
+        film=await Film.find({'title': {$regex: new RegExp('^' + req.body.search.toLowerCase(), 'i')}}).populate('typeFilm').sort('-releaseYear')
+        var data = [];
+        for (i in film) {
+            const see = await See.find({idFilm : film[i]._id, idUser:req.user._id })
+            if (see.length) {
+                seen= '<img style="opacity: 0.7; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
+                //seen='<h1><span id="already-seen" class="badge badge-pill badge-success">Déjà vu</span></h1>'
+            }
+            else {
+                seen= '<img style="opacity: 0; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
+            }
+            data.push({seen:seen , film : film[i]});
+        }
+    }
+    else {
+        film=await Film.find({'title': {$regex: new RegExp('^' + req.body.search.toLowerCase(), 'i')}}).populate('typeFilm').sort('-releaseYear')
+        var data = [];
+        for (i in film) {
+            seen= '<img style="opacity: 0; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
+            data.push({seen:seen , film : film[i]});
+        }
+    }
+   
+    
+    res.render('film/list_film_search.hbs', {data: data , search : req.body.search});
+    
 });
 
 

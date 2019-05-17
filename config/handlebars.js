@@ -1,6 +1,6 @@
 var Seen = require('./../models/seen');
 var Handlebars = require('handlebars');
-
+var filmseen_var=[];
 //Convertion clock
 const { format }  = require('helper-timeago');
 
@@ -35,15 +35,43 @@ helpers.checked = function(film,idType) {
   }
 };
 
-helpers.seen = function(idFilm , idUser) {
-  Seen.find({idFilm : idFilm , idUser : idUser}).then(seen => {
-    if (seen.length) {
-      console.log("vu detecté");
-      return new Handlebars.SafeString('<h1>pute</h1>');
-     // return new Handlebars.SafeString('<h1><span id="already-seen" class="badge badge-pill badge-success">Déjà vu</span></h1>');
-    }
-    return ''
-  })
+
+function see(idFilm,idUser) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(Seen.findOne({idUser:idUser , idFilm:idFilm}));
+    }, 2000);
+  });
 }
 
+
+
+async function seen(idFilm, idUser) {
+    const result = await Seen.findOne({idUser:idUser , idFilm:idFilm})
+    const res2 = await result;
+    if (res2) {
+      return 'true';
+    }
+    else {
+      return 'false';
+    }
+}
+
+helpers.filmseen =  async function(idFilm,idUser) {
+  var chatte = await seen(idFilm,idUser);
+  console.log(chatte);
+  if (chatte) {
+    return JSON.parse('true')
+  }
+  else {
+    return JSON.parse('false')
+  }
+}
+
+ 
+
+
+
+/* return new Handlebars.SafeString('<h1><span id="already-seen" class="badge badge-pill badge-success">Déjà vu</span></h1>');
+ */
 module.exports = helpers
