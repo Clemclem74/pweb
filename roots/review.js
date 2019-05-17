@@ -13,7 +13,7 @@ routeur.use(bodyParser.urlencoded({
 }));
 routeur.use(bodyParser.json());
 var Review = require('./../models/review');
-var See = require('./../models/review');
+var See = require('./../models/seen');
 var Film = require('./../models/film');
 routeur.use(expressValidator());
 
@@ -30,21 +30,23 @@ routeur.get('/review/:id' , (req,res) => {
 })
 
 routeur.get('/delete/:id', ensureAdmin , (req,res) => {
-    Review.findOneAndRemove({ _id : req.params.id}).then(() => {
-        Film.findById(req.params.id).populate('typeFilm').then(film => {
-            Review.find({idFilm : req.params.id}).populate('idUser').then( list_review => {
-                See.find({idUser : req.user._id , idFilm : req.params.id}).then(see => {
-                    var moyenne=0;
-                    list_review.forEach((item, index, array) => {
-                        console.log(item.grade);
-                        moyenne = moyenne + item.grade;
-                        console.log(moyenne);
+    Review.find({_id : req.params.id}).then(idfilm => {
+        idFilm=idfilm[0].idFilm;
+        Review.findOneAndRemove({ _id : req.params.id}).then(() => {
+            Film.find({_id : idFilm}).populate('typeFilm').then(film => {
+                Review.find({idFilm : idFilm}).populate('idUser').then( list_review => {
+                    console.log(list_review);
+                    See.find({idUser : req.user._id , idFilm : idFilm}).then(see => {
+                        var moyenne=0;
+                        list_review.forEach((item, index, array) => {
+                            moyenne = moyenne + item.grade;
+                        })
+                        moyenne=moyenne/list_review.length;
+                        data={film:film[0], list_review:list_review , user:req.user , grade : parseInt(moyenne) , see : see[0]};
+                        res.render('film/details.hbs' , data);
                     })
-                    moyenne=moyenne/list_review.length;
-                    data={film:film, list_review:list_review , user:req.user , grade : moyenne , see : see};
-                    res.render('film/details.hbs' , data);
+                    
                 })
-                
             })
         })
     })
@@ -81,7 +83,19 @@ routeur.post('/post_review/:id', ensureAuthenticated , (req,res) => {
                 return
             }
             else {
-                res.redirect('/');
+                Film.findById(req.params.id).populate('typeFilm').then(film => {
+                    Review.find({idFilm : req.params.id}).populate('idUser').then( list_review => {
+                        See.find({idUser : req.user._id , idFilm : req.params.id}).then(see => {
+                            var moyenne=0;
+                            list_review.forEach((item, index, array) => {
+                                moyenne = moyenne + item.grade;
+                            })
+                            moyenne=moyenne/list_review.length;
+                            data={film:film, list_review:list_review , user:req.user , grade : parseInt(moyenne) , see : see};
+                            res.render('film/details.hbs' , data);
+                        }) 
+                    })
+                }) 
             }
         })
     }

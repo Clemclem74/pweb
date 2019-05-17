@@ -13,6 +13,7 @@ var Recommend = require('./../models/recommend');
 var Film = require('./../models/film');
 var User = require('./../models/user');
 var See = require('./../models/seen');
+var Review = require('./../models/review');
 
 routeur.use(expressValidator());
 
@@ -81,7 +82,20 @@ routeur.post('/:idFilm' , (req,res) => {
                     return
                 }
                 else {
-                    res.redirect('/');
+                    Film.findById(req.params.idFilm).populate('typeFilm').then(film => {
+                        Review.find({idFilm : req.params.id}).populate('idUser').then( list_review => {
+                            See.find({idUser : req.user._id , idFilm : req.params.idFIlm}).then(see => {
+                                var moyenne=0;
+                                list_review.forEach((item, index, array) => {
+                                    moyenne = moyenne + item.grade;
+                                })
+                                moyenne=moyenne/list_review.length;
+                                data={film:film, list_review:list_review , user:req.user , grade : parseInt(moyenne) , see : see};
+                                res.render('film/details.hbs' , data);
+                            })
+                            
+                        })
+                    }) 
                 }
             })
         })

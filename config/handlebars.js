@@ -46,27 +46,6 @@ function see(idFilm,idUser) {
 
 
 
-async function seen(idFilm, idUser) {
-    const result = await Seen.findOne({idUser:idUser , idFilm:idFilm})
-    const res2 = await result;
-    if (res2) {
-      return 'true';
-    }
-    else {
-      return 'false';
-    }
-}
-
-helpers.filmseen =  async function(idFilm,idUser) {
-  var chatte = await seen(idFilm,idUser);
-  console.log(chatte);
-  if (chatte) {
-    return JSON.parse('true')
-  }
-  else {
-    return JSON.parse('false')
-  }
-}
 
  
 

@@ -135,8 +135,7 @@ routeur.get('/details/:id' , (req,res) => {
                             moyenne = moyenne + item.grade;
                         })
                         moyenne=moyenne/list_review.length;
-                        console.log(list_review);
-                        data={film:film, list_review:list_review , user:req.user , grade : moyenne , see : see};
+                        data={film:film, list_review:list_review , user:req.user , grade : parseInt(moyenne) , see : see};
                         res.render('film/details.hbs' , data);
                     })
                 }
@@ -147,7 +146,7 @@ routeur.get('/details/:id' , (req,res) => {
                             moyenne = moyenne + item.grade;
                         })
                         moyenne=moyenne/list_review.length;
-                        data={film:film, list_review:list_review , user:req.user , grade : moyenne };
+                        data={film:film, list_review:list_review , user:req.user , grade : parseInt(moyenne) };
                         res.render('film/details.hbs' , data);
                 }
             })

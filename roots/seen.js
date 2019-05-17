@@ -30,7 +30,7 @@ routeur.get('/delete/:id' , (req,res) => {
                         moyenne = moyenne + item.grade;
                     })
                     moyenne=moyenne/list_review.length;
-                    data={film:film, list_review:list_review , user:req.user , grade : moyenne , see : see};
+                    data={film:film, list_review:list_review , user:req.user , grade : parseInt(moyenne) , see : see};
                     res.render('film/details.hbs' , data);
                 })
                 
@@ -67,7 +67,7 @@ routeur.post('/:id'  , (req,res) => {
                             moyenne = moyenne + item.grade;
                         })
                         moyenne=moyenne/list_review.length;
-                        data={film:film, list_review:list_review , user:req.user , grade : moyenne , see : see};
+                        data={film:film, list_review:list_review , user:req.user , grade : parseInt(moyenne) , see : see};
                         res.render('film/details.hbs' , data);
                     })
                     
