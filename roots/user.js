@@ -53,55 +53,63 @@ routeur.post('/signup' ,ensureNotAuthenticated , (req,res) => {
             res.redirect('/');
             return
         }
-        if(errors){
-            errors.forEach(error => {
-                //console.log(error.msg);
-                req.flash('failure', error.msg)
-            });
-            
-            res.redirect('/');
-            return
-        }
-        else {
-            let user = new User({
-                firstname:firstname,
-                lastname:lastname,
-                username:username,
-                mail:mail,
-                birthday:birthday,
-                password:password,
-                isAdmin:false,
-            })
-            bcrypt.genSalt(10, (err,salt) => {
-                bcrypt.hash(user.password , salt , (err,hash) => {
-                    if(err) {
-                        console.log(err);
-                        req.flash('failure', 'Erreur lors du hashage veuillez recommencer')
-                        res.redirect('/');
-                        return
-    
-                    }
-                    else {
-                        user.password = hash ;
-                        console.log(user);
-                        user.save( (err) => {
-                            if(err) {
-                                console.log(err);
-                                req.flash('failure', 'Erreur lors de l\'enregistrement veuillez recommencer')
-                                res.redirect('/');
-                                return
-                            }
-                            else {
-                                console.log("Compte créé");
-                                req.flash('success', 'Votre compte a été créé');
-                                res.redirect('/');
-                                return
-                            }
-                        })
-                    }
+        User.findOne({mail:mail}).then(mailfind => {
+            if(mailfind) {
+                req.flash('failure', 'Adresse mail déjà prise <br><hr>')
+                res.redirect('/');
+                return
+            }
+            if(errors){
+                errors.forEach(error => {
+                    //console.log(error.msg);
+                    req.flash('failure', error.msg)
                 });
-            })
-        }
+                
+                res.redirect('/');
+                return
+            }
+            else {
+                let user = new User({
+                    firstname:firstname,
+                    lastname:lastname,
+                    username:username,
+                    mail:mail,
+                    birthday:birthday,
+                    password:password,
+                    isAdmin:false,
+                })
+                bcrypt.genSalt(10, (err,salt) => {
+                    bcrypt.hash(user.password , salt , (err,hash) => {
+                        if(err) {
+                            console.log(err);
+                            req.flash('failure', 'Erreur lors du hashage veuillez recommencer')
+                            res.redirect('/');
+                            return
+        
+                        }
+                        else {
+                            user.password = hash ;
+                            console.log(user);
+                            user.save( (err) => {
+                                if(err) {
+                                    console.log(err);
+                                    req.flash('failure', 'Erreur lors de l\'enregistrement veuillez recommencer')
+                                    res.redirect('/');
+                                    return
+                                }
+                                else {
+                                    console.log("Compte créé");
+                                    req.flash('success', 'Votre compte a été créé');
+                                    res.redirect('/');
+                                    return
+                                }
+                            })
+                        }
+                    });
+                })
+            }
+        })
+       
     })
     
     
@@ -142,15 +150,6 @@ routeur.post('/login', ensureNotAuthenticated, (req,res,next) => {
             return res.redirect('/');
         });
       })(req, res, next);
-    /* passport.authenticate('local'),  function(req, res) {
-        if (req.user) {
-            req.flash('success', 'OK');
-        }
-        else {
-            req.flash('success', 'NOT OK');
-        }
-        res.redirect('/');
-  }; */
 })
 
 routeur.get('/logout', ensureAuthenticated, (req, res) => {
