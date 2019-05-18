@@ -1,6 +1,8 @@
 #profile-container {
     margin:auto;
     padding-top: 50px;
+    padding-bottom: 50px;
+    margin-bottom:50px;
     background-color: orange;
     color: white;
     width:70%;
@@ -8,6 +10,7 @@
 }
 
 #profile-header {
+    padding:10px;
     border-radius: 25px;
     background-color: white;
     color: orange;
@@ -18,4 +21,12 @@
     border-radius: 25px;
     background-color: white;
     color : orange
+}
+
+#table-text-left {
+    padding-left: 5%;
+}
+
+#table-text-right {
+    padding-right: 5%;
 }

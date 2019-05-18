@@ -15,7 +15,10 @@
           <a id="button-admin-details" href="/edit/{{film._id}}" class="btn btn-primary">Modifier</a>
         </div>
         <div class="col-sm-6">
-          <a id="button-admin-details" href="/delete/{{film._id}}" class="btn btn-primary">Supprimer</a>
+          <form method='post' action="/{{film._id}}?_method=DELETE">
+          <input type="hidden" name="_method" value="DELETE">
+          <button id="button-admin-details" type="submit" class="btn btn-primary">Supprimer</button>
+        </form>
         </div>
       </div>
       {{/if}}
@@ -76,7 +79,7 @@
         {{#if grade}}
           </br><p id="detail-grade">Note : {{grade}} / 5</p>
           {{else}}
-          </br><p id="detail-grade">Pas encore de de note, donnez votre avis</p>
+          </br><p id="detail-grade">Pas encore de note, donnez votre avis</p>
         {{/if}}
         <small>
           <p class="lead" id="description">
@@ -188,8 +191,13 @@
               <strong>{{idUser.firstname}} {{idUser.lastname}}</strong><span id="grade-review" class="text-muted">Note :
                 {{grade}} /5</span>
               {{#if ../user.isAdmin}}
-              <a href="/review/delete/{{_id}}"><span id="delete-review" class="text-muted">/ Supprimer l'avis
-                  /</span></a>
+  <form method='post' action="/review/{{_id}}?_method=DELETE">
+    <input type="hidden" name="_method" value="DELETE">
+    <button><span type="submit" id="delete-review" class="text-muted">/ Supprimer l'avis
+                  /</span></button>
+
+  </form>
+            
               {{/if}}
             </div>
             <div class="panel-body">
@@ -229,4 +237,3 @@
 </div>
 
 
-<script src="/js/style.js"></script>

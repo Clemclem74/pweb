@@ -9,6 +9,8 @@ var Review = require('./../models/review');
 var See = require('./../models/seen');
 var User = require('./../models/user');
 const { ensureAdmin } = require('../config/admin');
+const methodOverride = require('method-override');
+routeur.use(methodOverride('_method'));
 
 var path = require("path");
 /* var multer = require('multer');
@@ -54,7 +56,6 @@ routeur.get('/', async function(req,res) {
             }
             data.push({seen:seen , film : film[i]});
         }
-            console.log(data[0]);
             res.render('film/list_film.hbs', {data: data });
     }
     else {
@@ -64,7 +65,6 @@ routeur.get('/', async function(req,res) {
             seen= '<img style="opacity: 0; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
             data.push({seen:seen , film : film[i]});
         }
-            console.log(data);
             res.render('film/list_film.hbs', {data: data });
 
     }
@@ -118,7 +118,8 @@ routeur.post('/search/', async function(req,res) {
 });
 
 
-routeur.get('/delete/:id', ensureAdmin, (req,res) => {
+routeur.delete('/:id', ensureAdmin, (req,res) => {
+    console.log('entré dans delete film')
     Film.findOneAndRemove({ _id : req.params.id}).then(() => {
         res.redirect('/');
     })

@@ -1,3 +1,4 @@
+
 (function($){
 	$.fn.tableSearch = function(options){
 		if(!$(this).is('table')){
@@ -46,4 +47,7 @@ function show_comments(table,messageshow,messagehide) {
 		document.getElementById(table).style.display = 'none';
 	}
 }
+
+
+
 

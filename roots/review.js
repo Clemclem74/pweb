@@ -8,6 +8,7 @@ var User = require('./../models/user');
 const { ensureAdmin } = require('../config/admin');
 const { ensureAuthenticated } = require('../config/auth');
 
+
 routeur.use(bodyParser.urlencoded({
     extended: true
 }));
@@ -17,19 +18,24 @@ var See = require('./../models/seen');
 var Film = require('./../models/film');
 routeur.use(expressValidator());
 
+const methodOverride = require('method-override');
+routeur.use(methodOverride('_method'));
+
+
 routeur.get('/post_review/:id',(req,res) => {
         var review = new Review();
         res.render('review/post_review.hbs', {review:review , filmid:req.params.id});
 });
 
 
-routeur.get('/review/:id' , (req,res) => {
+routeur.get(':id' , (req,res) => {
     Review.findById(req.params.id).populate('idUser').then(review => {
         console.log(review);
     })
 })
 
-routeur.get('/delete/:id', ensureAdmin , (req,res) => {
+routeur.delete('/:id', ensureAdmin , (req,res) => {
+    console.log("rentre dans delete");
     Review.find({_id : req.params.id}).then(idfilm => {
         idFilm=idfilm[0].idFilm;
         Review.findOneAndRemove({ _id : req.params.id}).then(() => {

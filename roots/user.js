@@ -155,7 +155,7 @@ routeur.post('/login', ensureNotAuthenticated, (req,res,next) => {
 
 routeur.get('/logout', ensureAuthenticated, (req, res) => {
     req.logout();
-    req.flash('success', 'Vous etes bien deconectes');
+    req.flash('success', 'Vous êtes bien déconnecté');
     res.redirect('/');
 })
 
