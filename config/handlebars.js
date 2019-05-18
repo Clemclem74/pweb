@@ -36,12 +36,47 @@ helpers.checked = function(film,idType) {
 };
 
 
-function see(idFilm,idUser) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(Seen.findOne({idUser:idUser , idFilm:idFilm}));
-    }, 2000);
-  });
+helpers.pagination = function(pages, current) {
+  if (pages) {
+    var str='';
+    str=str+'<ul class="pagination text-center">'
+      if (current == 1) {
+          str=str+'<li class="disabled"><a>First</a></li>'
+      }
+      else { 
+          str=str+'<li><a href="/1">Début</a></li>'
+      }
+      var i = (Number(current) > 5 ? Number(current) - 4 : 1)
+      if (i !== 1) { 
+          str=str+'<li class="disabled"><a>...</a></li>'
+      }
+      for (; i <= (Number(current) + 4) && i <= pages; i++) { 
+          if (i == current) {
+              str=str+'<li class="active"><a>'
+              str=str+i 
+              str=str+'</a></li>'
+          }
+          else { 
+              str=str+'<li><a href="/'
+              str=str+i
+              str=str+'">'
+              str=str+i
+              str=str+'</a></li>'
+          }
+          if (i == Number(current) + 4 && i < pages) {
+              str=str+'<li class="disabled"><a>...</a></li>'
+          } 
+      }
+      if (current == pages) { 
+          str=str+'<li class="disabled"><a>Fin</a></li>'
+      } else {
+          str=str+'<li><a href="/'
+          str=str+pages 
+          str=str+'">Last</a></li>'
+      }
+  str=str+'</ul>'
+  return str;
+  }
 }
 
 

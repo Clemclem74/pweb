@@ -13,6 +13,8 @@ var Film = require('./../models/film');
 var Seen = require('./../models/seen');
 var Review = require('./../models/review');
 routeur.use(expressValidator());
+const methodOverride = require('method-override');
+routeur.use(methodOverride('_method'));
 
 
 routeur.get('/:id',(req,res) => {
@@ -20,7 +22,7 @@ routeur.get('/:id',(req,res) => {
     res.render('review/post_review.hbs', {seen:seen , filmid:req.params.id});
 });
 
-routeur.get('/delete/:id' , (req,res) => {
+routeur.delete('/:id' , (req,res) => {
     Seen.findOneAndRemove({ idFilm : req.params.id , idUser : req.user._id}).then(() => {
         Film.findById(req.params.id).populate('typeFilm').then(film => {
             Review.find({idFilm : req.params.id}).populate('idUser').then( list_review => {

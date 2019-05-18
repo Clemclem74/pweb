@@ -42,8 +42,9 @@
         <div class="col-3 col-lg-0"></div>
 
         <div class="col-lg-1 col-md-1">
-          <form action="/seen/delete/{{film._id}}" method="GET">
-            <a href="/seen/{{film._id}}"><button class="btn btn-danger" id="button-seen" type="submit">-<span
+          <form action="/seen/{{film._id}}?_method=DELETE" method="post">
+          <input type="hidden" name="_method" value="DELETE">
+            <button class="btn btn-danger" id="button-seen" type="submit">-<span
                   id="seen-button"> <i class="fas fa-eye-slash"></i></span></button></a>
           </form>
         </div>
@@ -195,7 +196,6 @@
     <input type="hidden" name="_method" value="DELETE">
     <button><span type="submit" id="delete-review" class="text-muted">/ Supprimer l'avis
                   /</span></button>
-
   </form>
             
               {{/if}}

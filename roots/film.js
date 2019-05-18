@@ -42,9 +42,19 @@ var uploads = multer({ storage: storage });
 
 
 
-routeur.get('/', async function(req,res) {
+
+
+
+
+
+routeur.get('/:page?', async function(req,res) {
+    var perPage = 10;
+    var page = req.params.page || 1;
+
     if(req.user) {
-        film = await Film.find({}).populate('typeFilm').sort('-releaseYear')
+        film = await Film.find({}).populate('typeFilm').sort('-releaseYear').skip((perPage * page)-perPage).limit(perPage)
+        count = await Film.countDocuments();
+        
         var data = [];
         for (i in film) {
             const see = await See.find({idFilm : film[i]._id, idUser:req.user._id })
@@ -57,7 +67,7 @@ routeur.get('/', async function(req,res) {
             }
             data.push({seen:seen , film : film[i]});
         }
-            res.render('film/list_film.hbs', {data: data });
+            res.render('film/list_film.hbs', {data: data , current: page , pages: Math.ceil(count / perPage)});
     }
     else {
         film = await Film.find({}).populate('typeFilm').sort('-releaseYear')
