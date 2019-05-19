@@ -43,7 +43,6 @@ routeur.delete('/:id' , (req,res) => {
 
 
 routeur.post('/:id'  , (req,res) => {
-    console.log("Requete envoyée");
     if(!req.user) {
         res.render('user/signin.hbs');
     }

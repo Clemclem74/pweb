@@ -1,43 +1,41 @@
 <link rel="stylesheet" href="/css/film.css">
 
-    <div id="container-page" class="container">
+<div id="container-page" class="container">
 
-{{#unless data}}
-<h1>Vous n'avez pas de recommandations</h1>
-{{/unless}}
+	{{#unless data}}
+	<h1>Vous n'avez pas de recommandations</h1>
+	{{/unless}}
 
-      <h1>Vos recommandations :</h1>
+	<h1>Vos recommandations :</h1>
 
-{{#each data }} 
+	{{#each data }}
 
 	<div class="movie-card-1" id="movies-homepage">
-	<a href="/details/{{film.idFilm._id}}">
-	<div style="background-image: url('/uploads/{{film.idFilm.picture}}')" class="movie-header-1" id="movie-picture">
-	{{{seen}}}
-	</div>
-    </a>
-	<div class="movie-content-1">
-		<div class="movie-content-header-1">
-			<a href="#">
-				<h3 class="movie-title-1">{{film.idFilm.title}}</h3>
-			</a>
-		</div>
-		<div class="movie-info-1">
-			<div class="info-section-1">
-				<label id="TypeLabel">Recommandé par :  </label>
-				<span><small>{{film.idUserFrom.firstname}} {{film.idUserFrom.lastname}}</small></span>
+		<a href="/details/{{film.idFilm._id}}">
+			<div style="background-image: url({{film.idFilm.picture}})" class="movie-header-1" id="movie-picture">
+				{{{seen}}}
+			</div>
+		</a>
+		<div class="movie-content-1">
+			<div class="movie-content-header-1">
+				<a href="#">
+					<h3 class="movie-title-1">{{film.idFilm.title}}</h3>
+				</a>
+			</div>
+			<div class="movie-info-1">
+				<div class="info-section-1">
+					<label id="TypeLabel">Recommandé par : </label>
+					<span><small>{{film.idUserFrom.firstname}} {{film.idUserFrom.lastname}}</small></span>
+				</div>
 			</div>
 		</div>
 	</div>
+
+
+	{{/each}}
+	
+<br><br><br>
+	{{{paginationrecommendation pages current}}}
 </div>
 
-
-            {{/each}}
-    </div> 
-    
-    <script src="/js/jquery-1.11.1.min.js"></script>
-    
-
-
-
-
+<script src="/js/jquery-1.11.1.min.js"></script>

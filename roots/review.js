@@ -30,18 +30,15 @@ routeur.get('/post_review/:id',(req,res) => {
 
 routeur.get(':id' , (req,res) => {
     Review.findById(req.params.id).populate('idUser').then(review => {
-        console.log(review);
     })
 })
 
 routeur.delete('/:id', ensureAdmin , (req,res) => {
-    console.log("rentre dans delete");
     Review.find({_id : req.params.id}).then(idfilm => {
         idFilm=idfilm[0].idFilm;
         Review.findOneAndRemove({ _id : req.params.id}).then(() => {
             Film.find({_id : idFilm}).populate('typeFilm').then(film => {
                 Review.find({idFilm : idFilm}).populate('idUser').then( list_review => {
-                    console.log(list_review);
                     See.find({idUser : req.user._id , idFilm : idFilm}).then(see => {
                         var moyenne=0;
                         list_review.forEach((item, index, array) => {

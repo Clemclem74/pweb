@@ -17,25 +17,27 @@ var Review = require('./../models/review');
 
 routeur.use(expressValidator());
 
-routeur.get('/list', ensureAuthenticated, async function(req,res){
-        film = await Recommend.find({idUserTo : req.user._id}).populate('idFilm').populate('idUserFrom')
+routeur.get('/list/:page?', ensureAuthenticated, async function(req,res){
+        var perPage = 2;
+        var page = req.params.page || 1;
+
+        film = await Recommend.find({idUserTo : req.user._id}).populate('idFilm').populate('idUserFrom').skip((perPage * page)-perPage).limit(perPage)
+        count = await Recommend.find({idUserTo : req.user._id}).countDocuments();
+
         var data = [];
         for (i in film) {
-            console.log(film[i])
             const see = await See.find({idFilm : film[i].idFilm._id, idUser:req.user._id })
             if (see.length) {
-                console.log('true')
                 seen= '<img style="opacity: 0.7; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
                 //seen='<h1><span id="already-seen" class="badge badge-pill badge-success">Déjà vu</span></h1>'
             }
             else {
-                console.log('false')
                 seen= '<img style="opacity: 0; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
             }
             data.push({seen:seen , film : film[i]});
         }
             
-            res.render('recommend/list_film.hbs', {data: data});
+            res.render('recommend/list_film.hbs', {data: data , current: page , pages: Math.ceil(count / perPage)});
         
 });
 
@@ -64,11 +66,9 @@ routeur.post('/:idFilm' , (req,res) => {
     
 
     if(errors){
-        console.log(nameUserTo);
         res.render('recommend/recommend.hbs' , {errors:errors});
     }
     else {
-        console.log("Success");
         User.findOne({username : nameUserTo}).then(user => {
             let recommend = new Recommend({
                 idUserTo:user._id,

@@ -46,9 +46,7 @@ routeur.post('/signup' ,ensureNotAuthenticated , (req,res) => {
     var errors = req.validationErrors();
 
     User.findOne({username : username}).then(usernamefind => {
-        console.log(usernamefind)
         if(usernamefind){
-            console.log("pris");
             req.flash('failure','Pseudo déjà utilisé <br><hr>')
             res.redirect('/');
             return
@@ -89,7 +87,6 @@ routeur.post('/signup' ,ensureNotAuthenticated , (req,res) => {
                         }
                         else {
                             user.password = hash ;
-                            console.log(user);
                             user.save( (err) => {
                                 if(err) {
                                     console.log(err);
@@ -131,7 +128,6 @@ routeur.get('/login' , ensureNotAuthenticated, (req,res) => {
 })
 
 routeur.post('/login', ensureNotAuthenticated, (req,res,next) => {
-    console.log("User login enter");
     passport.authenticate('local', function(err, user, info) {
         if (err) {
             req.flash('failure',err);

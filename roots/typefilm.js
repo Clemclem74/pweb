@@ -14,14 +14,12 @@ var See = require('./../models/seen');
 
 
 routeur.get('/newtypefilm', ensureAdmin, (req,res) => {
-    console.log("get");
     var typefilm = new TypeFilm();
     res.render('typefilm/newTypeFilm.hbs', {typefilm:typefilm});
 });
 
 
 routeur.post('/newtypefilm' , ensureAdmin , (req,res) => {
-    console.log(req.body);
     const name = req.body.name;
     req.checkBody('name','Un nom est obligatoire').notEmpty();
     req.message = req.validationErrors();
@@ -45,32 +43,45 @@ routeur.post('/newtypefilm' , ensureAdmin , (req,res) => {
 })
 
 
-routeur.get('/:typefilm', async function(req,res) {
+routeur.get('/:typefilm/:page?', async function(req,res) {
+    var perPage = 2;
+    var page = req.params.page || 1;
     if(req.user) {
-        typefilm = await TypeFilm.findOne({name : req.params.typefilm}).populate('Film').sort('-releaseYear')
+        const typefilm = await TypeFilm.find({name : req.params.typefilm}).populate('Film').sort('-releaseYear')
+        count = typefilm[0].Film.length
         var data = [];
-        for (i in typefilm.Film) {
-            const see = await See.find({idFilm : typefilm.Film[i]._id, idUser:req.user._id })
-            if (see.length) {
-                seen= '<img style="opacity: 0.7; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
-                //seen='<h1><span id="already-seen" class="badge badge-pill badge-success">Déjà vu</span></h1>'
+        var tmp = (perPage * page)-perPage
+        for (i = tmp; i < tmp+perPage; i++) {
+            if(typefilm[0].Film[i]){
+                const see = await See.find({idFilm : typefilm[0].Film[i]._id, idUser:req.user._id })
+                if (see.length) {
+                    seen= '<img style="opacity: 0.7; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
+                    //seen='<h1><span id="already-seen" class="badge badge-pill badge-success">Déjà vu</span></h1>'
+                }
+                else {
+                    seen= '<img style="opacity: 0; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
+                }
+                data.push({seen:seen , film : typefilm[0].Film[i]});
             }
-            else {
-                seen= '<img style="opacity: 0; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
-            }
-            data.push({seen:seen , film : typefilm.Film[i]});
+            
         }
-            res.render('typefilm/filmByType.hbs', {data: data , typefilm:req.params.typefilm});
+            res.render('typefilm/filmByType.hbs', {data: data , typefilm:req.params.typefilm , current: page , pages: Math.ceil(count / perPage)});
     }
     else {
-        typefilm = await TypeFilm.findOne({name : req.params.typefilm}).populate('Film').sort('-releaseYear')
+        const typefilm = await TypeFilm.find({name : req.params.typefilm}).populate('Film').sort('-releaseYear')
+        count = typefilm[0].Film.length
         var data = [];
-        for (i in typefilm.Film) {
+        var tmp = (perPage * page)-perPage
+        for (i = tmp; i < tmp+perPage; i++) {
+            if(typefilm[0].Film[i]){
+                
             seen= '<img style="opacity: 0; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
-            data.push({seen:seen , film : typefilm.Film[i]});
+                
+            data.push({seen:seen , film : typefilm[0].Film[i]});
+            
+            }
         }
-            res.render('typefilm/filmByType.hbs', {data: data , typefilm:req.params.typefilm});
-
+            res.render('typefilm/filmByType.hbs', {data: data , typefilm:req.params.typefilm , current: page , pages: Math.ceil(count / perPage)});
     }
 
 

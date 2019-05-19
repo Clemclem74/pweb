@@ -26,11 +26,9 @@ helpers.math = function(lvalue, operator, rvalue, options) {
 
 helpers.checked = function(film,idType) {
   if (film.typeFilm.indexOf(idType) != -1) {
-    console.log("true")
     return new Handlebars.SafeString('checked');
   }
   else {
-    console.log("false")
     return false;
   }
 };
@@ -41,7 +39,7 @@ helpers.pagination = function(pages, current) {
     var str='';
     str=str+'<ul class="pagination text-center">'
       if (current == 1) {
-          str=str+'<li class="disabled"><a>First</a></li>'
+          str=str+'<li class="disabled"><a>Début</a></li>'
       }
       else { 
           str=str+'<li><a href="/1">Début</a></li>'
@@ -80,9 +78,144 @@ helpers.pagination = function(pages, current) {
 }
 
 
+helpers.paginationsearch = function(pages, current) {
+  if (pages) {
+    var str='';
+    str=str+'<ul class="pagination text-center">'
+      if (current == 1) {
+          str=str+'<li class="disabled"><a>Début</a></li>'
+      }
+      else { 
+          str=str+'<li><a href="/search/1">Début</a></li>'
+      }
+      var i = (Number(current) > 5 ? Number(current) - 4 : 1)
+      if (i !== 1) { 
+          str=str+'<li class="disabled"><a>...</a></li>'
+      }
+      for (; i <= (Number(current) + 4) && i <= pages; i++) { 
+          if (i == current) {
+              str=str+'<li class="active"><a>'
+              str=str+i 
+              str=str+'</a></li>'
+          }
+          else { 
+              str=str+'<li><a href="/search/'
+              str=str+i
+              str=str+'">'
+              str=str+i
+              str=str+'</a></li>'
+          }
+          if (i == Number(current) + 4 && i < pages) {
+              str=str+'<li class="disabled"><a>...</a></li>'
+          } 
+      }
+      if (current == pages) { 
+          str=str+'<li class="disabled"><a>Fin</a></li>'
+      } else {
+          str=str+'<li><a href="/search/'
+          str=str+pages 
+          str=str+'">Last</a></li>'
+      }
+  str=str+'</ul>'
+  return str;
+  }
+}
 
+
+
+helpers.paginationrecommendation = function(pages, current) {
+    if (pages) {
+      var str='';
+      str=str+'<ul class="pagination text-center">'
+        if (current == 1) {
+            str=str+'<li class="disabled"><a>Début</a></li>'
+        }
+        else { 
+            str=str+'<li><a href="/recommend/list/1">Début</a></li>'
+        }
+        var i = (Number(current) > 5 ? Number(current) - 4 : 1)
+        if (i !== 1) { 
+            str=str+'<li class="disabled"><a>...</a></li>'
+        }
+        for (; i <= (Number(current) + 4) && i <= pages; i++) { 
+            if (i == current) {
+                str=str+'<li class="active"><a>'
+                str=str+i 
+                str=str+'</a></li>'
+            }
+            else { 
+                str=str+'<li><a href="/recommend/list/'
+                str=str+i
+                str=str+'">'
+                str=str+i
+                str=str+'</a></li>'
+            }
+            if (i == Number(current) + 4 && i < pages) {
+                str=str+'<li class="disabled"><a>...</a></li>'
+            } 
+        }
+        if (current == pages) { 
+            str=str+'<li class="disabled"><a>Fin</a></li>'
+        } else {
+            str=str+'<li><a href="/recommend/list/'
+            str=str+pages 
+            str=str+'">Last</a></li>'
+        }
+    str=str+'</ul>'
+    return str;
+    }
+  }
 
  
+
+  helpers.paginationtype = function(pages, current , typefilm) {
+    if (pages) {
+      var str='';
+      str=str+'<ul class="pagination text-center">'
+        if (current == 1) {
+            str=str+'<li class="disabled"><a>Début</a></li>'
+        }
+        else { 
+            str=str+'<li><a href="/typefilm/'
+            str=str+typefilm
+            str=str+'/1">Début</a></li>'
+        }
+        var i = (Number(current) > 5 ? Number(current) - 4 : 1)
+        if (i !== 1) { 
+            str=str+'<li class="disabled"><a>...</a></li>'
+        }
+        for (; i <= (Number(current) + 4) && i <= pages; i++) { 
+            if (i == current) {
+                str=str+'<li class="active"><a>'
+                str=str+i 
+                str=str+'</a></li>'
+            }
+            else { 
+                str=str+'<li><a href="/typefilm/'
+                str=str+typefilm
+                str=str+'/'
+                str=str+i
+                str=str+'">'
+                str=str+i
+                str=str+'</a></li>'
+            }
+            if (i == Number(current) + 4 && i < pages) {
+                str=str+'<li class="disabled"><a>...</a></li>'
+            } 
+        }
+        if (current == pages) { 
+            str=str+'<li class="disabled"><a>Fin</a></li>'
+        } else {
+            str=str+'<li><a href="/typefilm/'
+            str=str+typefilm
+            str=str+'/'
+            str=str+pages 
+            str=str+'">Last</a></li>'
+        }
+    str=str+'</ul>'
+    return str;
+    }
+  }
 
 
 
