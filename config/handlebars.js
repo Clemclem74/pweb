@@ -262,8 +262,19 @@ helpers.paginationrecommendation = function(pages, current) {
   }
   
 
+  helpers.myreview = function(idReview, idUser , idUserConnected) {
+      str='';
+      if (!(idUser < idUserConnected) && !(idUser>idUserConnected)) {
+          str=str+'<br><a href="/review/edit/'
+          str=str+idReview
+          str=str+'">Modifiez votre comentaire</a>'
+          return str
+      }
+      else {
+           return str
+      }
+  }
 
 
-/* return new Handlebars.SafeString('<h1><span id="already-seen" class="badge badge-pill badge-success">Déjà vu</span></h1>');
- */
+
 module.exports = helpers

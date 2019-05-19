@@ -1,0 +1,14 @@
+<h2>Bienvenue dans le formulaire de modification d'avis : </h2>
+
+<form method="POST" action='/review/edit/{{ review._id }}'>
+    <div class="form-group">
+        <label for="title">Note</label>
+        <input type="number" id="grade" name="grade" value={{review.grade}} class="form-control" min="0" max="5" >
+    </div>
+    <div class="form-group">
+        <label for="review">Commentaire</label>
+        <input type="text" id="review" name="review" value={{review.review}} class="form-control" >
+    </div>
+    <hr>
+    <input type="submit" class="btn btn-success" value="Enregistrer">
+</form>
