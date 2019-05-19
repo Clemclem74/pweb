@@ -84,7 +84,7 @@ routeur.get('/adminsearch' , ensureAdmin , (req,res) => {
 
 routeur.get('/bygrade/:page?' , async function(req,res) {
     var perPage = 6;
-    var page = Number(req.params.page) || 1;
+    var page = parseInt(req.params.page) || 1;
     var data = []
     var sortfilm=[];
     film= await Film.find({})
@@ -144,7 +144,7 @@ routeur.get('/bygrade/:page?' , async function(req,res) {
 
 routeur.post('/search/:page?', async function(req,res) {
     var perPage = 6;
-    var page = Number(req.params.page) || 1;
+    var page = parseInt(req.params.page) || 1;
     if(req.user) {
         film=await Film.find({'title': {$regex: new RegExp('^' + req.body.search.toLowerCase(), 'i')}}).populate('typeFilm').sort('-releaseYear').skip((perPage * page)-perPage).limit(perPage)
         count = await Film.find({'title': {$regex: new RegExp('^' + req.body.search.toLowerCase(), 'i')}}).countDocuments();
@@ -208,7 +208,7 @@ routeur.get('/details/:id' , (req,res) => {
 
 routeur.get('/:page?', async function(req,res) {
     var perPage = 6;
-    var page = Number(req.params.page) || 1;
+    var page = parseInt(req.params.page) || 1;
 
     if(req.user) {
         film = await Film.find({}).populate('typeFilm').sort('-releaseYear').skip((perPage * page)-perPage).limit(perPage)
