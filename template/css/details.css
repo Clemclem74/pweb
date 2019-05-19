@@ -143,3 +143,9 @@
   opacity: 0.5;
   filter: alpha(opacity=50);
 }
+
+@media (max-width: 767px) {
+  #img-comment {
+    display:none;
+  }
+}

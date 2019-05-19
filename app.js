@@ -76,7 +76,7 @@ app.use(helmet.noCache())
 require('./config/passport')(passport);
 app.use(cookieSession({
     maxAge: 6*60*60*1000,
-    keys: [keys.cookieSession.cookieKey],
+    secret: [keys.cookieSession.cookieKey],
     resave: false,
     cookie: {
       secure: true,

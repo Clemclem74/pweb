@@ -6,7 +6,7 @@
 		}
 		var tableObj = $(this),
 			divObj = $('<div style="float:right; padding-right:10px; padding-top:40px">Rechercher : </div><br/><br/>'),
-			inputObj = $('<input style="margin-right:20px" type="text" placeholder="Utilisateur" />'),
+			inputObj = $('<input style="margin-right:20px" type="text" placeholder="Recherche :" />'),
 			caseSensitive = (options.caseSensitive===true)?true:false,
 			searchFieldVal = '',
 			pattern = '';
