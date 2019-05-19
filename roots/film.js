@@ -65,7 +65,7 @@ routeur.get('/edit/:id', ensureAdmin, (req,res) => {
 });
 
 routeur.post('/search/:page?', async function(req,res) {
-    var perPage = 2;
+    var perPage = 6;
     var page = req.params.page || 1;
     console.log(page);
     if(req.user) {
@@ -101,7 +101,7 @@ routeur.post('/search/:page?', async function(req,res) {
 
 
 routeur.get('/:page?', async function(req,res) {
-    var perPage = 2;
+    var perPage = 6;
     var page = req.params.page || 1;
 
     if(req.user) {

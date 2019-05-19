@@ -18,7 +18,7 @@ var Review = require('./../models/review');
 routeur.use(expressValidator());
 
 routeur.get('/list/:page?', ensureAuthenticated, async function(req,res){
-        var perPage = 2;
+        var perPage = 6;
         var page = req.params.page || 1;
 
         film = await Recommend.find({idUserTo : req.user._id}).populate('idFilm').populate('idUserFrom').skip((perPage * page)-perPage).limit(perPage)

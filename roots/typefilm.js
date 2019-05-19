@@ -44,7 +44,7 @@ routeur.post('/newtypefilm' , ensureAdmin , (req,res) => {
 
 
 routeur.get('/:typefilm/:page?', async function(req,res) {
-    var perPage = 2;
+    var perPage = 6;
     var page = req.params.page || 1;
     if(req.user) {
         const typefilm = await TypeFilm.find({name : req.params.typefilm}).populate('Film').sort('-releaseYear')
