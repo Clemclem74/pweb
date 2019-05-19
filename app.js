@@ -81,7 +81,8 @@ app.use(cookieSession({
     resave: false,
     cookie: {
       secure: true,
-      httpOnly: true
+      httpOnly: true,
+      domain: 'herokuapp.com',
 },
 }));
 app.use(passport.initialize());
