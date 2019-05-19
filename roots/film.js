@@ -85,7 +85,7 @@ routeur.get('/adminsearch' , ensureAdmin , (req,res) => {
 routeur.get('/bygrade/:page?' , async function(req,res) {
     var query = req.query.query || [];
     var perPage = 6;
-    var page = escape(req.params.page) || 1;
+    var page = req.params.page || 1;
     var data = []
     var sortfilm=[];
     film= await Film.find({})
@@ -146,7 +146,7 @@ routeur.get('/bygrade/:page?' , async function(req,res) {
 routeur.post('/search/:page?', async function(req,res) {
     var query = req.query.query || [];
     var perPage = 6;
-    var page = escape(req.params.page) || 1;
+    var page = req.params.page || 1;
     if(req.user) {
         film=await Film.find({'title': {$regex: new RegExp('^' + req.body.search.toLowerCase(), 'i')}}).populate('typeFilm').sort('-releaseYear').skip((perPage * page)-perPage).limit(perPage)
         count = await Film.find({'title': {$regex: new RegExp('^' + req.body.search.toLowerCase(), 'i')}}).countDocuments();
@@ -180,7 +180,7 @@ routeur.post('/search/:page?', async function(req,res) {
 
 routeur.get('/details/:id' , (req,res) => {
     var query = req.query.query || [];
-    var idFilm = escape(req.params.id)
+    var idFilm = req.params.id
     Film.findById(idFilm).populate('typeFilm').then(film => {
         Review.find({idFilm : mongoose.Types.ObjectId(idFilm)}).populate('idUser').then( list_review => {
             if(req.user){
@@ -212,7 +212,7 @@ routeur.get('/details/:id' , (req,res) => {
 
 routeur.get('/:page?', async function(req,res) {
     var perPage = 6;
-    var page = escape(req.params.page) || 1;
+    var page = req.params.page || 1;
     var query = req.query.query || [];
     if(req.user) {
         film = await Film.find({}).populate('typeFilm').sort('-releaseYear').skip((perPage * page)-perPage).limit(perPage)
