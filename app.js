@@ -8,7 +8,8 @@ var keys = require('./config/keys');
 var flash=require("connect-flash");
 var hbs = require('express-handlebars');
 var path = require('path');
-
+const xssFilter = require('x-xss-protection')
+const helmet = require('helmet')
 
 
 
@@ -66,6 +67,11 @@ app.engine('.hbs', hbs({
 
 
 app.use(flash());
+app.use(helmet());
+app.use(xssFilter({ setOnOldIE: true }));
+app.use(helmet.noCache())
+
+
 
 require('./config/passport')(passport);
 app.use(cookieSession({
