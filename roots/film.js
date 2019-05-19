@@ -49,7 +49,7 @@ routeur.get('/new', ensureAdmin ,(req,res) => {
 });
 
 routeur.get('/edit/:id', ensureAdmin, (req,res) => {
-    if (mongoose.Types.ObjectId.isValid(req.params.id)){
+    if (mongoose.Types.ObjectId.isValid(req.params.id)  && !req.query.query){
         TypeFilm.find({}).then(typefilm => {
             Film.findById(req.params.id).then(film => {
             res.render('film/edit_movie.hbs', {film:film , typefilm:typefilm });
@@ -179,7 +179,7 @@ routeur.get('/search/:search?/:page?', async function(req,res) {
 });
 
 routeur.get('/details/:id' , (req,res) => {
-    if (mongoose.Types.ObjectId.isValid(req.params.id)){
+    if (mongoose.Types.ObjectId.isValid(req.params.id) && !req.query.query){
         var idFilm = req.params.id
         Film.findById(idFilm).populate('typeFilm').then(film => {
             Review.find({idFilm : mongoose.Types.ObjectId(idFilm)}).populate('idUser').then( list_review => {
@@ -261,7 +261,7 @@ routeur.get('/:page?', async function(req,res) {
 
 
 routeur.delete('/:id', ensureAdmin, async function(req,res) {
-    if (mongoose.Types.ObjectId.isValid(req.params.id)){
+    if (mongoose.Types.ObjectId.isValid(req.params.id)  && !req.query.query){
         await Film.findOneAndRemove({ _id : req.params.id})
         const seelist = await See.find({idFilm : req.params.id})
         for (i in seelist) {
@@ -344,7 +344,7 @@ routeur.post('/new' ,ensureAdmin ,  (req,res) => {
 
 routeur.post('/edit/:id' , ensureAdmin, (req,res) => {
 
-    if (mongoose.Types.ObjectId.isValid(req.params.id)){
+    if (mongoose.Types.ObjectId.isValid(req.params.id)  && !req.query.query){
         const title = req.body.title;
     const description = req.body.description;
     const duration = req.body.duration;

@@ -49,7 +49,7 @@ routeur.get('/list/:page?', ensureAuthenticated, async function(req,res){
 });
 
 routeur.get('/:id',(req,res) => {
-    if (mongoose.Types.ObjectId.isValid(req.params.id)){
+    if (mongoose.Types.ObjectId.isValid(req.params.id)  && !req.query.query){
         var recommend = new Recommend();
         User.find({}).then( Allusers => {
             Film.findById(req.params.id).then(film => {
@@ -64,7 +64,7 @@ routeur.get('/:id',(req,res) => {
 
 
 routeur.post('/:idFilm' , (req,res) => {
-    if (mongoose.Types.ObjectId.isValid(req.params.idFilm)){
+    if (mongoose.Types.ObjectId.isValid(req.params.idFilm)  && !req.query.query){
         if(!req.user) {
             res.render('user/signin.hbs');
         }
