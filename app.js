@@ -10,7 +10,7 @@ var hbs = require('express-handlebars');
 var path = require('path');
 const xssFilter = require('x-xss-protection')
 const helmet = require('helmet')
-
+const querystring = require('querystring'); 
 
 
 
@@ -81,7 +81,6 @@ app.use(cookieSession({
     cookie: {
       secure: true,
       httpOnly: true,
-      secureProxy: true,
 },
 }));
 app.use(passport.initialize());

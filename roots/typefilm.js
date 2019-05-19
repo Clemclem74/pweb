@@ -44,6 +44,7 @@ routeur.post('/newtypefilm' , ensureAdmin , (req,res) => {
 
 
 routeur.get('/:typefilm/:page?', async function(req,res) {
+    var query = req.query.query || [];
     var perPage = 6;
     var page = escape(req.params.page) || 1;
     if(req.user) {

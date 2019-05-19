@@ -18,6 +18,7 @@ var Review = require('./../models/review');
 routeur.use(expressValidator());
 
 routeur.get('/list/:page?', ensureAuthenticated, async function(req,res){
+        var query = req.query.query || [];
         var perPage = 6;
         var page = escape(req.params.page) || 1;
 
