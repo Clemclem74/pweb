@@ -19,7 +19,7 @@ routeur.use(expressValidator());
 
 routeur.get('/list/:page?', ensureAuthenticated, async function(req,res){
         var perPage = 6;
-        var page = parseInt(req.params.page) || 1;
+        var page = escape(req.params.page) || 1;
 
         film = await Recommend.find({idUserTo : req.user._id}).populate('idFilm').populate('idUserFrom').skip((perPage * page)-perPage).limit(perPage)
         count = await Recommend.find({idUserTo : req.user._id}).countDocuments();

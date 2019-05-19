@@ -69,7 +69,6 @@ app.engine('.hbs', hbs({
 app.use(flash());
 app.use(helmet());
 app.use(xssFilter({ setOnOldIE: true }));
-app.use(helmet.noCache())
 
 
 
@@ -82,7 +81,7 @@ app.use(cookieSession({
     cookie: {
       secure: true,
       httpOnly: true,
-      domain: 'herokuapp.com',
+      secureProxy: true,
 },
 }));
 app.use(passport.initialize());
