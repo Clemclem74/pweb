@@ -107,10 +107,10 @@ routeur.get('/bygrade/:page?' , async function(req,res) {
     });
     var tmp = (perPage * page)-perPage
     if (req.user) {
-
         for (i = tmp; i < tmp+perPage; i++) {
             if(sortfilm[i]){
-                const see = await See.find({idFilm : sortfilm[i]._id, idUser:req.user._id })
+                const see = await See.find({idFilm : sortfilm[i].film._id, idUser:req.user._id })
+                console.log(see);
                 if (see.length) {
                     seen= '<img style="opacity: 0.7; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
                     //seen='<h1><span id="already-seen" class="badge badge-pill badge-success">Déjà vu</span></h1>'
