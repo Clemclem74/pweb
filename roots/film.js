@@ -143,13 +143,14 @@ routeur.get('/bygrade/:page?' , async function(req,res) {
 
 
 
-routeur.post('/search/:page?', async function(req,res) {
-    var query = req.query.query || [];
+routeur.get('/search/:search?/:page?', async function(req,res) {
     var perPage = 6;
+    console.log(req.query)
+    var searchstring=req.query.search || '';
     var page = req.params.page || 1;
     if(req.user) {
-        film=await Film.find({'title': {$regex: new RegExp('^' + req.body.search.toLowerCase(), 'i')}}).populate('typeFilm').sort('-releaseYear').skip((perPage * page)-perPage).limit(perPage)
-        count = await Film.find({'title': {$regex: new RegExp('^' + req.body.search.toLowerCase(), 'i')}}).countDocuments();
+        film=await Film.find({'title': {$regex: new RegExp('^' + searchstring.toLowerCase(), 'i')}}).populate('typeFilm').sort('-releaseYear').skip((perPage * page)-perPage).limit(perPage)
+        count = await Film.find({'title': {$regex: new RegExp('^' + searchstring.toLowerCase(), 'i')}}).countDocuments();
         var data = [];
         for (i in film) {
             const see = await See.find({idFilm : film[i]._id, idUser:req.user._id })
@@ -164,8 +165,8 @@ routeur.post('/search/:page?', async function(req,res) {
         }
     }
     else {
-        film=await Film.find({'title': {$regex: new RegExp('^' + req.body.search.toLowerCase(), 'i')}}).populate('typeFilm').sort('-releaseYear').skip((perPage * page)-perPage).limit(perPage)
-        count = await Film.find({'title': {$regex: new RegExp('^' + req.body.search.toLowerCase(), 'i')}}).countDocuments();
+        film=await Film.find({'title': {$regex: new RegExp('^' + searchstring.toLowerCase(), 'i')}}).populate('typeFilm').sort('-releaseYear').skip((perPage * page)-perPage).limit(perPage)
+        count = await Film.find({'title': {$regex: new RegExp('^' + searchstring.toLowerCase(), 'i')}}).countDocuments();
         var data = [];
         for (i in film) {
             seen= '<img style="opacity: 0; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
@@ -174,7 +175,7 @@ routeur.post('/search/:page?', async function(req,res) {
     }
    
     
-    res.render('film/list_film_search.hbs', {data: data , search : req.body.search ,current: page , pages: Math.ceil(count / perPage)});
+    res.render('film/list_film_search.hbs', {data: data , search : searchstring ,current: page , pages: Math.ceil(count / perPage)});
     
 });
 
