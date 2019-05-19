@@ -19,7 +19,7 @@ routeur.use(expressValidator());
 
 routeur.get('/list/:page?', ensureAuthenticated, async function(req,res){
     var page = req.params.page || [1];
-    if (page.length < 5) {
+    if (page.length < 5 && !req.query.query) {
         var perPage = 6;
         var page = req.params.page || 1;
 

@@ -71,7 +71,7 @@ routeur.get('/adminsearch' , ensureAdmin , (req,res) => {
 
 routeur.get('/bygrade/:page?' , async function(req,res) {
     var page = req.params.page || [1];
-    if(page.length < 8){
+    if(page.length < 8 && !req.query.query){
     var perPage = 6;
     var page = req.params.page || 1;
     var data = []
@@ -138,7 +138,7 @@ routeur.get('/bygrade/:page?' , async function(req,res) {
 routeur.get('/search/:search?/:page?', async function(req,res) {
     var page = req.params.page || [1];
     var searchstring=req.query.search || '';
-    if(page.length < 8 && req.query.search.length < 21 ) {
+    if(page.length < 8 && req.query.search.length < 21 && !req.query.query) {
         var perPage = 6;
         var page = req.params.page || [1];
         console.log(req.query)
@@ -219,7 +219,7 @@ routeur.get('/details/:id' , (req,res) => {
 routeur.get('/:page?', async function(req,res) {
     var page = req.params.page || [1];
     console.log(page.length)
-    if(page.length < 5) {
+    if(page.length < 5 && !req.query.query) {
         var page = req.params.page || 1;
         var perPage = 6;
         var query = req.query.query || [];
