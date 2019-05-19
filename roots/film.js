@@ -41,24 +41,6 @@ var uploads = multer({ storage: storage });
 
 
 
-async function gradefilm(idFilm) {
-    const reviewlist = await Review.find({idFilm : idFilm})
-    var moyenne=0;
-    if (reviewlist.length) {
-        for (i in reviewlist) {
-            moyenne=moyenne+reviewlist[i].grade
-        }
-        moyenne=moyenne/reviewlist.length;
-    }
-    return moyenne;
-}
-
-
-
-
-
-
-
 routeur.get('/new', ensureAdmin ,(req,res) => {
     TypeFilm.find({}).then(typefilm => {
         var film = new Film();
@@ -67,11 +49,16 @@ routeur.get('/new', ensureAdmin ,(req,res) => {
 });
 
 routeur.get('/edit/:id', ensureAdmin, (req,res) => {
-    TypeFilm.find({}).then(typefilm => {
-        Film.findById(req.params.id).then(film => {
-        res.render('film/edit_movie.hbs', {film:film , typefilm:typefilm });
+    if (mongoose.Types.ObjectId.isValid(req.params.id)){
+        TypeFilm.find({}).then(typefilm => {
+            Film.findById(req.params.id).then(film => {
+            res.render('film/edit_movie.hbs', {film:film , typefilm:typefilm });
+            })
         })
-    })
+    }
+    else {
+        res.redirect('/');
+    }
 });
 
 routeur.get('/adminsearch' , ensureAdmin , (req,res) => {
@@ -83,7 +70,8 @@ routeur.get('/adminsearch' , ensureAdmin , (req,res) => {
 
 
 routeur.get('/bygrade/:page?' , async function(req,res) {
-    var query = req.query.query || [];
+    var page = req.params.page || [1];
+    if(page.length < 8){
     var perPage = 6;
     var page = req.params.page || 1;
     var data = []
@@ -110,7 +98,6 @@ routeur.get('/bygrade/:page?' , async function(req,res) {
         for (i = tmp; i < tmp+perPage; i++) {
             if(sortfilm[i]){
                 const see = await See.find({idFilm : sortfilm[i].film._id, idUser:req.user._id })
-                console.log(see);
                 if (see.length) {
                     seen= '<img style="opacity: 0.7; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
                     //seen='<h1><span id="already-seen" class="badge badge-pill badge-success">Déjà vu</span></h1>'
@@ -138,133 +125,162 @@ routeur.get('/bygrade/:page?' , async function(req,res) {
         await res.render('film/list_film_grade.hbs', {data: data ,  current: page , pages: Math.ceil(count / perPage)});
 
     }
+    }
+    else {
+        res.redirect('/');
+    }
+    
 })
 
 
 
 
 routeur.get('/search/:search?/:page?', async function(req,res) {
-    var perPage = 6;
-    console.log(req.query)
+    var page = req.params.page || [1];
     var searchstring=req.query.search || '';
-    var page = req.params.page || 1;
-    if(req.user) {
-        film=await Film.find({'title': {$regex: new RegExp('^' + searchstring.toLowerCase(), 'i')}}).populate('typeFilm').sort('-releaseYear').skip((perPage * page)-perPage).limit(perPage)
-        count = await Film.find({'title': {$regex: new RegExp('^' + searchstring.toLowerCase(), 'i')}}).countDocuments();
-        var data = [];
-        for (i in film) {
-            const see = await See.find({idFilm : film[i]._id, idUser:req.user._id })
-            if (see.length) {
-                seen= '<img style="opacity: 0.7; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
-                //seen='<h1><span id="already-seen" class="badge badge-pill badge-success">Déjà vu</span></h1>'
+    if(page.length < 8 && req.query.search.length < 21 ) {
+        var perPage = 6;
+        var page = req.params.page || [1];
+        console.log(req.query)
+        if(req.user) {
+            film=await Film.find({'title': {$regex: new RegExp('^' + searchstring.toLowerCase(), 'i')}}).populate('typeFilm').sort('-releaseYear').skip((perPage * page)-perPage).limit(perPage)
+            count = await Film.find({'title': {$regex: new RegExp('^' + searchstring.toLowerCase(), 'i')}}).countDocuments();
+            var data = [];
+            for (i in film) {
+                const see = await See.find({idFilm : film[i]._id, idUser:req.user._id })
+                if (see.length) {
+                    seen= '<img style="opacity: 0.7; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
+                    //seen='<h1><span id="already-seen" class="badge badge-pill badge-success">Déjà vu</span></h1>'
+                }
+                else {
+                    seen= '<img style="opacity: 0; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
+                }
+                data.push({seen:seen , film : film[i]});
             }
-            else {
-                seen= '<img style="opacity: 0; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
-            }
-            data.push({seen:seen , film : film[i]});
         }
+        else {
+            film=await Film.find({'title': {$regex: new RegExp('^' + searchstring.toLowerCase(), 'i')}}).populate('typeFilm').sort('-releaseYear').skip((perPage * page)-perPage).limit(perPage)
+            count = await Film.find({'title': {$regex: new RegExp('^' + searchstring.toLowerCase(), 'i')}}).countDocuments();
+            var data = [];
+            for (i in film) {
+                seen= '<img style="opacity: 0; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
+                data.push({seen:seen , film : film[i]});
+            }
+        }
+       
+        
+        res.render('film/list_film_search.hbs', {data: data , search : searchstring ,current: page , pages: Math.ceil(count / perPage)});
+        
     }
     else {
-        film=await Film.find({'title': {$regex: new RegExp('^' + searchstring.toLowerCase(), 'i')}}).populate('typeFilm').sort('-releaseYear').skip((perPage * page)-perPage).limit(perPage)
-        count = await Film.find({'title': {$regex: new RegExp('^' + searchstring.toLowerCase(), 'i')}}).countDocuments();
-        var data = [];
-        for (i in film) {
-            seen= '<img style="opacity: 0; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
-            data.push({seen:seen , film : film[i]});
-        }
+        res.redirect('/')
     }
-   
-    
-    res.render('film/list_film_search.hbs', {data: data , search : searchstring ,current: page , pages: Math.ceil(count / perPage)});
     
 });
 
 routeur.get('/details/:id' , (req,res) => {
-    var query = req.query.query || [];
-    var idFilm = req.params.id
-    Film.findById(idFilm).populate('typeFilm').then(film => {
-        Review.find({idFilm : mongoose.Types.ObjectId(idFilm)}).populate('idUser').then( list_review => {
-            if(req.user){
-                See.find({idUser : mongoose.Types.ObjectId(req.user._id) , idFilm : mongoose.Types.ObjectId(req.params.id)}).then(see => {
-                    var moyenne=0;
-                    list_review.forEach((item, index, array) => {
-                        moyenne = moyenne + item.grade;
+    if (mongoose.Types.ObjectId.isValid(req.params.id)){
+        var idFilm = req.params.id
+        Film.findById(idFilm).populate('typeFilm').then(film => {
+            Review.find({idFilm : mongoose.Types.ObjectId(idFilm)}).populate('idUser').then( list_review => {
+                if(req.user){
+                    See.find({idUser : mongoose.Types.ObjectId(req.user._id) , idFilm : mongoose.Types.ObjectId(req.params.id)}).then(see => {
+                        var moyenne=0;
+                        list_review.forEach((item, index, array) => {
+                            moyenne = moyenne + item.grade;
+                        })
+                        moyenne=moyenne/list_review.length;
+                        data={film:film, list_review:list_review , user:req.user , grade : parseInt(moyenne) , see : see};
+                        res.render('film/details.hbs' , data);
                     })
-                    moyenne=moyenne/list_review.length;
-                    data={film:film, list_review:list_review , user:req.user , grade : parseInt(moyenne) , see : see};
-                    res.render('film/details.hbs' , data);
-                })
-            }
-            else {
-                
-                    var moyenne=0;
-                    list_review.forEach((item, index, array) => {
-                        moyenne = moyenne + item.grade;
-                    })
-                    moyenne=moyenne/list_review.length;
-                    data={film:film, list_review:list_review , user:req.user , grade : parseInt(moyenne) };
-                    res.render('film/details.hbs' , data);
-            }
+                }
+                else {
+                    
+                        var moyenne=0;
+                        list_review.forEach((item, index, array) => {
+                            moyenne = moyenne + item.grade;
+                        })
+                        moyenne=moyenne/list_review.length;
+                        data={film:film, list_review:list_review , user:req.user , grade : parseInt(moyenne) };
+                        res.render('film/details.hbs' , data);
+                }
+            })
         })
-    }),
+    }
+    else {
+        res.redirect('/');
+    }
+
+    
     err => res.status(500).send(err);
 })
 
 
 routeur.get('/:page?', async function(req,res) {
-    var perPage = 6;
-    var page = req.params.page || 1;
-    var query = req.query.query || [];
-    if(req.user) {
-        film = await Film.find({}).populate('typeFilm').sort('-releaseYear').skip((perPage * page)-perPage).limit(perPage)
-        count = await Film.countDocuments();
-        
-        var data = [];
-        for (i in film) {
-            const see = await See.find({idFilm : film[i]._id, idUser:req.user._id })
-            if (see.length) {
-                seen= '<img style="opacity: 0.7; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
-                //seen='<h1><span id="already-seen" class="badge badge-pill badge-success">Déjà vu</span></h1>'
+    var page = req.params.page || [1];
+    console.log(page.length)
+    if(page.length < 5) {
+        var page = req.params.page || 1;
+        var perPage = 6;
+        var query = req.query.query || [];
+        if(req.user) {
+            film = await Film.find({}).populate('typeFilm').sort('-releaseYear').skip((perPage * page)-perPage).limit(perPage)
+            count = await Film.countDocuments();
+            
+            var data = [];
+            for (i in film) {
+                const see = await See.find({idFilm : film[i]._id, idUser:req.user._id })
+                if (see.length) {
+                    seen= '<img style="opacity: 0.7; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
+                    //seen='<h1><span id="already-seen" class="badge badge-pill badge-success">Déjà vu</span></h1>'
+                }
+                else {
+                    seen= '<img style="opacity: 0; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
+                }
+                data.push({seen:seen , film : film[i]});
             }
-            else {
+                res.render('film/list_film.hbs', {data: data , current: page , pages: Math.ceil(count / perPage)});
+        }
+        else {
+            film = await Film.find({}).populate('typeFilm').sort('-releaseYear').skip((perPage * page)-perPage).limit(perPage)
+            count = await Film.countDocuments();
+            
+            var data = [];
+            for (i in film) {
                 seen= '<img style="opacity: 0; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
+                data.push({seen:seen , film : film[i]});
             }
-            data.push({seen:seen , film : film[i]});
+                res.render('film/list_film.hbs', {data: data , current: page , pages: Math.ceil(count / perPage)});
+    
         }
-            res.render('film/list_film.hbs', {data: data , current: page , pages: Math.ceil(count / perPage)});
-    }
+    } 
     else {
-        film = await Film.find({}).populate('typeFilm').sort('-releaseYear').skip((perPage * page)-perPage).limit(perPage)
-        count = await Film.countDocuments();
-        
-        var data = [];
-        for (i in film) {
-            seen= '<img style="opacity: 0; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
-            data.push({seen:seen , film : film[i]});
-        }
-            res.render('film/list_film.hbs', {data: data , current: page , pages: Math.ceil(count / perPage)});
-
-    }
-
-   
+        res.redirect('/');
+    }   
 });
 
 
 routeur.delete('/:id', ensureAdmin, async function(req,res) {
-    await Film.findOneAndRemove({ _id : req.params.id})
-    const seelist = await See.find({idFilm : req.params.id})
-    for (i in seelist) {
-        await Seen.findOneAndRemove({_id : seelist[i]._id})
+    if (mongoose.Types.ObjectId.isValid(req.params.id)){
+        await Film.findOneAndRemove({ _id : req.params.id})
+        const seelist = await See.find({idFilm : req.params.id})
+        for (i in seelist) {
+            await Seen.findOneAndRemove({_id : seelist[i]._id})
+        }
+        const recommendlist = await Recommend.find({idFilm : req.params.id})
+        for (i in recommendlist) {
+            await Recommend.findOneAndRemove({_id : recommendlist[i]})
+        }
+        const reviewlist = await Review.find({idFilm : req.params.id})
+        for (i in reviewlist) {
+            await Review.findOneAndRemove({_id : reviewlist[i]})
+        }           
+        res.redirect('/');
     }
-    const recommendlist = await Recommend.find({idFilm : req.params.id})
-    for (i in recommendlist) {
-        await Recommend.findOneAndRemove({_id : recommendlist[i]})
+    else {
+        res.redirect('/')
     }
-    const reviewlist = await Review.find({idFilm : req.params.id})
-    for (i in reviewlist) {
-        await Review.findOneAndRemove({_id : reviewlist[i]})
-    }           
-    res.redirect('/');
+    
 });
 
 
@@ -328,8 +344,8 @@ routeur.post('/new' ,ensureAdmin ,  (req,res) => {
 
 routeur.post('/edit/:id' , ensureAdmin, (req,res) => {
 
-    
-    const title = req.body.title;
+    if (mongoose.Types.ObjectId.isValid(req.params.id)){
+        const title = req.body.title;
     const description = req.body.description;
     const duration = req.body.duration;
     const releaseYear = req.body.releaseYear;
@@ -387,6 +403,12 @@ routeur.post('/edit/:id' , ensureAdmin, (req,res) => {
         })
         
     } 
+    }
+    else {
+        res.redirect('/');
+    }
+    
+    
 })
 
 

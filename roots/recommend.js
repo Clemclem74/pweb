@@ -18,7 +18,8 @@ var Review = require('./../models/review');
 routeur.use(expressValidator());
 
 routeur.get('/list/:page?', ensureAuthenticated, async function(req,res){
-        var query = req.query.query || [];
+    var page = req.params.page || [1];
+    if (page.length < 5) {
         var perPage = 6;
         var page = req.params.page || 1;
 
@@ -40,69 +41,80 @@ routeur.get('/list/:page?', ensureAuthenticated, async function(req,res){
             
             res.render('recommend/list_film.hbs', {data: data , current: page , pages: Math.ceil(count / perPage)});
         
+    }
+    else {
+        res.redirect('/')
+    }
+        
 });
 
 routeur.get('/:id',(req,res) => {
+    if (mongoose.Types.ObjectId.isValid(req.params.id)){
         var recommend = new Recommend();
         User.find({}).then( Allusers => {
             Film.findById(req.params.id).then(film => {
                 res.render('recommend/recommend.hbs', {recommend:recommend , film:film , Allusers : Allusers});
             })
         })
+    }
+    else {
+        res.redirect('/')
+    }      
 });
 
 
 routeur.post('/:idFilm' , (req,res) => {
-    if(!req.user) {
-        res.render('user/signin.hbs');
-    }
-
-    const nameUserTo = req.body.nameUserTo;
-    const idUserFrom = req.user._id;
-    const idFilm = req.params.idFilm;
-
-
-    req.checkBody('nameUserTo','Un autre utilisateur est obligatoire').notEmpty();
-    let errors = req.validationErrors();
+    if (mongoose.Types.ObjectId.isValid(req.params.idFilm)){
+        if(!req.user) {
+            res.render('user/signin.hbs');
+        }
     
-
-    if(errors){
-        res.render('recommend/recommend.hbs' , {errors:errors});
-    }
-    else {
-        User.findOne({username : nameUserTo}).then(user => {
-            let recommend = new Recommend({
-                idUserTo:user._id,
-                idUserFrom:idUserFrom,
-                idFilm:idFilm,
+        const nameUserTo = req.body.nameUserTo;
+        const idUserFrom = req.user._id;
+        const idFilm = req.params.idFilm;
+    
+    
+        req.checkBody('nameUserTo','Un autre utilisateur est obligatoire').notEmpty();
+        let errors = req.validationErrors();
+        
+    
+        if(errors){
+            res.render('recommend/recommend.hbs' , {errors:errors});
+        }
+        else {
+            User.findOne({username : nameUserTo}).then(user => {
+                let recommend = new Recommend({
+                    idUserTo:user._id,
+                    idUserFrom:idUserFrom,
+                    idFilm:idFilm,
+                })
+                
+                recommend.save( (err) => {
+                    if(err) {
+                        console.log(err);
+                        return
+                    }
+                    else {
+                        Film.findById(req.params.idFilm).populate('typeFilm').then(film => {
+                            Review.find({idFilm : req.params.id}).populate('idUser').then( list_review => {
+                                See.find({idUser : req.user._id , idFilm : req.params.idFIlm}).then(see => {
+                                    var moyenne=0;
+                                    list_review.forEach((item, index, array) => {
+                                        moyenne = moyenne + item.grade;
+                                    })
+                                    moyenne=moyenne/list_review.length;
+                                    data={film:film, list_review:list_review , user:req.user , grade : parseInt(moyenne) , see : see};
+                                    res.render('film/details.hbs' , data);
+                                })
+                                
+                            })
+                        }) 
+                    }
+                })
             })
             
-            recommend.save( (err) => {
-                if(err) {
-                    console.log(err);
-                    return
-                }
-                else {
-                    Film.findById(req.params.idFilm).populate('typeFilm').then(film => {
-                        Review.find({idFilm : req.params.id}).populate('idUser').then( list_review => {
-                            See.find({idUser : req.user._id , idFilm : req.params.idFIlm}).then(see => {
-                                var moyenne=0;
-                                list_review.forEach((item, index, array) => {
-                                    moyenne = moyenne + item.grade;
-                                })
-                                moyenne=moyenne/list_review.length;
-                                data={film:film, list_review:list_review , user:req.user , grade : parseInt(moyenne) , see : see};
-                                res.render('film/details.hbs' , data);
-                            })
-                            
-                        })
-                    }) 
-                }
-            })
-        })
-        
+        }
     }
-
 })
 
 
