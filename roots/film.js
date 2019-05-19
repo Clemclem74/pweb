@@ -64,6 +64,12 @@ routeur.get('/edit/:id', ensureAdmin, (req,res) => {
     })
 });
 
+routeur.get('/adminsearch' , ensureAdmin , (req,res) => {
+    Film.find({}).then(film => {
+        res.render('user/searchadmin.hbs', {Allfilm:film});
+    })
+})
+
 routeur.post('/search/:page?', async function(req,res) {
     var perPage = 6;
     var page = req.params.page || 1;
@@ -98,6 +104,35 @@ routeur.post('/search/:page?', async function(req,res) {
     res.render('film/list_film_search.hbs', {data: data , search : req.body.search ,current: page , pages: Math.ceil(count / perPage)});
     
 });
+
+routeur.get('/details/:id' , (req,res) => {
+    Film.findById(req.params.id).populate('typeFilm').then(film => {
+        Review.find({idFilm : mongoose.Types.ObjectId(req.params.id)}).populate('idUser').then( list_review => {
+            if(req.user){
+                See.find({idUser : mongoose.Types.ObjectId(req.user._id) , idFilm : mongoose.Types.ObjectId(req.params.id)}).then(see => {
+                    var moyenne=0;
+                    list_review.forEach((item, index, array) => {
+                        moyenne = moyenne + item.grade;
+                    })
+                    moyenne=moyenne/list_review.length;
+                    data={film:film, list_review:list_review , user:req.user , grade : parseInt(moyenne) , see : see};
+                    res.render('film/details.hbs' , data);
+                })
+            }
+            else {
+                
+                    var moyenne=0;
+                    list_review.forEach((item, index, array) => {
+                        moyenne = moyenne + item.grade;
+                    })
+                    moyenne=moyenne/list_review.length;
+                    data={film:film, list_review:list_review , user:req.user , grade : parseInt(moyenne) };
+                    res.render('film/details.hbs' , data);
+            }
+        })
+    }),
+    err => res.status(500).send(err);
+})
 
 
 routeur.get('/:page?', async function(req,res) {
@@ -157,34 +192,7 @@ routeur.delete('/:id', ensureAdmin, async function(req,res) {
 });
 
 
-routeur.get('/details/:id' , (req,res) => {
-        Film.findById(req.params.id).populate('typeFilm').then(film => {
-            Review.find({idFilm : mongoose.Types.ObjectId(req.params.id)}).populate('idUser').then( list_review => {
-                if(req.user){
-                    See.find({idUser : mongoose.Types.ObjectId(req.user._id) , idFilm : mongoose.Types.ObjectId(req.params.id)}).then(see => {
-                        var moyenne=0;
-                        list_review.forEach((item, index, array) => {
-                            moyenne = moyenne + item.grade;
-                        })
-                        moyenne=moyenne/list_review.length;
-                        data={film:film, list_review:list_review , user:req.user , grade : parseInt(moyenne) , see : see};
-                        res.render('film/details.hbs' , data);
-                    })
-                }
-                else {
-                    
-                        var moyenne=0;
-                        list_review.forEach((item, index, array) => {
-                            moyenne = moyenne + item.grade;
-                        })
-                        moyenne=moyenne/list_review.length;
-                        data={film:film, list_review:list_review , user:req.user , grade : parseInt(moyenne) };
-                        res.render('film/details.hbs' , data);
-                }
-            })
-        }),
-        err => res.status(500).send(err);
-})
+
 
 
 
