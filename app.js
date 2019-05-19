@@ -69,7 +69,7 @@ app.engine('.hbs', hbs({
 app.use(flash());
 app.use(helmet());
 app.use(xssFilter({ setOnOldIE: true }));
-
+app.use(helmet.noCache());
 
 
 require('./config/passport')(passport);
