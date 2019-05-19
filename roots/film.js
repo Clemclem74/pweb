@@ -41,7 +41,17 @@ var uploads = multer({ storage: storage });
 
 
 
-
+async function gradefilm(idFilm) {
+    const reviewlist = await Review.find({idFilm : idFilm})
+    var moyenne=0;
+    if (reviewlist.length) {
+        for (i in reviewlist) {
+            moyenne=moyenne+reviewlist[i].grade
+        }
+        moyenne=moyenne/reviewlist.length;
+    }
+    return moyenne;
+}
 
 
 
@@ -69,6 +79,68 @@ routeur.get('/adminsearch' , ensureAdmin , (req,res) => {
         res.render('user/searchadmin.hbs', {Allfilm:film});
     })
 })
+
+
+
+routeur.get('/bygrade/:page?' , async function(req,res) {
+    var perPage = 6;
+    var page = req.params.page || 1;
+    var data = []
+    var sortfilm=[];
+    film= await Film.find({})
+    count=film.length;
+    for await (i of film) {
+        const reviewlist = await Review.find({idFilm : i._id})
+        var moyenne=0;
+        if (reviewlist.length) {
+            for await (j of reviewlist) {
+                moyenne=moyenne+j.grade
+            }
+            moyenne=moyenne/reviewlist.length;
+        }
+        grade = moyenne
+        await sortfilm.push({film : i , grade : grade})
+    }
+    await sortfilm.sort(function (a, b) {
+        return (a.grade < b.grade) ? 1 : -1;
+    });
+    var tmp = (perPage * page)-perPage
+    if (req.user) {
+
+        for (i = tmp; i < tmp+perPage; i++) {
+            if(sortfilm[i]){
+                const see = await See.find({idFilm : sortfilm[i]._id, idUser:req.user._id })
+                if (see.length) {
+                    seen= '<img style="opacity: 0.7; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
+                    //seen='<h1><span id="already-seen" class="badge badge-pill badge-success">Déjà vu</span></h1>'
+                }
+                else {
+                    seen= '<img style="opacity: 0; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
+                }
+                await data.push({seen:seen , film : sortfilm[i]});
+            }
+            
+        }
+        await res.render('film/list_film_grade.hbs', {data: data ,  current: page , pages: Math.ceil(count / perPage)});
+
+    }
+    else {
+        for (i = tmp; i < tmp+perPage; i++) {
+            if(sortfilm[i]){
+                
+                seen= '<img style="opacity: 0; filter: alpha(opacity=50)" width=100% height=100% src="/uploads/vu.png">'
+                
+                await data.push({seen:seen , film : sortfilm[i]});
+            }
+            
+        }
+        await res.render('film/list_film_grade.hbs', {data: data ,  current: page , pages: Math.ceil(count / perPage)});
+
+    }
+})
+
+
+
 
 routeur.post('/search/:page?', async function(req,res) {
     var perPage = 6;

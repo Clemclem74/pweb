@@ -129,3 +129,10 @@
 	width:70%;
 	margin-top: 20px;
 }
+
+#sortgrade {
+	float : left;
+	padding-left : 20px;
+	font-weight: bold;
+	color:orange;
+}
