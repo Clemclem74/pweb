@@ -1,41 +1,41 @@
 var mongoose = require('mongoose');
 
 var filmSchema = new mongoose.Schema({
-    title : String,
-    description : String,
-    duration : Number,
-    releaseYear : Number,
-    picture : String,
+    title: String,
+    description: String,
+    duration: Number,
+    releaseYear: Number,
+    picture: String,
     trailer: String,
     downlink: String,
     streamlink: String,
-    typeFilm : [
+    typeFilm: [
         {
-            type : mongoose.Schema.Types.ObjectId,
-            ref:'TypeFilm'
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'TypeFilm'
         }
     ]
 });
 
 
-filmSchema.virtual('Review',{
+filmSchema.virtual('Review', {
     ref: 'Review',
-    localField:'_id',
-    foreignField:'idFilm'
+    localField: '_id',
+    foreignField: 'idFilm'
 });
 
-filmSchema.virtual('Grade',{
+filmSchema.virtual('Grade', {
     ref: 'Grade',
-    localField:'_id',
-    foreignField:'idFilm'
+    localField: '_id',
+    foreignField: 'idFilm'
 });
 
-filmSchema.virtual('Recommend',{
+filmSchema.virtual('Recommend', {
     ref: 'Recommend',
-    localField:'_id',
-    foreignField:'idFilm'
+    localField: '_id',
+    foreignField: 'idFilm'
 });
 
 
-var Film = mongoose.model('Film',filmSchema,'Film');
+var Film = mongoose.model('Film', filmSchema, 'Film');
 module.exports = Film;

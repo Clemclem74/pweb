@@ -103,7 +103,7 @@
 
   <button class="btn btn-info" data-toggle="modal" data-target="#fsModal"> Bande Annonce </button>
   {{#if user}}
-  <a href="{{film.streamlink}}"><button class="btn btn-success"> Streaming </button></a>
+  <a href="{{film.streamlink}}" target="_blank"><button class="btn btn-success"> Streaming </button></a>
   <a href="{{film.downlink}}"><button class="btn btn-success"> Télécharger </button></a>
   {{else}}
   <h4 id="not-connect">Connectez vous pour télécharger, regarder, recommander ou donner son avis sur le film</h4>

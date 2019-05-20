@@ -3,11 +3,11 @@ const User = require('../models/user');
 const config = require('../config/database');
 const bcrypt = require('bcryptjs');
 
-module.exports = function(passport){
-    passport.use(new LocalStrategy(function(username, password, done){
+module.exports = function (passport) {
+    passport.use(new LocalStrategy(function (username, password, done) {
         //Matching of username
-        let query = {username:username};
-        User.findOne(query , (err, user) => {
+        let query = { username: username };
+        User.findOne(query, (err, user) => {
             if (err) {
                 console.log(err);
             }
@@ -17,7 +17,7 @@ module.exports = function(passport){
             }
 
             // Matching of password
-            bcrypt.compare(password,user.password, (err, isMatch) => { 
+            bcrypt.compare(password, user.password, (err, isMatch) => {
                 if (err) {
                     console.log(err);
                 }
@@ -26,19 +26,19 @@ module.exports = function(passport){
                 }
                 else {
                     console.log('Mauvais mdp');
-                    return done(null, false, {message : 'Mauvais mot de passe '})
+                    return done(null, false, { message: 'Mauvais mot de passe ' })
                 }
             })
 
         })
     }))
-    passport.serializeUser(function(user, done) {
+    passport.serializeUser(function (user, done) {
         done(null, user.id);
-      });
-      
-    passport.deserializeUser(function(id, done) {
-        User.findById(id, function(err, user) {
-          done(err, user);
+    });
+
+    passport.deserializeUser(function (id, done) {
+        User.findById(id, function (err, user) {
+            done(err, user);
         });
-      });
+    });
 }

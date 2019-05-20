@@ -1,17 +1,17 @@
 module.exports = {
-    ensureAuthenticated : function( req , res , next ) {
-        if (req.isAuthenticated()){
+    ensureAuthenticated: function (req, res, next) {
+        if (req.isAuthenticated()) {
             return next();
         }
         else {
-            req.flash('failure' , 'Connectez vous pour acceder à cette page');
+            req.flash('failure', 'Connectez vous pour acceder à cette page');
             res.redirect('/');
         }
     },
 
-    ensureNotAuthenticated : function( req , res , next ) {
-        if (req.isAuthenticated()){
-            req.flash('failure' , 'Vous êtes déjà connecté');
+    ensureNotAuthenticated: function (req, res, next) {
+        if (req.isAuthenticated()) {
+            req.flash('failure', 'Vous êtes déjà connecté');
             res.redirect('/');
         }
         else {

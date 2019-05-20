@@ -1,68 +1,68 @@
 var mongoose = require('mongoose');
 
 var userSchema = new mongoose.Schema({
-    firstname : {
-        type : String,
-        required : true,
+    firstname: {
+        type: String,
+        required: true,
         minlength: 4,
         maxlength: 30
-    } ,
-    lastname : {
-        type : String,
-        required : true,
+    },
+    lastname: {
+        type: String,
+        required: true,
         minlength: 4,
         maxlength: 30
-    } ,
-    username : {
-        type : String,
-        required : true,
+    },
+    username: {
+        type: String,
+        required: true,
         minlength: 4,
         maxlength: 30
-    } ,
-    mail : {
-        type : String,
-        required : true,
-    } ,
-    password : {
-        type : String,
-        required : true
-    } ,
-    birthday : {
-        type : Date,
-        required : true
-    } ,
-    isAdmin : {
-        type : Boolean,
-        default : false,
-        required : true
-    }    
+    },
+    mail: {
+        type: String,
+        required: true,
+    },
+    password: {
+        type: String,
+        required: true
+    },
+    birthday: {
+        type: Date,
+        required: true
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false,
+        required: true
+    }
 },
-{versionKey: false}
+    { versionKey: false }
 );
 
-userSchema.virtual('Review',{
+userSchema.virtual('Review', {
     ref: 'Review',
-    localField:'_id',
-    foreignField:'idUser'
+    localField: '_id',
+    foreignField: 'idUser'
 });
 
-userSchema.virtual('Grade',{
+userSchema.virtual('Grade', {
     ref: 'Grade',
-    localField:'_id',
-    foreignField:'idUser'
+    localField: '_id',
+    foreignField: 'idUser'
 });
 
-userSchema.virtual('Recommend',{
+userSchema.virtual('Recommend', {
     ref: 'Recommend',
-    localField:'_id',
-    foreignField:'idUserFrom'
+    localField: '_id',
+    foreignField: 'idUserFrom'
 });
 
-userSchema.virtual('Recommend',{
+userSchema.virtual('Recommend', {
     ref: 'Recommend',
-    localField:'_id',
-    foreignField:'idUserTo'
+    localField: '_id',
+    foreignField: 'idUserTo'
 });
 
-var Film = mongoose.model('User',userSchema,'User');
+var Film = mongoose.model('User', userSchema, 'User');
 module.exports = Film;

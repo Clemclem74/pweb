@@ -1,5 +1,5 @@
 module.exports = {
-    cookieSession : {
-        cookieKey : 'thisisthebestcookiekey'
+    cookieSession: {
+        cookieKey: 'thisisthebestcookiekey'
     }
 }
