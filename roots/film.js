@@ -63,7 +63,7 @@ routeur.get('/bygrade/:page?', async function (req, res) {
         var page = req.params.page || 1;
         var data = []
         var sortfilm = [];
-        film = await Film.find({})
+        film = await Film.find({}).populate('typeFilm')
         count = film.length;
         for await (i of film) {
             const reviewlist = await Review.find({ idFilm: i._id })
