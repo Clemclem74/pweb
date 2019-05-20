@@ -65,12 +65,16 @@ app.engine('.hbs', hbs({
 
   
 
+//Security and flash message 
 
 app.use(flash());
 app.use(helmet());
 app.use(xssFilter({ setOnOldIE: true }));
 app.use(helmet.noCache());
 
+
+
+//Connection and cookies
 
 require('./config/passport')(passport);
 app.use(cookieSession({
@@ -85,6 +89,9 @@ app.use(cookieSession({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+//Global variables 
 
 app.use((req, res, next) =>{
     app.locals.success = req.flash('success')

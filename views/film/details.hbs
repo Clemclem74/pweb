@@ -115,51 +115,29 @@
 
 
 
-
-  <!-- view modal -->
-
-  <!-- modal -->
+<!-- Modal Trailer -->
+ 
   <div id="fsModal" class="modal animated bounceIn" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
     aria-hidden="true">
-
-    <!-- dialog -->
     <div class="modal-dialog">
-
-      <!-- content -->
       <div class="modal-content">
-
-        <!-- header -->
         <div class="modal-header">
           <h1 id="myModalLabel" class="modal-title">
             {{film.title}}
           </h1>
         </div>
-        <!-- header -->
-
-        <!-- body -->
         <div class="modal-body">
           <iframe id="trailer-ytb-video" src="{{film.trailer}}" frameborder="0"
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
-        <!-- body -->
-
-        <!-- footer -->
         <div class="modal-footer">
           <button class="btn btn-danger" data-dismiss="modal">
             close
           </button>
-
         </div>
-        <!-- footer -->
-
       </div>
-      <!-- content -->
-
     </div>
-    <!-- dialog -->
-
   </div>
-  <!-- modal -->
 
 
 
@@ -176,21 +154,23 @@
 
 
 
+<!-- Comment table -->
+
   <div id="comment-table">
     <div class="container">
       {{#each list_review}}
       <div class="row">
         <div class="col-sm-12">
           <h3></h3>
-        </div><!-- /col-sm-12 -->
-      </div><!-- /row -->
+        </div>
+      </div>
       <div class="row">
         <div class="col-sm-1">
           <div class="thumbnail" id="img-comment">
             <img id="img-comment" class="img-responsive user-photo"
               src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
-          </div><!-- /thumbnail -->
-        </div><!-- /col-sm-1 -->
+          </div>
+        </div>
         <div class="col-sm-9">
           <div class="panel panel-default">
             <div class="panel-heading">
@@ -207,9 +187,9 @@
             </div>
             <div class="panel-body">
               {{review}}
-            </div><!-- /panel-body -->
-          </div><!-- /panel panel-default -->
-        </div><!-- /col-sm-1 -->
+            </div>
+          </div>
+        </div>
       </div>
       {{/each}}
     </div>
