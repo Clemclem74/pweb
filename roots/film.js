@@ -141,7 +141,6 @@ routeur.get('/search/:search?/:page?', async function (req, res) {
     if (page.length < 8 && req.query.search.length < 21 && !req.query.query) {
         var perPage = 6;
         var page = req.params.page || [1];
-        console.log(req.query)
         if (req.user) {
             film = await Film.find({ 'title': { $regex: new RegExp('^' + searchstring.toLowerCase(), 'i') } }).populate('typeFilm').sort('-releaseYear').skip((perPage * page) - perPage).limit(perPage)
             count = await Film.find({ 'title': { $regex: new RegExp('^' + searchstring.toLowerCase(), 'i') } }).countDocuments();
@@ -218,7 +217,6 @@ routeur.get('/details/:id', (req, res) => {
 
 routeur.get('/:page?', async function (req, res) {
     var page = req.params.page || [1];
-    console.log(page.length)
     if (page.length < 5 && !req.query.query) {
         var page = req.params.page || 1;
         var perPage = 6;

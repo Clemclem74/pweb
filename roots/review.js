@@ -133,7 +133,6 @@ routeur.post('/edit/:id', ensureAuthenticated, async function (req, res) {
         }
         review = await Review.findById(req.params.id);
         if ((review.idUser < req.user._id) || review.idUser > req.user._id) {
-            console.log('different user')
             res.redirect('/');
         }
         else {

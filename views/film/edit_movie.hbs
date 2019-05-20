@@ -7,6 +7,14 @@
         <label for="description">Description</label>
         <textarea id="description-new" name="description" class="form-control">{{film.description}}</textarea>
     </div>
+    <div class="form-goup">
+            <label for="duration">Durée</label>
+            <input type="number" id="duration" name="duration" class="form-control" value="{{film.duration}}">
+        </div>
+        <div class="form-goup">
+            <label for="releaseYear">Année de sortie</label>
+            <input type="number" id="releaseYear" name="releaseYear" class="form-control" value="{{film.releaseYear}}">
+    </div>
     <div class="form-group">
         <label for="title">Lien de Bande Annonce</label>
         <input type="text" id="trailer" name="trailer" class="form-control" value="{{film.trailer}}">

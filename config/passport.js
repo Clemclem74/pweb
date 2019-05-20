@@ -12,7 +12,6 @@ module.exports = function (passport) {
                 console.log(err);
             }
             if (!user) {
-                console.log('Mauvais pseudo');
                 return done(null)
             }
 
@@ -25,7 +24,6 @@ module.exports = function (passport) {
                     return done(null, user);
                 }
                 else {
-                    console.log('Mauvais mdp');
                     return done(null, false, { message: 'Mauvais mot de passe ' })
                 }
             })
