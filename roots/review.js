@@ -2,7 +2,6 @@ var express = require('express');
 var routeur = express.Router();
 var mongoose = require('mongoose');
 var expressValidator = require('express-validator');
-var multer = require('multer')
 var bodyParser = require('body-parser');
 var User = require('./../models/user');
 const { ensureAdmin } = require('../config/admin');

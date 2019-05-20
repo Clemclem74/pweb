@@ -14,8 +14,6 @@ const methodOverride = require('method-override');
 routeur.use(methodOverride('_method'));
 
 var path = require("path");
-/* var multer = require('multer');
- */
 
 var bodyParser = require('body-parser');
 
@@ -23,17 +21,6 @@ routeur.use(bodyParser.urlencoded({
     extended: false
 }));
 routeur.use(bodyParser.json());
-
-/* var storage = multer.diskStorage({ // initializing multer diskStorage to be able to keep the file original name and extension
-    destination: './uploads',
-    filename: function (req, file, cb)
-    {
-        cb(null, new Date().toISOString().replace(/[-T:\.Z]/g, "") + file.originalname);}
-});
- 
-
-var uploads = multer({ storage: storage });
- */
 
 
 

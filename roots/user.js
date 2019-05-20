@@ -4,7 +4,6 @@ var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
 var expressValidator = require('express-validator');
 var multer = require('multer')
-//var upload = multer({ dest: '/uploads/' })
 var bodyParser = require('body-parser');
 var passport = require('passport')
 const { ensureAuthenticated } = require('../config/auth');
