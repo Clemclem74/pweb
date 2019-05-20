@@ -70,7 +70,7 @@ helpers.pagination = function(pages, current) {
       } else {
           str=str+'<li><a href="/'
           str=str+pages 
-          str=str+'">Last</a></li>'
+          str=str+'">Dernier</a></li>'
       }
   str=str+'</ul>'
   return str;
@@ -114,7 +114,7 @@ helpers.paginationsearch = function(pages, current) {
       } else {
           str=str+'<li><a href="/search/'
           str=str+pages 
-          str=str+'">Last</a></li>'
+          str=str+'">Dernier</a></li>'
       }
   str=str+'</ul>'
   return str;
@@ -159,7 +159,7 @@ helpers.paginationrecommendation = function(pages, current) {
         } else {
             str=str+'<li><a href="/recommend/list/'
             str=str+pages 
-            str=str+'">Last</a></li>'
+            str=str+'">Dernier</a></li>'
         }
     str=str+'</ul>'
     return str;
@@ -210,7 +210,7 @@ helpers.paginationrecommendation = function(pages, current) {
             str=str+typefilm
             str=str+'/'
             str=str+pages 
-            str=str+'">Last</a></li>'
+            str=str+'">Dernier</a></li>'
         }
     str=str+'</ul>'
     return str;
@@ -254,7 +254,7 @@ helpers.paginationrecommendation = function(pages, current) {
         } else {
             str=str+'<li><a href="/bygrade/'
             str=str+pages 
-            str=str+'">Last</a></li>'
+            str=str+'">Dernier</a></li>'
         }
     str=str+'</ul>'
     return str;
