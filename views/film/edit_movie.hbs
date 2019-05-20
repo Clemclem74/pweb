@@ -1,4 +1,3 @@
-
 <form method="POST" action="/edit/{{film._id}}">
     <div class="form-group">
         <label for="title">Titre</label>
@@ -6,34 +5,34 @@
     </div>
     <div class="form-goup">
         <label for="description">Description</label>
-        <textarea id="description-new" name="description" class="form-control" >{{film.description}}</textarea>
+        <textarea id="description-new" name="description" class="form-control">{{film.description}}</textarea>
     </div>
     <div class="form-group">
-            <label for="title">Lien de Bande Annonce</label>
-            <input type="text" id="trailer" name="trailer" class="form-control" value="{{film.trailer}}">
+        <label for="title">Lien de Bande Annonce</label>
+        <input type="text" id="trailer" name="trailer" class="form-control" value="{{film.trailer}}">
     </div>
     <div class="form-group">
-            <label for="title">Lien de téléchargement</label>
-            <input type="text" id="downlink" name="downlink" class="form-control" value="{{film.downlink}}">
+        <label for="title">Lien de téléchargement</label>
+        <input type="text" id="downlink" name="downlink" class="form-control" value="{{film.downlink}}">
     </div>
     <div class="form-group">
-            <label for="title">Lien de streaming</label>
-            <input type="text" id="streamlink" name="streamlink" class="form-control" value="{{film.streamlink}}">
+        <label for="title">Lien de streaming</label>
+        <input type="text" id="streamlink" name="streamlink" class="form-control" value="{{film.streamlink}}">
     </div>
-    
+
     <div class="form-group">
         {{#each typefilm}}
         <label>
-            <input type="checkbox" name="typeFilm" value="{{_id}}"} {{checked ../film _id}} > {{name}}
+            <input type="checkbox" name="typeFilm" value="{{_id}}" } {{checked ../film _id}}> {{name}}
         </label>
         {{/each}}
     </div>
 
 
-            {{ t.name }}
+    {{ t.name }}
 
 
- 
+
     <div class="form-goup">
         <label for="picture">Image</label>
         <input type="file" id="picture" name="picture" value="{{film.picture}}">
